@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Starter app"
+rootProject.name = "Pure notes"
 include(":app")
