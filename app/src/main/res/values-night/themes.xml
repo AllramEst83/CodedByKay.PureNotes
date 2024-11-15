@@ -1,0 +1,7 @@
+<!-- res/values-night/themes.xml -->
+<resources>
+
+    <style name="Theme.PureNotes" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/background_color</item>
+    </style>
+</resources>
