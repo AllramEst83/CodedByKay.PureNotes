@@ -1,0 +1,7 @@
+<!-- res/values/themes.xml -->
+<resources>
+
+    <style name="Theme.PureNotes" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/background_color</item>
+    </style>
+</resources>
