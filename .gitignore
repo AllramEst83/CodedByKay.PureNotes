@@ -1,0 +1,65 @@
+# Gradle files
+.gradle/
+.gradle/*
+
+# Local configuration file (should not be versioned)
+local.properties
+
+# Ignore Gradle cache and lock files
+/.gradle/
+/.gradle/cache/
+/.gradle/lockfile
+.gradle/settings/
+
+# Jetpack Compose-specific ignores
+.cxx/
+.externalNativeBuild/
+build/
+
+# IntelliJ IDEA / Android Studio
+.idea/
+/.idea/caches
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/misc.xml
+*.iml
+
+# macOS specific files
+.DS_Store
+
+# Captures from Android Studio
+/captures
+
+# Build output directories
+/build/
+/outputs/
+
+# Generated files
+/captures/
+/*.apk
+/*.aab
+
+# Android lint
+lint/reports/
+/lint/outputs/
+
+# Test results
+/test-results/
+/test-results-debug/
+/test-results-release/
+
+# Temporary files
+*.log
+*.tmp
+*.temp
+
+# Ignore any custom .properties file
+*.properties
+*.keystore
+
+# Ignore any private keys or signing configurations
+/private/
+signing.properties

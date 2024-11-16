@@ -1,0 +1,6 @@
+<!-- res/values-night/colors.xml -->
+<resources>
+    <!-- Add the dark theme background color -->
+    <color name="background_color">#1A110F
+    </color> <!-- Replace #1A110F with your actual dark background color -->
+</resources>
