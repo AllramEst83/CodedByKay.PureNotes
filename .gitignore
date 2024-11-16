@@ -1,14 +1,13 @@
 # Gradle files
 .gradle/
-.gradle/*
 
 # Local configuration file (should not be versioned)
 local.properties
 
 # Ignore Gradle cache and lock files
-/.gradle/
-/.gradle/cache/
-/.gradle/lockfile
+.gradle/
+.gradle/cache/
+.gradle/lockfile
 .gradle/settings/
 
 # Jetpack Compose-specific ignores
@@ -18,7 +17,7 @@ build/
 
 # IntelliJ IDEA / Android Studio
 .idea/
-/.idea/caches
+.idea/caches
 .idea/libraries
 .idea/modules.xml
 .idea/workspace.xml
@@ -31,20 +30,19 @@ build/
 .DS_Store
 
 # Captures from Android Studio
-/captures
+/captures/
 
 # Build output directories
 /build/
-/outputs/
 
 # Generated files
-/captures/
+/build/generated/
 /*.apk
 /*.aab
 
 # Android lint
 lint/reports/
-/lint/outputs/
+lint/outputs/
 
 # Test results
 /test-results/
@@ -55,6 +53,9 @@ lint/reports/
 *.log
 *.tmp
 *.temp
+
+# Kotlin-specific
+*.kotlin_metadata
 
 # Ignore any custom .properties file
 *.properties
