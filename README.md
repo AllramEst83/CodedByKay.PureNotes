@@ -1,6 +1,6 @@
 # PureNotes
 
-![Static Badge](https://img.shields.io/badge/Pure_notes_badges_is_coming-8A2BE2)
+![Static Badge](https://img.shields.io/badge/Pure-notes-green?logo=android)
 
 **PureNotes** is a Notes and To-Do application built with **Jetpack Compose**. It provides a clean
 and efficient way to organize tasks, set reminders, and customize the app to your preferences.
