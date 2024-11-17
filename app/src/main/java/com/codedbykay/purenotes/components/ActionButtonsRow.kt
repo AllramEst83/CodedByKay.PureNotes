@@ -12,18 +12,16 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.NotificationsNone
 import androidx.compose.material.icons.filled.Save
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.utils.customCircleBackground
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -59,7 +57,6 @@ fun ActionButtonsRow(
                 contentDescription = "Delete",
                 modifier = Modifier
                     .size(22.dp)
-                    .alpha(if (isChecked) 0.5f else 1f)
             )
         }
 
@@ -74,8 +71,7 @@ fun ActionButtonsRow(
             },
             modifier = Modifier
                 .customCircleBackground(MaterialTheme.colorScheme.onSurface)
-                .padding(3.dp)
-                .alpha(if (isChecked) 0.5f else 1f),
+                .padding(3.dp),
             enabled = !isChecked
         ) {
             Icon(
@@ -99,8 +95,7 @@ fun ActionButtonsRow(
             onClick = onEditClick,
             modifier = Modifier
                 .customCircleBackground(MaterialTheme.colorScheme.onSurface)
-                .padding(2.dp)
-                .alpha(if (isChecked) 0.5f else 1f),
+                .padding(2.dp),
             enabled = !isChecked
         ) {
             Icon(
@@ -113,27 +108,14 @@ fun ActionButtonsRow(
 
     // Delete confirmation dialog
     if (showDeleteDialog.value) {
-        AlertDialog(
-            onDismissRequest = { showDeleteDialog.value = false },
-            title = { Text(text = "Confirm Deletion") },
-            text = { Text("Are you sure you want to delete this item?") },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        onDeleteClick()
-                        showDeleteDialog.value = false
-                    }
-                ) {
-                    Text("Delete")
-                }
+
+        DeleteAlertModal(
+            onDelete = {
+                onDeleteClick()
+                showDeleteDialog.value = false
             },
-            dismissButton = {
-                Button(
-                    onClick = { showDeleteDialog.value = false }
-                ) {
-                    Text("Cancel")
-                }
-            }
+            showDeleteDialog,
+            confirmationText = stringResource(R.string.alert_delete_confirmation_text)
         )
     }
 }

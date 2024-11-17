@@ -57,7 +57,6 @@ fun GroupFilterMenu(toDoGroupViewModel: ToDoGroupViewModel) {
             text = { Text(stringResource(id = R.string.filter_all)) },
             onClick = {
                 toDoGroupViewModel.setFilter(currentFilter.copy(createdDateFilter = CreatedDateFilter.ALL))
-                expanded = false
             },
             trailingIcon = {
                 if (currentFilter.createdDateFilter == CreatedDateFilter.ALL) {
@@ -73,7 +72,6 @@ fun GroupFilterMenu(toDoGroupViewModel: ToDoGroupViewModel) {
             text = { Text(stringResource(id = R.string.filter_today)) },
             onClick = {
                 toDoGroupViewModel.setFilter(currentFilter.copy(createdDateFilter = CreatedDateFilter.TODAY))
-                expanded = false
             },
             trailingIcon = {
                 if (currentFilter.createdDateFilter == CreatedDateFilter.TODAY) {
@@ -89,7 +87,6 @@ fun GroupFilterMenu(toDoGroupViewModel: ToDoGroupViewModel) {
             text = { Text(stringResource(id = R.string.filter_this_week)) },
             onClick = {
                 toDoGroupViewModel.setFilter(currentFilter.copy(createdDateFilter = CreatedDateFilter.THIS_WEEK))
-                expanded = false
             },
             trailingIcon = {
                 if (currentFilter.createdDateFilter == CreatedDateFilter.THIS_WEEK) {
@@ -105,7 +102,6 @@ fun GroupFilterMenu(toDoGroupViewModel: ToDoGroupViewModel) {
             text = { Text(stringResource(id = R.string.filter_this_month)) },
             onClick = {
                 toDoGroupViewModel.setFilter(currentFilter.copy(createdDateFilter = CreatedDateFilter.THIS_MONTH))
-                expanded = false
             },
             trailingIcon = {
                 if (currentFilter.createdDateFilter == CreatedDateFilter.THIS_MONTH) {

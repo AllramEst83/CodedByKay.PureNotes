@@ -51,7 +51,6 @@ fun GroupSortMenu(toDoGroupViewModel: ToDoGroupViewModel) {
             text = { Text(stringResource(id = R.string.sort_created_at_desc)) },
             onClick = {
                 toDoGroupViewModel.setSortOrder(SortOrder.CREATED_AT_DESCENDING)
-                expanded = false
             },
             trailingIcon = {
                 if (sortOrder == SortOrder.CREATED_AT_DESCENDING) {
@@ -67,7 +66,6 @@ fun GroupSortMenu(toDoGroupViewModel: ToDoGroupViewModel) {
             text = { Text(stringResource(id = R.string.sort_created_at_asc)) },
             onClick = {
                 toDoGroupViewModel.setSortOrder(SortOrder.CREATED_AT_ASCENDING)
-                expanded = false
             },
             trailingIcon = {
                 if (sortOrder == SortOrder.CREATED_AT_ASCENDING) {
@@ -83,7 +81,6 @@ fun GroupSortMenu(toDoGroupViewModel: ToDoGroupViewModel) {
             text = { Text(stringResource(id = R.string.sort_title_a_z)) },
             onClick = {
                 toDoGroupViewModel.setSortOrder(SortOrder.TITLE_ASCENDING)
-                expanded = false
             },
             trailingIcon = {
                 if (sortOrder == SortOrder.TITLE_ASCENDING) {
@@ -99,7 +96,6 @@ fun GroupSortMenu(toDoGroupViewModel: ToDoGroupViewModel) {
             text = { Text(stringResource(id = R.string.sort_title_z_a)) },
             onClick = {
                 toDoGroupViewModel.setSortOrder(SortOrder.TITLE_DESCENDING)
-                expanded = false
             },
             trailingIcon = {
                 if (sortOrder == SortOrder.TITLE_DESCENDING) {

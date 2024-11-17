@@ -15,9 +15,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.db.todo.ToDo
 import com.codedbykay.purenotes.utils.blendWith
 import com.codedbykay.purenotes.viewModels.ToDoViewModel
@@ -28,6 +32,8 @@ fun ToDoListContainer(
     groupId: Int,
     toDoList: List<ToDo>
 ) {
+    val showDeleteDialog = remember { mutableStateOf(false) }
+
     if (toDoList.isNotEmpty()) {
         // Separate the to-do items into completed and pending lists
         val pendingItems = toDoList.filter { !it.done }
@@ -95,7 +101,7 @@ fun ToDoListContainer(
 
                             IconButton(
                                 onClick = {
-                                    toDoViewModel.deleteAllDoneToDos(groupId)
+                                    showDeleteDialog.value = true
                                 }
                             ) {
                                 Icon(
@@ -137,5 +143,18 @@ fun ToDoListContainer(
         }
     } else {
         EmptyToDoList()
+    }
+
+    // Delete confirmation dialog
+    if (showDeleteDialog.value) {
+
+        DeleteAlertModal(
+            onDelete = {
+                toDoViewModel.deleteAllDoneToDos(groupId)
+                showDeleteDialog.value = false
+            },
+            showDeleteDialog,
+            confirmationText = stringResource(id = R.string.alert_delete_done_notes_text)
+        )
     }
 }

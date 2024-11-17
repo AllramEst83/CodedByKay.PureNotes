@@ -54,7 +54,7 @@ fun AddGroupButton(toDoGroupViewModel: ToDoGroupViewModel) {
             },
             dismissButton = {
                 TextButton(onClick = { expanded = false }) {
-                    Text(stringResource(id = R.string.cancel_add_group_button_title))
+                    Text(stringResource(id = R.string.button_cancel_text))
                 }
             },
             title = { Text(stringResource(id = R.string.add_group_header_title)) },

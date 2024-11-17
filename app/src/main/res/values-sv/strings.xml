@@ -35,11 +35,15 @@
     <string name="filter_this_month">Denna månad</string>
     <string name="add_group_button_description">Lägg till grupp</string>
     <string name="add_group_button_title">Lägg till</string>
-    <string name="cancel_add_group_button_title">Avbryt</string>
+    <string name="button_cancel_text">Avbryt</string>
     <string name="add_group_header_title">Ny grupp</string>
     <string name="add_group_input_placeholder">Grupp namn</string>
     <string name="filter_notification_time_header">Notifierings tid</string>
     <string name="filter_notification_time_unfiltered">Inget filter</string>
     <string name="sort_notification_time_desc">Notifierings tid (Nyast flrst)</string>
     <string name="sort_notification_time_asc">Notofokations tid (Äldst först)</string>
+    <string name="alert_delete_done_notes_text">Är du säker på att du vill radera alla antecknigar som är klara.</string>
+    <string name="alert_delete_done_notes_title">Bekräfta radering</string>
+    <string name="button_delete_text">Radera</string>
+    <string name="alert_delete_confirmation_text">Är du säker på att du vill radera denna anteckning?</string>
 </resources>
