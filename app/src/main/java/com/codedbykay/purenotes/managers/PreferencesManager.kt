@@ -3,7 +3,7 @@ package com.codedbykay.purenotes.managers
 import android.content.Context
 import android.content.SharedPreferences
 
-object PreferencesHelper {
+object PreferencesManager {
     private const val PREFS_NAME = "com.codedbykay.purenotes.prefs"
     private const val KEY_SHARED_KEY = "shared_key"
 

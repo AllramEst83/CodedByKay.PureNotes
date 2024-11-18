@@ -26,7 +26,7 @@ import com.codedbykay.purenotes.components.LanguageSelection
 import com.codedbykay.purenotes.components.SettingsCard
 import com.codedbykay.purenotes.components.SharedKeyInput
 import com.codedbykay.purenotes.components.ThemeItem
-import com.codedbykay.purenotes.managers.PreferencesHelper
+import com.codedbykay.purenotes.managers.PreferencesManager
 import com.codedbykay.purenotes.services.PubSubService
 import com.codedbykay.purenotes.ui.theme.ThemeData
 import com.codedbykay.purenotes.utils.getOrCreateDeviceId
@@ -64,7 +64,7 @@ fun SettingsPage(
 
     // Load saved shared key from preferences
     LaunchedEffect(Unit) {
-        PreferencesHelper.getSharedKey(context)?.let { savedKey ->
+        PreferencesManager.getSharedKey(context)?.let { savedKey ->
             sharedKey = savedKey
             isTopicCreated = true
         }
@@ -132,7 +132,7 @@ fun SettingsPage(
                             onSharedKeyChange = { key -> sharedKey = sanitizeTopicName(key) },
                             onConnectionToggle = { isEnabled ->
                                 if (!isEnabled) {
-                                    PreferencesHelper.deleteSharedKey(context) // Clear preferences if toggled off
+                                    PreferencesManager.deleteSharedKey(context) // Clear preferences if toggled off
                                 }
                             },
                             onSaveClick = {
@@ -141,14 +141,14 @@ fun SettingsPage(
                                     val topicName = pubSubService.createTopic(sharedKey)
                                     pubSubService.createSubscription(topicName, deviceId)
                                     pubSubService.listenToSubscription(deviceId)
-                                    PreferencesHelper.saveSharedKey(context, sharedKey)
+                                    PreferencesManager.saveSharedKey(context, sharedKey)
                                 }
                             },
                             onDeleteClick = {
                                 CoroutineScope(Dispatchers.IO).launch {
                                     pubSubService.deleteSubscription(deviceId)
                                     pubSubService.deleteTopic(sharedKey)
-                                    PreferencesHelper.deleteSharedKey(context)
+                                    PreferencesManager.deleteSharedKey(context)
                                     isTopicCreated = false
                                     sharedKey = ""
                                 }
