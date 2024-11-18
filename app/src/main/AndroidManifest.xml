@@ -2,6 +2,12 @@
     package="com.codedbykay.purenotes"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permission to access the internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Permission to access network state -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <!-- Permission to post notifications (required for Android 13 and above) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 

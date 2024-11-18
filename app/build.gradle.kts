@@ -6,6 +6,8 @@ plugins {
     id("com.google.devtools.ksp") version "2.0.21-1.0.25" // Kotlin Symbol Processing for Room
 }
 
+val projectId: String? = project.findProperty("PROJECT_ID") as String?
+
 android {
     namespace = "com.codedbykay.purenotes" // Application namespace
     compileSdk = 34                      // Targeted Android SDK
@@ -19,6 +21,12 @@ android {
 
         testInstrumentationRunner =
             "androidx.test.runner.AndroidJUnitRunner" // Runner for instrumentation tests
+
+        if (projectId != null) {
+            buildConfigField("String", "PROJECT_ID", "\"$projectId\"")
+        } else {
+            throw GradleException("PROJECT_ID is missing. Add it to gradle.properties.")
+        }
     }
 
     buildTypes {
@@ -47,6 +55,19 @@ android {
         buildConfig = true // Enables BuildConfig for constants in the build
         compose = true     // Enables Jetpack Compose support
     }
+
+    packaging {
+        resources {
+            excludes += "META-INF/INDEX.LIST"
+            excludes += "META-INF/*.SF"
+            excludes += "META-INF/*.DSA"
+            excludes += "META-INF/*.RSA"
+            excludes += "META-INF/AL2.0"
+            excludes += "META-INF/DEPENDENCIES"
+
+        }
+    }
+
 }
 
 dependencies {
@@ -102,4 +123,12 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.8.1")
 
     implementation("androidx.appcompat:appcompat:1.6.1")
+
+    implementation("com.google.cloud:google-cloud-pubsub:1.134.1")
+    implementation("io.grpc:grpc-okhttp:1.68.1") // For gRPC transport
+    implementation("io.grpc:grpc-protobuf:1.68.1") // Protobuf serialization for gRPC
+    implementation("io.grpc:grpc-stub:1.68.1") // Stub-based gRPC API
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.17.0") // Authentication
+
+
 }

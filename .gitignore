@@ -64,3 +64,5 @@ lint/outputs/
 # Ignore any private keys or signing configurations
 /private/
 signing.properties
+gradle.properties
+*.json

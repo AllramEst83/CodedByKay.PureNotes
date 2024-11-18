@@ -28,12 +28,16 @@ import com.codedbykay.purenotes.notifications.NotificationHelper
 import com.codedbykay.purenotes.pages.SettingsPage
 import com.codedbykay.purenotes.pages.ToDoGroupPage
 import com.codedbykay.purenotes.pages.ToDoPage
+import com.codedbykay.purenotes.services.PubSubService
 import com.codedbykay.purenotes.ui.theme.ToDoAppTheme
 import com.codedbykay.purenotes.viewModels.SettingsViewModel
 import com.codedbykay.purenotes.viewModels.ToDoGroupViewModel
 import com.codedbykay.purenotes.viewModels.ToDoViewModel
 
 class MainActivity : ComponentActivity() {
+
+    lateinit var pubSubService: PubSubService
+        private set
 
     private val requestNotificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -121,6 +125,8 @@ class MainActivity : ComponentActivity() {
                         composable(route = "settings_settings") {
                             SettingsPage(
                                 settingsViewModel = settingsViewModel,
+                                toDoViewModel = toDoViewModel,
+                                toDoGroupViewModel = toDoGroupViewModel,
                                 onBack = { navController.popBackStack() }
                             )
                         }
