@@ -9,6 +9,7 @@ local.properties
 .gradle/cache/
 .gradle/lockfile
 .gradle/settings/
+gradle.properties
 
 # Jetpack Compose-specific ignores
 .cxx/
@@ -64,5 +65,4 @@ lint/outputs/
 # Ignore any private keys or signing configurations
 /private/
 signing.properties
-gradle.properties
 *.json
