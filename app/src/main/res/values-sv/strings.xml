@@ -40,8 +40,8 @@
     <string name="add_group_input_placeholder">Grupp namn</string>
     <string name="filter_notification_time_header">Notifierings tid</string>
     <string name="filter_notification_time_unfiltered">Inget filter</string>
-    <string name="sort_notification_time_desc">Notifierings tid (Nyast flrst)</string>
-    <string name="sort_notification_time_asc">Notofokations tid (Äldst först)</string>
+    <string name="sort_notification_time_desc">Notistid (Nyast flrst)</string>
+    <string name="sort_notification_time_asc">Notistid (Äldst först)</string>
     <string name="alert_delete_done_notes_text">Är du säker på att du vill radera alla antecknigar som är klara.</string>
     <string name="alert_delete_done_notes_title">Bekräfta radering</string>
     <string name="button_delete_text">Radera</string>
