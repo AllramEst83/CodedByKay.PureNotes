@@ -1,6 +1,7 @@
 # PureNotes
 
 ![Static Badge](https://img.shields.io/badge/Pure-notes-green?logo=android)
+[![Codemagic build status](https://api.codemagic.io/apps/6738aa6990a1f90519e1eb64/android-workflow/status_badge.svg)](https://codemagic.io/app/6738aa6990a1f90519e1eb64/android-workflow/latest_build)
 
 **PureNotes** is a Notes and To-Do application built with **Jetpack Compose**. It provides a clean
 and efficient way to organize tasks, set reminders, and customize the app to your preferences.
@@ -33,3 +34,5 @@ and efficient way to organize tasks, set reminders, and customize the app to you
 1. Clone the repository:
    ```bash
    git clone https://github.com/AllramEst83/CodedByKayPureNotes.git
+
+https://simpleicons.org/?q=android
