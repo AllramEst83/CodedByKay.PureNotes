@@ -46,9 +46,4 @@
     <string name="alert_delete_done_notes_title">Bekräfta radering</string>
     <string name="button_delete_text">Radera</string>
     <string name="alert_delete_confirmation_text">Är du säker på att du vill radera denna anteckning?</string>
-    <string name="shared_key">Delad nyckel</string>
-    <string name="enable_shared_key">Aktivera delad nyckel</string>
-    <string name="shared_key_input">Ange nyckel att dela</string>
-    <string name="save_key">Spara nyckel</string>
-    <string name="delete_key">Radera nyckel</string>
 </resources>

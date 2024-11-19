@@ -121,8 +121,6 @@ class MainActivity : ComponentActivity() {
                         composable(route = "settings_settings") {
                             SettingsPage(
                                 settingsViewModel = settingsViewModel,
-                                toDoViewModel = toDoViewModel,
-                                toDoGroupViewModel = toDoGroupViewModel,
                                 onBack = { navController.popBackStack() }
                             )
                         }
