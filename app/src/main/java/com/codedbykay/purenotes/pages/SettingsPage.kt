@@ -27,6 +27,7 @@ import com.codedbykay.purenotes.components.SettingsCard
 import com.codedbykay.purenotes.components.SharedKeyInput
 import com.codedbykay.purenotes.components.ThemeItem
 import com.codedbykay.purenotes.managers.PreferencesManager
+import com.codedbykay.purenotes.managers.PubSubManager
 import com.codedbykay.purenotes.services.PubSubService
 import com.codedbykay.purenotes.ui.theme.ThemeData
 import com.codedbykay.purenotes.utils.getOrCreateDeviceId
@@ -51,12 +52,17 @@ fun SettingsPage(
     val deviceId = getOrCreateDeviceId(context)
     var sharedKey by remember { mutableStateOf("") } // State for shared key
     var isTopicCreated by remember { mutableStateOf(false) } // Track topic creation
+    // Obtain the credentials stream from resources
+    val credentialsStream = remember {
+        context.resources.openRawResource(R.raw.google_service_account)
+    }
 
-    val pubSubService = remember {
+
+    remember {
         PubSubService(
             projectId = BuildConfig.PROJECT_ID,
-            context = context,
             deviceId = deviceId,
+            credentialsStream = credentialsStream,
             toDoViewModel = toDoViewModel,
             toDoGroupViewModel = toDoGroupViewModel
         )
@@ -132,23 +138,26 @@ fun SettingsPage(
                             onSharedKeyChange = { key -> sharedKey = sanitizeTopicName(key) },
                             onConnectionToggle = { isEnabled ->
                                 if (!isEnabled) {
-                                    PreferencesManager.deleteSharedKey(context) // Clear preferences if toggled off
+                                    PreferencesManager.deleteSharedKey(context)
+                                    PubSubManager.stop(sharedKey)
+                                    isTopicCreated = false
+                                    sharedKey = ""
                                 }
                             },
                             onSaveClick = {
                                 CoroutineScope(Dispatchers.IO).launch {
+
                                     isTopicCreated = true
-                                    val topicName = pubSubService.createTopic(sharedKey)
-                                    pubSubService.createSubscription(topicName, deviceId)
-                                    pubSubService.listenToSubscription(deviceId)
                                     PreferencesManager.saveSharedKey(context, sharedKey)
+                                    PubSubManager.start(sharedKey)
+
                                 }
                             },
                             onDeleteClick = {
                                 CoroutineScope(Dispatchers.IO).launch {
-                                    pubSubService.deleteSubscription(deviceId)
-                                    pubSubService.deleteTopic(sharedKey)
+
                                     PreferencesManager.deleteSharedKey(context)
+                                    PubSubManager.stop(sharedKey)
                                     isTopicCreated = false
                                     sharedKey = ""
                                 }

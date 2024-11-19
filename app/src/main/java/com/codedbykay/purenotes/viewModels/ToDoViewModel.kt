@@ -11,6 +11,7 @@ import com.codedbykay.purenotes.BuildConfig
 import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.db.todo.ToDo
 import com.codedbykay.purenotes.db.todo.ToDoGroup
+import com.codedbykay.purenotes.managers.PubSubManager
 import com.codedbykay.purenotes.models.CreatedDateFilter
 import com.codedbykay.purenotes.models.DoneStatusFilter
 import com.codedbykay.purenotes.models.NotificationTimeFilter
@@ -130,15 +131,39 @@ class ToDoViewModel(
     // CRUD
     fun addToDo(title: String, groupId: Int, content: String = "") {
         viewModelScope.launch(Dispatchers.IO) {
-            toDoDao.addTodo(
-                ToDo(
-                    title = title,
-                    content = content,
-                    createdAt = Date.from(Instant.now()),
-                    done = false,
-                    groupId = groupId
+            val toDo = ToDo(
+                title = title,
+                content = content,
+                createdAt = Date.from(Instant.now()),
+                done = false,
+                groupId = groupId
+            )
+            val todoId = toDoDao.addTodo(toDo).toInt()
+
+            // Publish message
+            PubSubManager.publishMessage(
+                action = "create",
+                resourceType = "note",
+                resourceId = todoId.toString(),
+                content = mapOf(
+                    "title" to title,
+                    "content" to content,
+                    "groupId" to groupId.toString()
                 )
             )
+        }
+    }
+
+    fun addToDoFromSync(title: String, groupId: Int, content: String = "") {
+        viewModelScope.launch(Dispatchers.IO) {
+            val toDo = ToDo(
+                title = title,
+                content = content,
+                createdAt = Date.from(Instant.now()),
+                done = false,
+                groupId = groupId
+            )
+            toDoDao.addTodo(toDo).toInt()
         }
     }
 
@@ -158,10 +183,51 @@ class ToDoViewModel(
                 )
 
             toDoDao.deleteTodo(id)
+
+            // Publish message
+            PubSubManager.publishMessage(
+                action = "delete",
+                resourceType = "note",
+                resourceId = id.toString()
+            )
+        }
+    }
+
+    fun deleteToDoFromSync(
+        id: Int,
+        notificationRequestCode: Int?,
+        notificationAction: String?,
+        notificationDataUri: String?
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            notificationHelper
+                .cancelNotification(
+                    id,
+                    notificationRequestCode,
+                    notificationAction,
+                    notificationDataUri
+                )
+
+            toDoDao.deleteTodo(id)
         }
     }
 
     fun deleteAllDoneToDos(groupId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoDao.deleteAllDoneToDosByGroupId(groupId)
+
+            // Publish message
+            PubSubManager.publishMessage(
+                action = "deleteCollection",
+                resourceType = "note",
+                resourceId = "",
+                content = mapOf("groupId" to groupId.toString())
+            )
+        }
+    }
+
+    fun deleteAllDoneToDosFromSync(groupId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             toDoDao.deleteAllDoneToDosByGroupId(groupId)
         }
@@ -169,16 +235,49 @@ class ToDoViewModel(
 
     fun updateToDoAfterEdit(todo: ToDo) {
         viewModelScope.launch(Dispatchers.IO) {
-            toDoDao.updateToDoAfterEdit(todo.id, todo.title, todo.content)
+            toDoDao.updateToDoAfterEdit(todo.id, todo.title, todo.content ?: "")
+
+            // Publish message
+            PubSubManager.publishMessage(
+                action = "update",
+                resourceType = "note",
+                resourceId = todo.id.toString(),
+                content = mapOf(
+                    "title" to todo.title,
+                    "content" to (todo.content ?: ""),
+                    "groupId" to todo.groupId.toString()
+                )
+            )
+        }
+    }
+
+    fun updateToDoAfterEditFromSync(todo: ToDo) {
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoDao.updateToDoAfterEdit(todo.id, todo.title, todo.content ?: "")
         }
     }
 
     fun updateToDoDone(id: Int, done: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             toDoDao.updateToDoDone(id, done)
+
+            // Publish message
+            PubSubManager.publishMessage(
+                action = "updateDoneStatus",
+                resourceType = "note",
+                resourceId = id.toString(),
+                content = mapOf("doneStatus" to done.toString())
+            )
         }
     }
 
+    fun updateToDoDoneFromSync(id: Int, done: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoDao.updateToDoDone(id, done)
+        }
+    }
+
+    // Notification updates
     fun addToDoNotification(
         notificationTime: Long?,
         id: Int,

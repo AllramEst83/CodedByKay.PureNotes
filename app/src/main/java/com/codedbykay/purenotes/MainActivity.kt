@@ -24,11 +24,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import com.codedbykay.purenotes.managers.PreferencesManager
+import com.codedbykay.purenotes.managers.PubSubManager
 import com.codedbykay.purenotes.notifications.NotificationHelper
 import com.codedbykay.purenotes.pages.SettingsPage
 import com.codedbykay.purenotes.pages.ToDoGroupPage
 import com.codedbykay.purenotes.pages.ToDoPage
 import com.codedbykay.purenotes.ui.theme.ToDoAppTheme
+import com.codedbykay.purenotes.utils.getOrCreateDeviceId
 import com.codedbykay.purenotes.viewModels.SettingsViewModel
 import com.codedbykay.purenotes.viewModels.ToDoGroupViewModel
 import com.codedbykay.purenotes.viewModels.ToDoViewModel
@@ -65,6 +68,24 @@ class MainActivity : ComponentActivity() {
         val notificationHelper = NotificationHelper(this)
         val toDoViewModel = ToDoViewModel(notificationHelper)
         val settingsViewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
+
+        val credentialsStream = resources.openRawResource(R.raw.google_service_account)
+        val deviceId = getOrCreateDeviceId(applicationContext)
+
+        // Initialize PubSubManager
+        PubSubManager.initialize(
+            projectId = BuildConfig.PROJECT_ID,
+            deviceId = deviceId,
+            credentialsStream = credentialsStream,
+            toDoViewModel = toDoViewModel,
+            toDoGroupViewModel = toDoGroupViewModel
+        )
+
+        // Check for shared key
+        val sharedKey = PreferencesManager.getSharedKey(this)
+        if (!sharedKey.isNullOrEmpty()) {
+            PubSubManager.start(sharedKey)
+        }
 
         setContent {
             ToDoAppTheme(settingsViewModel) {

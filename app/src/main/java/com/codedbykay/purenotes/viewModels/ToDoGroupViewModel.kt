@@ -8,6 +8,7 @@ import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.db.todo.ToDoGroup
+import com.codedbykay.purenotes.managers.PubSubManager
 import com.codedbykay.purenotes.models.CreatedDateFilter
 import com.codedbykay.purenotes.models.SortOrder
 import com.codedbykay.purenotes.models.ToDoGroupFilter
@@ -67,12 +68,43 @@ class ToDoGroupViewModel : ViewModel() {
     fun addGroup(name: String, createdAt: Date) {
         viewModelScope.launch(Dispatchers.IO) {
             val newGroup = ToDoGroup(name = name, createdAt = createdAt)
-            toDoGroupDao.insertGroup(newGroup)
+            val groupId = toDoGroupDao.insertGroup(newGroup).toInt()
+
+            // Publish message
+            PubSubManager.publishMessage(
+                action = "create",
+                resourceType = "group",
+                resourceId = groupId.toString(),
+                content = mapOf(
+                    "title" to name,
+                    "createdAt" to createdAt.time.toString()
+                )
+            )
         }
     }
 
+
+    fun addGroupFromSync(name: String, createdAt: Date) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val newGroup = ToDoGroup(name = name, createdAt = createdAt)
+            toDoGroupDao.insertGroup(newGroup)
+        }
+    }
     // Function to delete a group by its ID
     fun deleteGroupById(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoGroupDao.deleteGroupById(id)
+
+            // Publish message
+            PubSubManager.publishMessage(
+                action = "delete",
+                resourceType = "group",
+                resourceId = id.toString()
+            )
+        }
+    }
+
+    fun deleteGroupByIdFromSync(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             toDoGroupDao.deleteGroupById(id)
         }
@@ -81,7 +113,20 @@ class ToDoGroupViewModel : ViewModel() {
     fun updateGroup(id: Int, name: String) {
         viewModelScope.launch(Dispatchers.IO) {
             toDoGroupDao.updateGroup(id = id, name = name)
-        }
 
+            // Publish message
+            PubSubManager.publishMessage(
+                action = "update",
+                resourceType = "group",
+                resourceId = id.toString(),
+                content = mapOf("title" to name)
+            )
+        }
+    }
+
+    fun updateGroupFromSync(id: Int, name: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoGroupDao.updateGroup(id = id, name = name)
+        }
     }
 }
