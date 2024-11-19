@@ -34,5 +34,3 @@ and efficient way to organize tasks, set reminders, and customize the app to you
 1. Clone the repository:
    ```bash
    git clone https://github.com/AllramEst83/CodedByKayPureNotes.git
-
-https://simpleicons.org/?q=android
