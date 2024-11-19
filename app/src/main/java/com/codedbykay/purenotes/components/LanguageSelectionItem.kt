@@ -1,5 +1,6 @@
 package com.codedbykay.purenotes.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,7 @@ fun LanguageSelectionItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable { onSelect() }
             .padding(vertical = 8.dp),
         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
     ) {

@@ -1,5 +1,6 @@
 package com.codedbykay.purenotes.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -24,6 +25,7 @@ fun ThemeItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable { onThemeSelected(themeOption.mode) }
             .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
