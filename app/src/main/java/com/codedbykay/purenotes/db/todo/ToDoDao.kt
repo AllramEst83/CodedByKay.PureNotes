@@ -26,15 +26,21 @@ interface ToDoDao {
         (:notificationDateFilter = 'THIS_MONTH' AND strftime('%m', notificationTime / 1000, 'unixepoch') = strftime('%m', 'now'))
     )
     AND (:groupId IS NULL OR groupId = :groupId)
-    ORDER BY 
+   ORDER BY 
         CASE 
             WHEN :sortOrder = 'CREATED_AT_ASCENDING' THEN createdAt 
         END ASC,
         CASE 
-            WHEN :sortOrder = 'CREATED_AT_DESCENDING' THEN createdAt 
+            WHEN :sortOrder = 'CREATED_AT_DESCENDING' OR :sortOrder IS NULL THEN createdAt
         END DESC,
-          CASE 
+        CASE 
+            WHEN :sortOrder = 'NOTIFICATION_TIME_ASCENDING' THEN notificationTime IS NULL
+        END ASC,
+        CASE 
             WHEN :sortOrder = 'NOTIFICATION_TIME_ASCENDING' THEN notificationTime 
+        END ASC,
+        CASE 
+            WHEN :sortOrder = 'NOTIFICATION_TIME_DESCENDING' THEN notificationTime IS NULL
         END ASC,
         CASE 
             WHEN :sortOrder = 'NOTIFICATION_TIME_DESCENDING' THEN notificationTime 
@@ -44,7 +50,8 @@ interface ToDoDao {
         END ASC,
         CASE 
             WHEN :sortOrder = 'TITLE_DESCENDING' THEN title 
-        END DESC
+        END DESC,
+        createdAt DESC
 """
     )
     fun getFilteredToDo(

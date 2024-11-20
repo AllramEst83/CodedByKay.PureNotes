@@ -51,14 +51,14 @@ class NotificationWorker(
             applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val notification = NotificationCompat.Builder(applicationContext, "todo_channel")
-            .setSmallIcon(R.drawable.note_notifications)
+            .setSmallIcon(R.drawable.ic_note_notifications)
             .setColor(ContextCompat.getColor(applicationContext, R.color.background_color))
             .setContentTitle(title)
             .setContentText(description)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
-            .addAction(R.drawable.note_notifications, "Mark as Done", markAsDoneIntent)
+            .addAction(R.drawable.ic_note_notifications, "Mark as Done", markAsDoneIntent)
             .build()
 
         // Use `todoId` as notification ID for easy reference

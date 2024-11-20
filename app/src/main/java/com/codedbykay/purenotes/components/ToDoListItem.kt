@@ -213,7 +213,7 @@ fun ToDoListItem(
                                                 .alpha(if (isChecked) 0.5f else 1f)
                                         ) {
                                             Icon(
-                                                painter = painterResource(id = R.drawable.note_notifications),
+                                                painter = painterResource(id = R.drawable.ic_note_notifications),
                                                 contentDescription = "Notification set.",
                                                 modifier = Modifier
                                                     .size(19.dp)

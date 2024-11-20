@@ -30,7 +30,8 @@ import com.codedbykay.purenotes.viewModels.ToDoViewModel
 fun ToDoListContainer(
     toDoViewModel: ToDoViewModel,
     groupId: Int,
-    toDoList: List<ToDo>
+    toDoList: List<ToDo>,
+    isSearchMode: Boolean = false
 ) {
     val showDeleteDialog = remember { mutableStateOf(false) }
 
@@ -142,7 +143,17 @@ fun ToDoListContainer(
             }
         }
     } else {
-        EmptyToDoList()
+        if (isSearchMode) {
+            // Show message for no search results
+            EmptyToDoList(
+                message = stringResource(id = R.string.empty_search_result)
+            )
+        } else {
+            // Show message for empty list
+            EmptyToDoList(
+                message = stringResource(id = R.string.empty_list_message)
+            )
+        }
     }
 
     // Delete confirmation dialog

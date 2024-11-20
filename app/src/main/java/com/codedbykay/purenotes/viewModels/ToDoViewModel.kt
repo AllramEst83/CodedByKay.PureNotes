@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.codedbykay.purenotes.BuildConfig
@@ -14,6 +15,7 @@ import com.codedbykay.purenotes.db.todo.ToDoGroup
 import com.codedbykay.purenotes.models.CreatedDateFilter
 import com.codedbykay.purenotes.models.DoneStatusFilter
 import com.codedbykay.purenotes.models.NotificationTimeFilter
+import com.codedbykay.purenotes.models.Quadruple
 import com.codedbykay.purenotes.models.SortOrder
 import com.codedbykay.purenotes.models.ToDoFilter
 import com.codedbykay.purenotes.notifications.NotificationHelper
@@ -35,6 +37,10 @@ class ToDoViewModel(
     private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
     private val todoGroupDao = MainApplication.toDoDatabase.getTodoGroupDao()
 
+    // LiveData for search query
+    private val _searchQuery = MutableLiveData<String?>()
+    val searchQuery: LiveData<String?> = _searchQuery
+
     // Filtering and sorting
 
     // LiveData to hold the current sort order
@@ -49,25 +55,26 @@ class ToDoViewModel(
     private val _selectedGroupId = MutableLiveData<Int?>()
 
     // Combined LiveData that responds to changes in sort order, filter, and groupId
-    private val combinedSortFilter: LiveData<Triple<Int?, SortOrder, ToDoFilter>> =
-        MediatorLiveData<Triple<Int?, SortOrder, ToDoFilter>>().apply {
+    private val combinedSearchFilterSort: LiveData<Quadruple<Int?, SortOrder, ToDoFilter, String?>> =
+        MediatorLiveData<Quadruple<Int?, SortOrder, ToDoFilter, String?>>().apply {
             fun updateValue() {
-                value = Triple(
+                value = Quadruple(
                     _selectedGroupId.value,
                     _sortOrder.value ?: SortOrder.CREATED_AT_DESCENDING,
-                    _filter.value ?: ToDoFilter()
+                    _filter.value ?: ToDoFilter(),
+                    _searchQuery.value
                 )
             }
 
             addSource(_sortOrder) { updateValue() }
             addSource(_filter) { updateValue() }
             addSource(_selectedGroupId) { updateValue() }
+            addSource(_searchQuery) { updateValue() }
         }
 
-
-    // LiveData that triggers `getFilteredToDo` when sort, filter, or group changes
+    // Updated toDoList with dynamic search functionality
     val toDoList: LiveData<List<ToDo>> =
-        combinedSortFilter.switchMap { (groupId, sortOrder, filter) ->
+        combinedSearchFilterSort.switchMap { (groupId, sortOrder, filter, query) ->
             toDoDao.getFilteredToDo(
                 doneStatus = when (filter.doneStatus) {
                     DoneStatusFilter.ALL -> "ALL"
@@ -88,7 +95,17 @@ class ToDoViewModel(
                 },
                 sortOrder = sortOrder.name,
                 groupId = groupId
-            )
+            ).map { todoList ->
+                // Apply search filtering only if the query is not null or empty
+                if (query.isNullOrBlank()) {
+                    todoList
+                } else {
+                    todoList.filter {
+                        it.title.contains(query, ignoreCase = true) ||
+                                it.content?.contains(query, ignoreCase = true) == true
+                    }
+                }
+            }
         }
 
 
@@ -106,6 +123,12 @@ class ToDoViewModel(
     fun setFilter(filter: ToDoFilter) {
         _filter.value = filter
     }
+
+    // Setters for search query
+    fun setSearchQuery(query: String?) {
+        _searchQuery.value = query
+    }
+
     // Filtering and sorting
 
     // Schedule notification based on the current title, description, and time
@@ -359,5 +382,3 @@ class ToDoViewModel(
     }
 // TEST data
 }
-
-

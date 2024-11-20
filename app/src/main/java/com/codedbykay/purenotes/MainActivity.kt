@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.StrictMode
 import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -18,16 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import androidx.navigation.navDeepLink
+import com.codedbykay.purenotes.managers.AppNavHostManager
 import com.codedbykay.purenotes.notifications.NotificationHelper
-import com.codedbykay.purenotes.pages.SettingsPage
-import com.codedbykay.purenotes.pages.ToDoGroupPage
-import com.codedbykay.purenotes.pages.ToDoPage
 import com.codedbykay.purenotes.ui.theme.ToDoAppTheme
 import com.codedbykay.purenotes.viewModels.SettingsViewModel
 import com.codedbykay.purenotes.viewModels.ToDoGroupViewModel
@@ -61,10 +55,20 @@ class MainActivity : ComponentActivity() {
         checkAndRequestExactAlarmPermission()
         checkAndRequestDndPermission()
 
+        // Initialize ViewModels before setContent
         val toDoGroupViewModel = ViewModelProvider(this)[ToDoGroupViewModel::class.java]
         val notificationHelper = NotificationHelper(this)
         val toDoViewModel = ToDoViewModel(notificationHelper)
         val settingsViewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
+
+        if (BuildConfig.DEBUG) {
+            StrictMode.setThreadPolicy(
+                StrictMode.ThreadPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .build()
+            )
+        }
 
         setContent {
             ToDoAppTheme(settingsViewModel) {
@@ -75,56 +79,12 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .systemBarsPadding()
                 ) {
-                    NavHost(navController = navController, startDestination = "todo_groups") {
-
-                        // ToDoGroup list screen (start screen)
-                        composable(route = "todo_groups") {
-                            ToDoGroupPage(
-                                toDoGroupViewModel = toDoGroupViewModel,
-                                settingsViewModel = settingsViewModel,
-                                onNavigateToSettings = {
-                                    navController.navigate("settings_settings")
-                                },
-                                onNavigateToToDoPage = { groupId, groupName ->
-                                    navController.navigate("todo_list/$groupId/$groupName")
-                                }
-
-                            )
-                        }
-
-                        // ToDoPage for a specific group
-                        composable(
-                            route = "todo_list/{groupId}/{groupName}",
-                            arguments = listOf(
-                                navArgument("groupId") { type = NavType.IntType },
-                                navArgument("groupName") { type = NavType.StringType }
-                            ),
-                            deepLinks = listOf(navDeepLink {
-                                uriPattern =
-                                    "com.codedbykay.purenotes://todo_list/{groupId}/{groupName}"
-                            })
-                        ) { backStackEntry ->
-                            val groupId = backStackEntry.arguments?.getInt("groupId")
-                            val groupName = backStackEntry.arguments?.getString("groupName")
-
-                            if (groupId != null && groupName != null) {
-                                ToDoPage(
-                                    toDoViewModel = toDoViewModel,
-                                    groupId = groupId,
-                                    groupName = groupName,
-                                    onBack = { navController.popBackStack() }
-                                )
-                            }
-                        }
-
-                        // Theme settings screen
-                        composable(route = "settings_settings") {
-                            SettingsPage(
-                                settingsViewModel = settingsViewModel,
-                                onBack = { navController.popBackStack() }
-                            )
-                        }
-                    }
+                    AppNavHostManager(
+                        navController = navController,
+                        toDoGroupViewModel = toDoGroupViewModel,
+                        toDoViewModel = toDoViewModel,
+                        settingsViewModel = settingsViewModel
+                    )
                 }
             }
         }

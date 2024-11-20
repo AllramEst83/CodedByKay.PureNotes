@@ -1,5 +1,6 @@
 package com.codedbykay.purenotes.pages
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -13,11 +14,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.components.FilterMenu
+import com.codedbykay.purenotes.components.RoundedCircularProgressIndicator
+import com.codedbykay.purenotes.components.SearchMenu
 import com.codedbykay.purenotes.components.SortMenu
 import com.codedbykay.purenotes.components.ToDoListContainer
+import com.codedbykay.purenotes.utils.handleEmptyBackNavigation
 import com.codedbykay.purenotes.viewModels.ToDoViewModel
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -25,15 +31,31 @@ fun ToDoPage(
     toDoViewModel: ToDoViewModel,
     groupId: Int,
     groupName: String,
-    onBack: () -> Unit
+    navController: NavHostController
 ) {
-    LaunchedEffect(groupId) {
-        toDoViewModel.setGroupId(groupId)
-    }
-
-    // Observe to-do items for the specified group ID
+    // State variables for toggling between search and add modes
     val toDoList by toDoViewModel.toDoList.observeAsState(emptyList())
     var inputText by remember { mutableStateOf("") }
+    var isSearchMode by remember { mutableStateOf(false) }
+    var backButtonEnabled by remember { mutableStateOf(true) }
+    var isInitialized by remember { mutableStateOf(false) }
+
+    // BackHandler to manage system back presses
+    BackHandler(enabled = backButtonEnabled) {
+        backButtonEnabled = false
+        handleEmptyBackNavigation(navController)
+    }
+
+    LaunchedEffect(groupId) {
+        delay(500)
+        if (!backButtonEnabled) {
+            delay(500)
+            backButtonEnabled = true
+        }
+
+        toDoViewModel.setGroupId(groupId)
+        isInitialized = true
+    }
 
     Scaffold(
         topBar = {
@@ -47,7 +69,12 @@ fun ToDoPage(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(
+                        onClick = {
+                            handleEmptyBackNavigation(navController)
+                        },
+                        enabled = backButtonEnabled
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -57,58 +84,95 @@ fun ToDoPage(
                 actions = {
                     SortMenu(toDoViewModel = toDoViewModel)
                     FilterMenu(toDoViewModel = toDoViewModel)
+                    SearchMenu(
+                        isSearchMode = isSearchMode,
+                        onClick = {
+                            isSearchMode = !isSearchMode
+                            inputText = ""
+                            if (!isSearchMode) {
+                                toDoViewModel.setSearchQuery(null)
+                            }
+                        })
                 }
             )
         }
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            // Display the list of ToDos
+        if (isInitialized) {
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                // Display the list of ToDos
+                Box(
+                    modifier = Modifier
+                        .weight(1f, fill = true)
+                        .fillMaxWidth()
+                ) {
+                    ToDoListContainer(
+                        toDoViewModel = toDoViewModel,
+                        groupId,
+                        toDoList = toDoList,
+                        isSearchMode
+                    )
+                }
+
+                // Bottom Input Field and Button
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(5.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+
+                    ) {
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(4.dp),
+                        value = inputText,
+                        onValueChange = { newText ->
+                            inputText = newText
+
+                            if (isSearchMode) {
+                                toDoViewModel.setSearchQuery(newText.trim())
+                            }
+                        },
+                        label = {
+                            Text(
+                                if (isSearchMode)
+                                    stringResource(id = R.string.search_note_input)
+                                else
+                                    stringResource(id = R.string.add_note_input)
+                            )
+                        },
+                        shape = RoundedCornerShape(15.dp),
+                    )
+                    if (!isSearchMode) {
+                        Button(
+                            onClick = {
+                                toDoViewModel.addToDo(inputText.trim(), groupId = groupId)
+                                inputText = ""
+                                toDoViewModel.setSearchQuery("")
+                            },
+                            modifier = Modifier
+                                .padding(start = 2.dp, end = 2.dp, top = 9.dp, bottom = 2.dp),
+                            enabled = inputText.trim().isNotEmpty()
+                        ) {
+                            Text(stringResource(id = R.string.add_button))
+                        }
+                    }
+                }
+            }
+        } else {
             Box(
                 modifier = Modifier
-                    .weight(1f, fill = true)
-                    .fillMaxWidth()
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center
             ) {
-                ToDoListContainer(
-                    toDoViewModel = toDoViewModel,
-                    groupId,
-                    toDoList = toDoList
-
-                )
-            }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                OutlinedTextField(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(4.dp),
-                    value = inputText,
-                    onValueChange = { inputText = it },
-                    label = { Text(stringResource(id = R.string.add_note_input)) },
-                    shape = RoundedCornerShape(15.dp),
-                )
-                Button(
-                    onClick = {
-                        // Add to-do item with the specified group ID
-                        toDoViewModel.addToDo(inputText.trim(), groupId = groupId)
-                        inputText = ""
-                    },
-                    modifier = Modifier
-                        .padding(start = 2.dp, end = 2.dp, top = 9.dp, bottom = 2.dp),
-                    enabled = inputText.trim().isNotEmpty()
-                ) {
-                    Text(stringResource(id = R.string.add_button))
-                }
+                RoundedCircularProgressIndicator()
             }
         }
     }

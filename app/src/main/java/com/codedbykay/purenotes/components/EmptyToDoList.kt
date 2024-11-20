@@ -10,26 +10,18 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -37,8 +29,14 @@ import androidx.compose.ui.unit.sp
 import com.codedbykay.purenotes.R
 
 @Composable
-fun EmptyToDoList() {
-    // Infinite Transition for animating gradient position
+fun EmptyToDoList(
+    message: String
+) {
+
+    val greatVibesFontFamily = FontFamily(
+        Font(R.font.great_vibes_regular, FontWeight.Normal, FontStyle.Normal)
+    )
+
     val transition = rememberInfiniteTransition(
         label = "Gradient Animation"
     )
@@ -63,29 +61,6 @@ fun EmptyToDoList() {
         endY = gradientOffset + 1000f // Dynamic end position
     )
 
-    // Animation for scaling the icon
-    val scale = rememberInfiniteTransition(label = "Scale Animation")
-    val animatedScale = scale.animateFloat(
-        initialValue = 1f,
-        targetValue = 1.2f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 1000, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "Icon Scale"
-    ).value
-
-    // Animation for the text bounce
-    val animatedOffset = scale.animateFloat(
-        initialValue = 0f,
-        targetValue = 20f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 1000, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "Text Bounce"
-    ).value
-
     // Main content
     Box(
         modifier = Modifier
@@ -98,52 +73,15 @@ fun EmptyToDoList() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Icon with scaling animation
-            Icon(
-                painter = painterResource(id = R.drawable.ic_emptylist), // Replace with your icon resource
-                contentDescription = "Empty List",
-                modifier = Modifier
-                    .size(100.dp)
-                    .graphicsLayer(scaleX = animatedScale, scaleY = animatedScale),
-                tint = Color.Unspecified
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Text with bounce animation
             Text(
-                text = "Oops! Nothing here.",
-                fontSize = 24.sp,
-                textAlign = TextAlign.Center,
-                color = Color.White,
-                modifier = Modifier
-                    .offset(y = animatedOffset.dp)
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .shadow(
-                        elevation = 8.dp,
-                        shape = RoundedCornerShape(16.dp),
-                        clip = false // Ensures shadow appears outside the gradient
-                    )
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            colors = listOf(Color(0xFFFF9A8B), Color(0xFFFF6A88))
-                        ),
-                        shape = RoundedCornerShape(16.dp)
-                    )
-                    .padding(
-                        horizontal = 16.dp,
-                        vertical = 8.dp
-                    ), // Padding to separate text from gradient background
-                style = androidx.compose.ui.text.TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 1.5.sp,
-                    shadow = Shadow(
-                        color = Color(0x80000000), // Semi-transparent black
-                        offset = Offset(4f, 4f),
-                        blurRadius = 8f
-                    )
-                )
+                text = message,
+                style = TextStyle(
+                    fontFamily = greatVibesFontFamily,
+                    fontSize = 54.sp
+                ),
+                textAlign = TextAlign.Center
             )
+
         }
     }
 }

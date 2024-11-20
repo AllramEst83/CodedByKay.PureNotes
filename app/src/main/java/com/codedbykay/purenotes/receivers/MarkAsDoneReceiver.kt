@@ -50,7 +50,7 @@ class MarkAsDoneReceiver : BroadcastReceiver() {
                         )
 
                     val updatedNotification = NotificationCompat.Builder(context, "todo_channel")
-                        .setSmallIcon(R.drawable.note_notifications)
+                        .setSmallIcon(R.drawable.ic_note_notifications)
                         .setContentTitle(formattedTitle)
                         .setContentText("The note has been marked as done.")
                         .setPriority(NotificationCompat.PRIORITY_HIGH)

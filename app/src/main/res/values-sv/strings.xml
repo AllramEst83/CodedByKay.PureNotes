@@ -46,4 +46,9 @@
     <string name="alert_delete_done_notes_title">Bekräfta radering</string>
     <string name="button_delete_text">Radera</string>
     <string name="alert_delete_confirmation_text">Är du säker på att du vill radera denna anteckning?</string>
+    <string name="search_button">Sök</string>
+    <string name="search_note_input">Sök anteckningar</string>
+    <string name="press_back_again_to_exit">Tryck tillbaka igen för att avsluta.</string>
+    <string name="empty_list_message">Din antecknings-lista är tom. Lägg till några uppgifter för att komma igång!</string>
+    <string name="empty_search_result">Hoppsan! Inga uppgifter hittades. Testa att söka med lite extra kreativitet!</string>
 </resources>
