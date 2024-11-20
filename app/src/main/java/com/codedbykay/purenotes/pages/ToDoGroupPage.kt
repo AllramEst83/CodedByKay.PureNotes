@@ -52,7 +52,7 @@ fun ToDoGroupPage(
 
 
         LaunchedEffect(Unit) {
-            delay(500)
+            delay(400)
             isInitialized = true
         }
 

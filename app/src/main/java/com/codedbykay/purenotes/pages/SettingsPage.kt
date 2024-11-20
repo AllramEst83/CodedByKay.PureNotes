@@ -46,7 +46,7 @@ fun SettingsPage(
 
     // Debounce logic
     LaunchedEffect(backButtonEnabled) {
-        delay(500)
+        delay(200)
         if (!backButtonEnabled) {
             delay(500)
             backButtonEnabled = true
