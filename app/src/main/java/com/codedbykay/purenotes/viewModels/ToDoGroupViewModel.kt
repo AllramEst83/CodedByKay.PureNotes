@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.codedbykay.purenotes.MainApplication
@@ -19,6 +20,10 @@ import java.util.Date
 class ToDoGroupViewModel : ViewModel() {
     private val toDoGroupDao = MainApplication.toDoDatabase.getTodoGroupDao()
 
+    // LiveData for search query
+    private val _searchQuery = MutableLiveData<String?>()
+    val searchQuery: LiveData<String?> = _searchQuery
+
     // LiveData to hold the current sort order
     private val _sortGroupOrder = MutableLiveData(SortOrder.CREATED_AT_DESCENDING)
     val sortOrder: LiveData<SortOrder> = _sortGroupOrder
@@ -28,19 +33,24 @@ class ToDoGroupViewModel : ViewModel() {
     val groupFilter: LiveData<ToDoGroupFilter> = _groupFilter
 
     // Combined LiveData that responds to changes in sort order and filter
-    private val combinedSortFilter: LiveData<Pair<SortOrder, ToDoGroupFilter>> =
-        MediatorLiveData<Pair<SortOrder, ToDoGroupFilter>>().apply {
-            addSource(_sortGroupOrder) { sort ->
-                value = Pair(sort, _groupFilter.value ?: ToDoGroupFilter())
+    private val combinedSortFilter: LiveData<Triple<SortOrder, ToDoGroupFilter, String>> =
+        MediatorLiveData<Triple<SortOrder, ToDoGroupFilter, String>>().apply {
+            fun updateValue() {
+                value = Triple(
+                    _sortGroupOrder.value ?: SortOrder.CREATED_AT_DESCENDING,
+                    _groupFilter.value ?: ToDoGroupFilter(),
+                    _searchQuery.value ?: ""
+                )
             }
-            addSource(_groupFilter) { filter ->
-                value = Pair(_sortGroupOrder.value ?: SortOrder.CREATED_AT_DESCENDING, filter)
-            }
+
+            addSource(_sortGroupOrder) { updateValue() }
+            addSource(_groupFilter) { updateValue() }
+            addSource(_searchQuery) { updateValue() }
         }
 
     // LiveData that triggers `getFilteredToDoGroups` when sort or filter changes
     val toDoGroupList: LiveData<List<ToDoGroup>> =
-        combinedSortFilter.switchMap { (sortOrder, filter) ->
+        combinedSortFilter.switchMap { (sortOrder, filter, query) ->
             toDoGroupDao.getFilteredToDoGroups(
                 createdDateFilter = when (filter.createdDateFilter) {
                     CreatedDateFilter.ALL -> "ALL"
@@ -49,8 +59,22 @@ class ToDoGroupViewModel : ViewModel() {
                     CreatedDateFilter.THIS_MONTH -> "THIS_MONTH"
                 },
                 sortOrder = sortOrder.name // Pass the sort order dynamically
-            )
+            ).map { todoListGroup ->
+                // Apply search filtering only if the query is not null or empty
+                if (query.isNullOrBlank()) {
+                    todoListGroup
+                } else {
+                    todoListGroup.filter {
+                        it.name.contains(query, ignoreCase = true)
+                    }
+                }
+            }
         }
+
+    // Setters for search query
+    fun setSearchQuery(query: String?) {
+        _searchQuery.value = query
+    }
 
     // Function to set a specific sort order
     fun setSortOrder(order: SortOrder) {

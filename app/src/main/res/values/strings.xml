@@ -52,4 +52,7 @@
     <string name="app_package" translatable="false">com.codedbykay.purenotes</string>
     <string name="empty_list_message">Your notes list is feeling lonely. Add some tasks to spark the productivity magic!</string>
     <string name="empty_search_result">Oops! No tasks found. Maybe try searching with a pinch of creativity?</string>
+    <string name="add_group_placeholder">Add group</string>
+    <string name="search_placeholder">Type to search</string>
+    <string name="close">Close</string>
 </resources>

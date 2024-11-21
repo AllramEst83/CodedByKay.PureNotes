@@ -1,6 +1,5 @@
 package com.codedbykay.purenotes.viewModels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,10 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import com.codedbykay.purenotes.BuildConfig
 import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.db.todo.ToDo
-import com.codedbykay.purenotes.db.todo.ToDoGroup
 import com.codedbykay.purenotes.models.CreatedDateFilter
 import com.codedbykay.purenotes.models.DoneStatusFilter
 import com.codedbykay.purenotes.models.NotificationTimeFilter
@@ -28,14 +25,7 @@ class ToDoViewModel(
     private val notificationHelper: NotificationHelper,
 ) : ViewModel() {
 
-    init {
-        if (BuildConfig.DEBUG) {
-            //populateDummyData()
-        }
-    }
-
     private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
-    private val todoGroupDao = MainApplication.toDoDatabase.getTodoGroupDao()
 
     // LiveData for search query
     private val _searchQuery = MutableLiveData<String?>()
@@ -108,7 +98,6 @@ class ToDoViewModel(
             }
         }
 
-
     // Set specific group ID
     fun setGroupId(groupId: Int?) {
         _selectedGroupId.value = groupId
@@ -131,6 +120,7 @@ class ToDoViewModel(
 
     // Filtering and sorting
 
+    // CRUD
     // Schedule notification based on the current title, description, and time
     private fun scheduleNotification(
         id: Int,
@@ -239,146 +229,4 @@ class ToDoViewModel(
         }
     }
     // CRUD
-
-    // Test data
-    fun populateDummyData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val currentTime = Instant.now()
-
-            // Define some groups
-            val groups = listOf(
-                ToDoGroup(
-                    name = "Work",
-                    createdAt = Date.from(currentTime.minusSeconds(86400 * 30))
-                ),
-                ToDoGroup(
-                    name = "Personal",
-                    createdAt = Date.from(currentTime.minusSeconds(86400 * 7))
-                ),
-                ToDoGroup(
-                    name = "Shopping List",
-                    createdAt = Date.from(currentTime.minusSeconds(86400))
-                )
-            )
-
-            // Clear existing data for a clean test environment
-            todoGroupDao.deleteAllGroups()
-            toDoDao.deleteAllToDos()
-
-            // Insert groups and get their generated IDs
-            val groupIds = groups.map { todoGroupDao.insertGroup(it).toInt() }
-
-            // Define some todos with assigned group IDs
-            val todos = listOf(
-                ToDo(
-                    title = "Buy groceries",
-                    content = "Buy milk, eggs, bread",
-                    createdAt = Date.from(currentTime.minusSeconds(0)),
-                    done = false,
-                    groupId = groupIds[2]
-                ),
-                ToDo(
-                    title = "Morning exercise",
-                    content = "Run 5km",
-                    createdAt = Date.from(currentTime.minusSeconds(86400 + 60)),
-                    done = true,
-                    groupId = groupIds[1]
-                ),
-                ToDo(
-                    title = "Read book",
-                    content = "Read 'Clean Code'",
-                    createdAt = Date.from(currentTime.minusSeconds(86400 * 7 + 120)),
-                    done = false,
-                    groupId = groupIds[1]
-                ),
-                ToDo(
-                    title = "Finish project",
-                    content = "Complete the UI for project",
-                    createdAt = Date.from(currentTime.minusSeconds(86400 * 30 + 180)),
-                    done = true,
-                    groupId = groupIds[0]
-                ),
-                ToDo(
-                    title = "Prepare presentation",
-                    content = "Slides for team meeting",
-                    createdAt = Date.from(currentTime.minusSeconds(3600 + 240)),
-                    done = true,
-                    groupId = groupIds[0]
-                ),
-                ToDo(
-                    title = "Organize files",
-                    content = "Clean up desktop and folders",
-                    createdAt = Date.from(currentTime.minusSeconds(86400 * 2 + 300)),
-                    done = false,
-                    groupId = groupIds[1]
-                ),
-                ToDo(
-                    title = "Plan vacation",
-                    content = "Research destinations",
-                    createdAt = Date.from(currentTime.minusSeconds(86400 * 14 + 360)),
-                    done = true,
-                    groupId = groupIds[1]
-                ),
-                ToDo(
-                    title = "Schedule dentist appointment",
-                    content = "Book appointment for next week",
-                    createdAt = Date.from(currentTime.minusSeconds(86400 * 3 + 420)),
-                    done = false,
-                    groupId = groupIds[1]
-                ),
-                ToDo(
-                    title = "Write blog post",
-                    content = "Topic on Android development",
-                    createdAt = Date.from(currentTime.minusSeconds(3600 * 5 + 480)),
-                    done = false,
-                    groupId = groupIds[0]
-                ),
-                ToDo(
-                    title = "Check emails",
-                    content = "Respond to important emails",
-                    createdAt = Date.from(currentTime.minusSeconds(86400 * 5 + 540)),
-                    done = false,
-                    groupId = groupIds[1]
-                )
-            )
-
-            // Insert todos with group associations and log each insertion
-            todos.forEach { todo ->
-                toDoDao.addTodo(todo)
-            }
-
-            // Define notification times (1 min, 5 min, 10 min from now)
-            val oneMinuteFromNow = System.currentTimeMillis() + 1 * 60 * 1000
-            val fiveMinutesFromNow = System.currentTimeMillis() + 5 * 60 * 1000
-            val tenMinutesFromNow = System.currentTimeMillis() + 10 * 60 * 1000
-            val notificationTimes = listOf(oneMinuteFromNow, fiveMinutesFromNow, tenMinutesFromNow)
-
-            val allTodos = toDoDao.getAllToDos()
-
-            // Schedule notifications for three ToDo items
-            allTodos.take(3).forEachIndexed { index, todo ->
-                if (!todo.done) {
-                    val todoId = todo.id
-                    val title = todo.title
-                    val content = todo.content ?: ""
-                    val groupId = groups[index].id
-
-                    // Schedule the notification
-                    scheduleNotification(
-                        id = todoId,
-                        title = title,
-                        groupId = groupId,
-                        description = "Reminder: $content",
-                        time = notificationTimes[index]
-                    )
-
-                    Log.d(
-                        "ToDoUpdate",
-                        "Scheduled notification for ToDo ID: $todoId at ${notificationTimes[index]}"
-                    )
-                }
-            }
-        }
-    }
-// TEST data
 }

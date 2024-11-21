@@ -33,7 +33,6 @@ fun ToDoPage(
     groupName: String,
     navController: NavHostController
 ) {
-    // State variables for toggling between search and add modes
     val toDoList by toDoViewModel.toDoList.observeAsState(emptyList())
     var inputText by remember { mutableStateOf("") }
     var isSearchMode by remember { mutableStateOf(false) }
@@ -85,14 +84,16 @@ fun ToDoPage(
                     SortMenu(toDoViewModel = toDoViewModel)
                     FilterMenu(toDoViewModel = toDoViewModel)
                     SearchMenu(
-                        isSearchMode = isSearchMode,
+                        isSearchMode = !isSearchMode,
                         onClick = {
                             isSearchMode = !isSearchMode
                             inputText = ""
                             if (!isSearchMode) {
                                 toDoViewModel.setSearchQuery(null)
                             }
-                        })
+                        },
+                        isActive = true
+                    )
                 }
             )
         }
