@@ -4,10 +4,12 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -190,53 +192,62 @@ fun ToDoGroupPage(
                             Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 10.dp, vertical = 16.dp),
-                                elevation = CardDefaults.cardElevation(8.dp)
+                                    .wrapContentHeight()
+                                    //.fillMaxHeight(0.2f)
+                                    .padding(horizontal = 0.dp),
+                                elevation = CardDefaults.cardElevation(8.dp),
+                                shape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp)
                             ) {
-                                Row(
+                                Column(
                                     modifier = Modifier
+                                        .padding(16.dp)
                                         .fillMaxWidth()
-                                        .padding(16.dp),
-                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    OutlinedTextField(
-                                        value = inputText,
-                                        onValueChange = {
-                                            inputText = it
-                                            if (!isAddMode) {
-                                                toDoGroupViewModel.setSearchQuery(inputText.trim())
-                                            }
-                                        },
-                                        label = {
-                                            Text(
-                                                if (isAddMode) stringResource(id = R.string.add_group_placeholder)
-                                                else stringResource(id = R.string.search_placeholder)
-                                            )
-                                        },
+                                    Row(
                                         modifier = Modifier
-                                            .weight(1f)
-                                            .padding(end = 8.dp),
-                                        shape = RoundedCornerShape(15.dp),
-                                        colors = OutlinedTextFieldDefaults.colors(),
-                                        textStyle = MaterialTheme.typography.bodyLarge
-                                    )
-                                    if (isAddMode) {
-                                        Button(
-                                            onClick = {
-                                                toDoGroupViewModel.addGroup(
-                                                    name = inputText.trim(),
-                                                    createdAt = Date()
-                                                )
-                                                // This hides the input field after the user has added a group
-                                                //inputFieldVisible = false
-                                                //isAddMode = false
-                                                inputText = ""
+                                            .fillMaxWidth()
+                                            .padding(vertical = 8.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        OutlinedTextField(
+                                            value = inputText,
+                                            onValueChange = {
+                                                inputText = it
+                                                if (!isAddMode) {
+                                                    toDoGroupViewModel.setSearchQuery(inputText.trim())
+                                                }
                                             },
-                                            enabled = inputText.trim().isNotEmpty(),
+                                            label = {
+                                                Text(
+                                                    if (isAddMode) stringResource(id = R.string.add_group_placeholder)
+                                                    else stringResource(id = R.string.search_placeholder)
+                                                )
+                                            },
                                             modifier = Modifier
-                                                .padding(top = 10.dp)
-                                        ) {
-                                            Text(stringResource(id = R.string.add_button))
+                                                .weight(1f)
+                                                .padding(end = 8.dp),
+                                            shape = RoundedCornerShape(15.dp),
+                                            colors = OutlinedTextFieldDefaults.colors(),
+                                            textStyle = MaterialTheme.typography.bodyLarge
+                                        )
+                                        if (isAddMode) {
+                                            Button(
+                                                modifier = Modifier
+                                                    .padding(top = 10.dp),
+                                                onClick = {
+                                                    toDoGroupViewModel.addGroup(
+                                                        name = inputText.trim(),
+                                                        createdAt = Date()
+                                                    )
+                                                    inputText = ""
+                                                    // This hides the input field after the user has added a group
+                                                    //inputFieldVisible = false
+                                                    //isAddMode = false
+                                                },
+                                                enabled = inputText.trim().isNotEmpty()
+                                            ) {
+                                                Text(stringResource(id = R.string.add_button))
+                                            }
                                         }
                                     }
                                 }
