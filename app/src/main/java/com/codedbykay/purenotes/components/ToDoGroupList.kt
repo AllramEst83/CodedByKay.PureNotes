@@ -13,6 +13,7 @@ import com.codedbykay.purenotes.viewModels.ToDoGroupViewModel
 
 @Composable
 fun ToDoGroupList(
+    modifier: Modifier = Modifier,
     toDoGroupViewModel: ToDoGroupViewModel,
     onGroupClick: (Int, String) -> Unit
 ) {
@@ -21,7 +22,7 @@ fun ToDoGroupList(
         .observeAsState(emptyList())
 
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(1.dp)
     ) {

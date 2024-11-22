@@ -1,13 +1,14 @@
 package com.codedbykay.purenotes.pages
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -74,6 +75,28 @@ fun ToDoGroupPage(
         LaunchedEffect(Unit) {
             delay(400)
             isInitialized = true
+        }
+
+        // Initialize expectedInputFieldHeight with an estimated value
+        val expectedInputFieldHeight = 100.dp // Adjust this value based on your UI
+
+        // Create a Transition for the input field visibility
+        val transition =
+            updateTransition(targetState = inputFieldVisible, label = "InputFieldTransition")
+
+        // Animate the input field's offset and the list's padding
+        val inputFieldOffset by transition.animateDp(
+            transitionSpec = { tween(durationMillis = 300) },
+            label = "InputFieldOffset"
+        ) { visible ->
+            if (visible) 0.dp else -expectedInputFieldHeight
+        }
+
+        val listPaddingTop by transition.animateDp(
+            transitionSpec = { tween(durationMillis = 300) },
+            label = "ListPaddingTop"
+        ) { visible ->
+            if (visible) expectedInputFieldHeight else 0.dp
         }
 
         ModalNavigationDrawer(
@@ -168,35 +191,20 @@ fun ToDoGroupPage(
                 }
             ) { paddingValues ->
                 if (isInitialized) {
-                    Box(modifier = Modifier.padding(paddingValues)) {
-                        ToDoGroupList(
-                            toDoGroupViewModel = toDoGroupViewModel,
-                            onGroupClick = { groupId, groupName ->
-                                onNavigateToToDoPage(groupId, groupName)
-                            }
-                        )
-                    }
-
-                    // Sliding card popup
-                    AnimatedVisibility(
-                        visible = inputFieldVisible,
-                        enter = slideInVertically { it },
-                        exit = slideOutVertically { it }
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(paddingValues),
-                            contentAlignment = Alignment.BottomCenter
-                        ) {
+                        // Input field with animated position
+                        if (inputFieldVisible || transition.currentState) {
                             Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .wrapContentHeight()
-                                    //.fillMaxHeight(0.2f)
-                                    .padding(horizontal = 0.dp),
+                                    .offset(y = inputFieldOffset)
+                                    .wrapContentHeight(),
                                 elevation = CardDefaults.cardElevation(8.dp),
-                                shape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp)
+                                shape = RoundedCornerShape(bottomStart = 15.dp, bottomEnd = 15.dp)
                             ) {
                                 Column(
                                     modifier = Modifier
@@ -205,8 +213,7 @@ fun ToDoGroupPage(
                                 ) {
                                     Row(
                                         modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(vertical = 8.dp),
+                                            .fillMaxWidth(),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
                                         OutlinedTextField(
@@ -240,9 +247,9 @@ fun ToDoGroupPage(
                                                         createdAt = Date()
                                                     )
                                                     inputText = ""
-                                                    // This hides the input field after the user has added a group
-                                                    //inputFieldVisible = false
-                                                    //isAddMode = false
+                                                    // Optionally hide the input field after adding
+                                                    // inputFieldVisible = false
+                                                    // isAddMode = false
                                                 },
                                                 enabled = inputText.trim().isNotEmpty()
                                             ) {
@@ -253,6 +260,17 @@ fun ToDoGroupPage(
                                 }
                             }
                         }
+
+                        // The list below the input field
+                        ToDoGroupList(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(top = listPaddingTop),
+                            toDoGroupViewModel = toDoGroupViewModel,
+                            onGroupClick = { groupId, groupName ->
+                                onNavigateToToDoPage(groupId, groupName)
+                            }
+                        )
                     }
                 } else {
                     Box(
