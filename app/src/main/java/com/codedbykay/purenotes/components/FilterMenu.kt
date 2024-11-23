@@ -17,7 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.models.CreatedDateFilter
-import com.codedbykay.purenotes.models.DoneStatusFilter
+import com.codedbykay.purenotes.models.DoneStatus
 import com.codedbykay.purenotes.models.NotificationTimeFilter
 import com.codedbykay.purenotes.models.ToDoFilter
 import com.codedbykay.purenotes.viewModels.ToDoViewModel
@@ -51,10 +51,10 @@ fun FilterMenu(toDoViewModel: ToDoViewModel) {
         DropdownMenuItem(
             text = { Text(stringResource(id = R.string.filter_status_all_done)) },
             onClick = {
-                toDoViewModel.setFilter(currentFilter.copy(doneStatus = DoneStatusFilter.ALL))
+                toDoViewModel.setFilter(currentFilter.copy(doneStatus = DoneStatus.ALL))
             },
             trailingIcon = {
-                if (currentFilter.doneStatus == DoneStatusFilter.ALL) {
+                if (currentFilter.doneStatus == DoneStatus.ALL) {
                     Icon(
                         imageVector = Icons.Default.Check,
                         contentDescription = stringResource(id = R.string.filter_and_sort_selected),
@@ -66,10 +66,10 @@ fun FilterMenu(toDoViewModel: ToDoViewModel) {
         DropdownMenuItem(
             text = { Text(stringResource(id = R.string.filter_status_done)) },
             onClick = {
-                toDoViewModel.setFilter(currentFilter.copy(doneStatus = DoneStatusFilter.DONE))
+                toDoViewModel.setFilter(currentFilter.copy(doneStatus = DoneStatus.DONE))
             },
             trailingIcon = {
-                if (currentFilter.doneStatus == DoneStatusFilter.DONE) {
+                if (currentFilter.doneStatus == DoneStatus.DONE) {
                     Icon(
                         imageVector = Icons.Default.Check,
                         contentDescription = stringResource(id = R.string.filter_and_sort_selected),
@@ -81,10 +81,10 @@ fun FilterMenu(toDoViewModel: ToDoViewModel) {
         DropdownMenuItem(
             text = { Text(stringResource(id = R.string.filter_status_not_done)) },
             onClick = {
-                toDoViewModel.setFilter(currentFilter.copy(doneStatus = DoneStatusFilter.NOT_DONE))
+                toDoViewModel.setFilter(currentFilter.copy(doneStatus = DoneStatus.NOT_DONE))
             },
             trailingIcon = {
-                if (currentFilter.doneStatus == DoneStatusFilter.NOT_DONE) {
+                if (currentFilter.doneStatus == DoneStatus.NOT_DONE) {
                     Icon(
                         imageVector = Icons.Default.Check,
                         contentDescription = stringResource(id = R.string.filter_and_sort_selected),

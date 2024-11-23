@@ -54,4 +54,12 @@
     <string name="add_group_placeholder">Lägg till grupp</string>
     <string name="search_placeholder">Skriv för att söka</string>
     <string name="close">Stäng</string>
+    <string name="notification_mark_as_done">Markera som klar</string>
+    <string name="notification_note_is_marked_as_done">Anteckningen är markerad som klar</string>
+    <string name="notification_has_been_completed">har slutförts</string>
+    <string name="notification_boom">Bazinga! Få det gjort!</string>
+    <string name="notification_fallback_description">Det är dags</string>
+    <string name="notification_fallback_title">Påminelse</string>
+    <string name="receiver_fallback_title">Det är klart!</string>
+    <string name="receiver_fallback_group_name">Ursprungsgruppen</string>
 </resources>

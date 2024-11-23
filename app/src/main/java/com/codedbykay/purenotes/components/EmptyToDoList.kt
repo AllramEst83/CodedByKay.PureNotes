@@ -30,6 +30,7 @@ import com.codedbykay.purenotes.R
 
 @Composable
 fun EmptyToDoList(
+    modifier: Modifier = Modifier,
     message: String
 ) {
 
@@ -63,7 +64,7 @@ fun EmptyToDoList(
 
     // Main content
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(animatedGradient)
             .padding(16.dp),

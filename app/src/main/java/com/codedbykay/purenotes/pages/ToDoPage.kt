@@ -1,12 +1,16 @@
 package com.codedbykay.purenotes.pages
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.codedbykay.purenotes.R
+import com.codedbykay.purenotes.components.AddGroupButton
 import com.codedbykay.purenotes.components.FilterMenu
 import com.codedbykay.purenotes.components.RoundedCircularProgressIndicator
 import com.codedbykay.purenotes.components.SearchMenu
@@ -35,9 +40,33 @@ fun ToDoPage(
 ) {
     val toDoList by toDoViewModel.toDoList.observeAsState(emptyList())
     var inputText by remember { mutableStateOf("") }
+    var inputFieldVisible by remember { mutableStateOf(false) }
+    var isAddMode by remember { mutableStateOf(false) }
     var isSearchMode by remember { mutableStateOf(false) }
     var backButtonEnabled by remember { mutableStateOf(true) }
     var isInitialized by remember { mutableStateOf(false) }
+
+    // Initialize expectedInputFieldHeight with an estimated value
+    val expectedInputFieldHeight = 100.dp // Adjust this value based on your UI
+
+    // Create a Transition for the input field visibility
+    val transition =
+        updateTransition(targetState = inputFieldVisible, label = "InputFieldTransition")
+
+    // Animate the input field's offset and the list's padding
+    val inputFieldOffset by transition.animateDp(
+        transitionSpec = { tween(durationMillis = 300) },
+        label = "InputFieldOffset"
+    ) { visible ->
+        if (visible) 0.dp else -expectedInputFieldHeight
+    }
+
+    val listPaddingTop by transition.animateDp(
+        transitionSpec = { tween(durationMillis = 300) },
+        label = "ListPaddingTop"
+    ) { visible ->
+        if (visible) expectedInputFieldHeight else 0.dp
+    }
 
     // BackHandler to manage system back presses
     BackHandler(enabled = backButtonEnabled) {
@@ -84,87 +113,139 @@ fun ToDoPage(
                     SortMenu(toDoViewModel = toDoViewModel)
                     FilterMenu(toDoViewModel = toDoViewModel)
                     SearchMenu(
-                        isSearchMode = !isSearchMode,
+                        isSearchMode = true,
                         onClick = {
-                            isSearchMode = !isSearchMode
-                            inputText = ""
-                            if (!isSearchMode) {
+
+                            if (!inputFieldVisible && !isSearchMode && !isAddMode) {
+                                // Case 1: Show Search Mode
+                                inputText = ""
+                                toDoViewModel.setSearchQuery(null)
+                                isSearchMode = true
+                                inputFieldVisible = true
+                            } else if (inputFieldVisible && isSearchMode) {
+                                // Case 2: Close Search Mode
+                                inputFieldVisible = false
+                                isSearchMode = false
+                                inputText = ""
+                                toDoViewModel.setSearchQuery(null)
+                            } else if (inputFieldVisible && !isSearchMode && isAddMode) {
+                                // Case 3: Switch from Add Mode to Search Mode
+                                isAddMode = false
+                                isSearchMode = true
+                                inputText = ""
                                 toDoViewModel.setSearchQuery(null)
                             }
                         },
-                        isActive = true
+                        isActive = !isSearchMode
+                    )
+                    AddGroupButton(
+                        onClick = {
+                            if (!inputFieldVisible && !isAddMode && !isSearchMode) {
+                                // Case 1: Show Add Mode
+                                isAddMode = true
+                                isSearchMode = false
+                                inputText = ""
+                                inputFieldVisible = true
+                            } else if (inputFieldVisible && isAddMode) {
+                                // Case 2: Close Add Mode
+                                inputFieldVisible = false
+                                inputText = ""
+                                toDoViewModel.setSearchQuery(null)
+                                isAddMode = false
+                            } else if (inputFieldVisible && !isAddMode && isSearchMode) {
+                                // Case 3: Switch from Search Mode to Add Mode
+                                isSearchMode = false
+                                isAddMode = true
+                                inputText = ""
+                                toDoViewModel.setSearchQuery(null)
+                            }
+                        },
+                        isActive = !isAddMode
                     )
                 }
             )
         }
     ) { paddingValues ->
         if (isInitialized) {
-            Column(
+
+            // Display the list of ToDos
+            Box(
                 modifier = Modifier
+                    .fillMaxSize()
                     .padding(paddingValues)
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.SpaceBetween
             ) {
-                // Display the list of ToDos
-                Box(
-                    modifier = Modifier
-                        .weight(1f, fill = true)
-                        .fillMaxWidth()
-                ) {
-                    ToDoListContainer(
-                        toDoViewModel = toDoViewModel,
-                        groupId,
-                        toDoList = toDoList,
-                        isSearchMode
-                    )
-                }
 
-                // Bottom Input Field and Button
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(5.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-
-                    ) {
-                    OutlinedTextField(
+                if (inputFieldVisible || transition.currentState) {
+                    Card(
                         modifier = Modifier
-                            .weight(1f)
-                            .padding(4.dp),
-                        value = inputText,
-                        onValueChange = { newText ->
-                            inputText = newText
-
-                            if (isSearchMode) {
-                                toDoViewModel.setSearchQuery(newText.trim())
-                            }
-                        },
-                        label = {
-                            Text(
-                                if (isSearchMode)
-                                    stringResource(id = R.string.search_note_input)
-                                else
-                                    stringResource(id = R.string.add_note_input)
-                            )
-                        },
-                        shape = RoundedCornerShape(15.dp),
-                    )
-                    if (!isSearchMode) {
-                        Button(
-                            onClick = {
-                                toDoViewModel.addToDo(inputText.trim(), groupId = groupId)
-                                inputText = ""
-                                toDoViewModel.setSearchQuery("")
-                            },
+                            .fillMaxWidth()
+                            .offset(y = inputFieldOffset)
+                            .wrapContentHeight(),
+                        elevation = CardDefaults.cardElevation(8.dp),
+                        shape = RoundedCornerShape(bottomStart = 15.dp, bottomEnd = 15.dp)
+                    ) {
+                        Column(
                             modifier = Modifier
-                                .padding(start = 2.dp, end = 2.dp, top = 9.dp, bottom = 2.dp),
-                            enabled = inputText.trim().isNotEmpty()
+                                .padding(16.dp)
+                                .fillMaxWidth()
                         ) {
-                            Text(stringResource(id = R.string.add_button))
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                OutlinedTextField(
+                                    value = inputText,
+                                    onValueChange = {
+                                        inputText = it
+                                        if (!isAddMode) {
+                                            toDoViewModel.setSearchQuery(inputText.trim())
+                                        }
+                                    },
+                                    label = {
+                                        Text(
+                                            if (isAddMode) stringResource(id = R.string.add_group_placeholder)
+                                            else stringResource(id = R.string.search_placeholder)
+                                        )
+                                    },
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(end = 8.dp),
+                                    shape = RoundedCornerShape(15.dp)
+                                )
+                                if (isAddMode) {
+                                    Button(
+                                        modifier = Modifier
+                                            .padding(top = 10.dp),
+                                        onClick = {
+                                            toDoViewModel.addToDo(
+                                                inputText.trim(),
+                                                groupId = groupId
+                                            )
+                                            inputText = ""
+                                            // Optionally hide the input field after adding
+                                            // inputFieldVisible = false
+                                            // isAddMode = false
+                                        },
+                                        enabled = inputText.trim().isNotEmpty()
+                                    ) {
+                                        Text(stringResource(id = R.string.add_button))
+                                    }
+                                }
+                            }
                         }
                     }
                 }
+
+                ToDoListContainer(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = listPaddingTop),
+                    toDoViewModel = toDoViewModel,
+                    groupId,
+                    toDoList = toDoList,
+                    isSearchMode
+                )
             }
         } else {
             Box(

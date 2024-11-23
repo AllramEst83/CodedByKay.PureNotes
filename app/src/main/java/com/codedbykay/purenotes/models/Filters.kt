@@ -1,6 +1,9 @@
 package com.codedbykay.purenotes.models
 
-enum class DoneStatusFilter {
+/**
+ * Represents the completion status of a to-do item.
+ */
+enum class DoneStatus {
     ALL,
     DONE,
     NOT_DONE
@@ -25,7 +28,7 @@ data class ToDoGroupFilter(
 )
 
 data class ToDoFilter(
-    val doneStatus: DoneStatusFilter = DoneStatusFilter.ALL,
+    val doneStatus: DoneStatus = DoneStatus.ALL,
     val createdDateFilter: CreatedDateFilter = CreatedDateFilter.ALL,
     val notificationDateFilter: NotificationTimeFilter = NotificationTimeFilter.ALL
 )

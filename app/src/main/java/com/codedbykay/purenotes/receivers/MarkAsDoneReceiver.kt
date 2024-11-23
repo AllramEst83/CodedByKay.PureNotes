@@ -17,13 +17,16 @@ import kotlinx.coroutines.launch
 class MarkAsDoneReceiver : BroadcastReceiver() {
 
     private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
+    private val intentActionName = "com.codedbykay.purenotes.ACTION_MARK_AS_DONE"
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action == "com.codedbykay.purenotes.ACTION_MARK_AS_DONE") {
+        if (intent.action == intentActionName) {
             val todoId = intent.getIntExtra("todo_id", -1)
-            val title = intent.getStringExtra("notification_title") ?: "It's done!"
+            val title = intent.getStringExtra("notification_title")
+                ?: context.getString(R.string.receiver_fallback_title)
             val groupId = intent.getIntExtra("group_id", -1)
-            val groupName = intent.getStringExtra("group_title") ?: "Group name"
+            val groupName = intent.getStringExtra("group_title")
+                ?: context.getString(R.string.receiver_fallback_group_name)
             if (todoId != -1) {
 
                 // Update the note's status in the database
@@ -37,7 +40,7 @@ class MarkAsDoneReceiver : BroadcastReceiver() {
                         ) as NotificationManager
 
                     val formattedTitle: Spanned = Html.fromHtml(
-                        "<b>$title</b> has been Completed",
+                        "<b>$title</b> ${context.getString(R.string.notification_has_been_completed)}",
                         Html.FROM_HTML_MODE_LEGACY
                     )
 
@@ -52,7 +55,7 @@ class MarkAsDoneReceiver : BroadcastReceiver() {
                     val updatedNotification = NotificationCompat.Builder(context, "todo_channel")
                         .setSmallIcon(R.drawable.ic_note_notifications)
                         .setContentTitle(formattedTitle)
-                        .setContentText("The note has been marked as done.")
+                        .setContentText(context.getString(R.string.notification_note_is_marked_as_done))
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setAutoCancel(true)
                         .setContentIntent(pendingIntent)

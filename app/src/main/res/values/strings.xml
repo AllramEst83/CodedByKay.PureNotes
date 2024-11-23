@@ -55,4 +55,12 @@
     <string name="add_group_placeholder">Add group</string>
     <string name="search_placeholder">Type to search</string>
     <string name="close">Close</string>
+    <string name="notification_mark_as_done">Mark as Done</string>
+    <string name="notification_note_is_marked_as_done">The note has been marked as done.</string>
+    <string name="notification_has_been_completed">has been completed</string>
+    <string name="notification_boom">Bazinga! Make it happen!</string>
+    <string name="notification_fallback_description">It´s time</string>
+    <string name="notification_fallback_title">Reminder</string>
+    <string name="receiver_fallback_title">It´s done!</string>
+    <string name="receiver_fallback_group_name">Default group</string>
 </resources>

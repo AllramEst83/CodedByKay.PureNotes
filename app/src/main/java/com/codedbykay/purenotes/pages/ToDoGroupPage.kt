@@ -19,10 +19,8 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -72,11 +70,6 @@ fun ToDoGroupPage(
         var inputText by remember { mutableStateOf("") }
         var isInitialized by remember { mutableStateOf(false) }
 
-        LaunchedEffect(Unit) {
-            delay(400)
-            isInitialized = true
-        }
-
         // Initialize expectedInputFieldHeight with an estimated value
         val expectedInputFieldHeight = 100.dp // Adjust this value based on your UI
 
@@ -97,6 +90,11 @@ fun ToDoGroupPage(
             label = "ListPaddingTop"
         ) { visible ->
             if (visible) expectedInputFieldHeight else 0.dp
+        }
+
+        LaunchedEffect(Unit) {
+            delay(400)
+            isInitialized = true
         }
 
         ModalNavigationDrawer(
@@ -233,9 +231,7 @@ fun ToDoGroupPage(
                                             modifier = Modifier
                                                 .weight(1f)
                                                 .padding(end = 8.dp),
-                                            shape = RoundedCornerShape(15.dp),
-                                            colors = OutlinedTextFieldDefaults.colors(),
-                                            textStyle = MaterialTheme.typography.bodyLarge
+                                            shape = RoundedCornerShape(15.dp)
                                         )
                                         if (isAddMode) {
                                             Button(

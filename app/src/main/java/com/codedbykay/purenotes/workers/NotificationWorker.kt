@@ -23,8 +23,10 @@ class NotificationWorker(
     private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
 
     override fun doWork(): Result {
-        val title = inputData.getString("notification_title") ?: "Reminder"
-        val description = inputData.getString("notification_description") ?: "It's time!"
+        val title = inputData.getString("notification_title")
+            ?: applicationContext.getString(R.string.notification_fallback_title)
+        val description = inputData.getString("notification_description")
+            ?: applicationContext.getString(R.string.notification_fallback_description)
         val todoId = inputData.getInt("todo_id", -1)
         val groupId = inputData.getInt("group_id", -1)
         val groupName = toDoDao.getGroupNameById(groupId)
@@ -58,7 +60,11 @@ class NotificationWorker(
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
-            .addAction(R.drawable.ic_note_notifications, "Mark as Done", markAsDoneIntent)
+            .addAction(
+                R.drawable.ic_note_notifications,
+                applicationContext.getString(R.string.notification_mark_as_done),
+                markAsDoneIntent
+            )
             .build()
 
         // Use `todoId` as notification ID for easy reference

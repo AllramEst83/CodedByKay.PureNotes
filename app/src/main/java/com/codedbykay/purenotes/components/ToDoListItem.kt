@@ -41,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
@@ -58,7 +59,7 @@ import java.util.TimeZone
 
 @Composable
 fun ToDoListItem(
-    toDoItem: ToDo,
+    toDoItem: ToDo?,
     toDoViewModel: ToDoViewModel,
     onDelete: () -> Unit,
     onUpdate: (ToDo) -> Unit,
@@ -71,13 +72,22 @@ fun ToDoListItem(
             SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH).format(nonNullItem.createdAt)
         var isEditing by remember { mutableStateOf(false) }
         var title by remember(nonNullItem.id) { mutableStateOf(nonNullItem.title) }
-        var content by remember(nonNullItem.id) { mutableStateOf(nonNullItem.content ?: "") }
         var isChecked by remember(nonNullItem.id) { mutableStateOf(nonNullItem.done) }
         var expanded by remember { mutableStateOf(false) }
         var showTimePicker by remember { mutableStateOf(false) }
         val context = LocalContext.current
         val activity = LocalContext.current as? Activity
         var showSettingsDialog by remember { mutableStateOf(false) }
+
+        var content by remember(nonNullItem.id) {
+            mutableStateOf(nonNullItem.content ?: "")
+        }
+
+        val displayContent = if (content.isEmpty()) {
+            stringResource(R.string.notification_boom)
+        } else {
+            content
+        }
 
         val rotation by animateFloatAsState(
             targetValue = if (expanded) 0f else 180f,
@@ -226,7 +236,7 @@ fun ToDoListItem(
                                                 )
                                                     .format(
                                                         Date(
-                                                            nonNullItem.notificationTime ?: 0L
+                                                            nonNullItem.notificationTime
                                                         )
                                                     ),
                                                 style = MaterialTheme.typography.bodyMedium,
@@ -291,7 +301,7 @@ fun ToDoListItem(
                                                 notificationTime = setNotificationTime,
                                                 id = nonNullItem.id,
                                                 title = nonNullItem.title,
-                                                content = nonNullItem.content,
+                                                content = displayContent,
                                                 groupId = nonNullItem.groupId
                                             )
                                         }

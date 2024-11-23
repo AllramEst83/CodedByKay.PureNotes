@@ -10,6 +10,7 @@ import kotlinx.coroutines.withContext
 import java.time.Instant
 import java.util.Date
 
+//To populate dummy data for manual testing
 class DataPopulationService(
     private val todoGroupDao: ToDoGroupDao,
     private val toDoDao: ToDoDao,

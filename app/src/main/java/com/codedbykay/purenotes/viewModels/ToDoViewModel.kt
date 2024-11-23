@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.db.todo.ToDo
 import com.codedbykay.purenotes.models.CreatedDateFilter
-import com.codedbykay.purenotes.models.DoneStatusFilter
+import com.codedbykay.purenotes.models.DoneStatus
 import com.codedbykay.purenotes.models.NotificationTimeFilter
 import com.codedbykay.purenotes.models.Quadruple
 import com.codedbykay.purenotes.models.SortOrder
@@ -26,6 +26,10 @@ class ToDoViewModel(
 ) : ViewModel() {
 
     private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
+
+    // LiveData for loading state
+    private val _isLoading = MutableLiveData(true)
+    val isLoading: LiveData<Boolean> = _isLoading
 
     // LiveData for search query
     private val _searchQuery = MutableLiveData<String?>()
@@ -67,9 +71,9 @@ class ToDoViewModel(
         combinedSearchFilterSort.switchMap { (groupId, sortOrder, filter, query) ->
             toDoDao.getFilteredToDo(
                 doneStatus = when (filter.doneStatus) {
-                    DoneStatusFilter.ALL -> "ALL"
-                    DoneStatusFilter.DONE -> "DONE"
-                    DoneStatusFilter.NOT_DONE -> "NOT_DONE"
+                    DoneStatus.ALL -> "ALL"
+                    DoneStatus.DONE -> "DONE"
+                    DoneStatus.NOT_DONE -> "NOT_DONE"
                 },
                 createdDateFilter = when (filter.createdDateFilter) {
                     CreatedDateFilter.ALL -> "ALL"
@@ -196,7 +200,7 @@ class ToDoViewModel(
         notificationTime: Long?,
         id: Int,
         title: String,
-        content: String?,
+        content: String,
         groupId: Int
     ) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -205,7 +209,7 @@ class ToDoViewModel(
                 id = id,
                 title = title,
                 groupId = groupId,
-                description = if (content.isNullOrEmpty()) "Boom! Just do it!" else content,
+                description = content,
                 time = notificationTime ?: System.currentTimeMillis()
             )
         }
