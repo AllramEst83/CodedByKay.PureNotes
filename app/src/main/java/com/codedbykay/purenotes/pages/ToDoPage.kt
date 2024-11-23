@@ -166,15 +166,16 @@ fun ToDoPage(
             )
         }
     ) { paddingValues ->
+
         if (isInitialized) {
 
-            // Display the list of ToDos
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
             ) {
 
+                // Input field animated in from the top
                 if (inputFieldVisible || transition.currentState) {
                     Card(
                         modifier = Modifier
@@ -236,24 +237,26 @@ fun ToDoPage(
                         }
                     }
                 }
-
+                // Display the list of ToDos
                 ToDoListContainer(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = listPaddingTop),
                     toDoViewModel = toDoViewModel,
-                    groupId,
-                    toDoList = toDoList,
-                    isSearchMode
+                    groupId = groupId,
+                    toDoList = toDoList
                 )
             }
+
         } else {
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
                 contentAlignment = Alignment.Center
             ) {
+                //Spinner
                 RoundedCircularProgressIndicator()
             }
         }

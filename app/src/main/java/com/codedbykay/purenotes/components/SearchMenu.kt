@@ -3,7 +3,7 @@ package com.codedbykay.purenotes.components
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.RemoveCircleOutline
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,7 +26,7 @@ fun SearchMenu(
         if (!isActive) {
             Icon(
                 modifier = Modifier.size(35.dp),
-                imageVector = Icons.Default.Close,
+                imageVector = Icons.Default.RemoveCircleOutline,
                 contentDescription = "Close",
                 tint = MaterialTheme.colorScheme.secondary
             )

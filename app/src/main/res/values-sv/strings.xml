@@ -49,8 +49,7 @@
     <string name="search_button">Sök</string>
     <string name="search_note_input">Sök anteckningar</string>
     <string name="press_back_again_to_exit">Tryck tillbaka igen för att avsluta.</string>
-    <string name="empty_list_message">Din antecknings-lista är tom. Lägg till några uppgifter för att komma igång!</string>
-    <string name="empty_search_result">Hoppsan! Inga uppgifter hittades. Testa att söka med lite extra kreativitet!</string>
+    <string name="empty_list_message">Det är lite tomt här. Lägg till några uppgifter eller justera din sökning för att tända din produktivitetsgnista!</string>
     <string name="add_group_placeholder">Lägg till grupp</string>
     <string name="search_placeholder">Skriv för att söka</string>
     <string name="close">Stäng</string>

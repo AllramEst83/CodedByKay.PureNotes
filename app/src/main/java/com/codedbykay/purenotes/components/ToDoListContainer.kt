@@ -31,8 +31,7 @@ fun ToDoListContainer(
     modifier: Modifier = Modifier,
     toDoViewModel: ToDoViewModel,
     groupId: Int,
-    toDoList: List<ToDo>,
-    isSearchMode: Boolean = false
+    toDoList: List<ToDo>
 ) {
     val showDeleteDialog = remember { mutableStateOf(false) }
 
@@ -144,19 +143,10 @@ fun ToDoListContainer(
             }
         }
     } else {
-        if (isSearchMode) {
-            // Show message for no search results
-            EmptyToDoList(
-                modifier = modifier,
-                message = stringResource(id = R.string.empty_search_result)
-            )
-        } else {
-            // Show message for empty list
-            EmptyToDoList(
-                modifier = modifier,
-                message = stringResource(id = R.string.empty_list_message)
-            )
-        }
+        EmptyToDoList(
+            modifier = modifier,
+            message = stringResource(id = R.string.empty_list_message)
+        )
     }
 
     // Delete confirmation dialog

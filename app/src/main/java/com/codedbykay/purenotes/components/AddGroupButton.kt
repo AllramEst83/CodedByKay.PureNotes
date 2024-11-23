@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.RemoveCircleOutline
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -24,7 +24,7 @@ fun AddGroupButton(
         if (!isActive) {
             Icon(
                 modifier = Modifier.size(35.dp),
-                imageVector = Icons.Default.Close,
+                imageVector = Icons.Default.RemoveCircleOutline,
                 contentDescription = "Close",
                 tint = MaterialTheme.colorScheme.secondary
             )

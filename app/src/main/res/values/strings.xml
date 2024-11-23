@@ -50,8 +50,7 @@
     <string name="search_note_input">Search Notes</string>
     <string name="press_back_again_to_exit">Press back again to exit</string>
     <string name="app_package" translatable="false">com.codedbykay.purenotes</string>
-    <string name="empty_list_message">Your notes list is feeling lonely. Add some tasks to spark the productivity magic!</string>
-    <string name="empty_search_result">Oops! No tasks found. Maybe try searching with a pinch of creativity?</string>
+    <string name="empty_list_message">It’s a bit quiet here. Add some tasks or adjust your search to light up your productivity spark!</string>
     <string name="add_group_placeholder">Add group</string>
     <string name="search_placeholder">Type to search</string>
     <string name="close">Close</string>
