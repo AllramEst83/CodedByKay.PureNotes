@@ -27,10 +27,6 @@ class ToDoViewModel(
 
     private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
 
-    // LiveData for loading state
-    private val _isLoading = MutableLiveData(true)
-    val isLoading: LiveData<Boolean> = _isLoading
-
     // LiveData for search query
     private val _searchQuery = MutableLiveData<String?>()
     val searchQuery: LiveData<String?> = _searchQuery
