@@ -61,4 +61,8 @@
     <string name="notification_fallback_title">Påminelse</string>
     <string name="receiver_fallback_title">Det är klart!</string>
     <string name="receiver_fallback_group_name">Ursprungsgruppen</string>
+    <string name="widget_please_wait_initializing">Vänligen vänta... Initierar.</string>
+    <string name="widget_no_apps_found">Inga grupper hittades. Lägg till några i Pure Notes-appen.</string>
+    <string name="widget_empty_list_message">Inga anteckningar hittades. \\nKanske lägga till en anteckning i appen?</string>
+    <string name="app_description">Nå dina anteckningar på hemskärmen</string>
 </resources>

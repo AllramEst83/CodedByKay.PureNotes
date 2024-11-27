@@ -64,6 +64,12 @@ interface ToDoDao {
 
 
     // CRUD Operations
+    @Query("SELECT * FROM ToDo WHERE groupId = :groupId")
+    fun getToDoByGroupId(groupId: Int): List<ToDo>
+
+    @Query("SELECT * FROM ToDo WHERE groupId = :groupId AND done = 0 ORDER BY createdAt DESC")
+    fun getToDosByGroupIdForWidget(groupId: Int): List<ToDo>
+
     // Get all todos
     @Query("SELECT * FROM ToDo")
     fun getAllToDos(): List<ToDo>

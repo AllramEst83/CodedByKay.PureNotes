@@ -62,4 +62,10 @@
     <string name="notification_fallback_title">Reminder</string>
     <string name="receiver_fallback_title">It´s done!</string>
     <string name="receiver_fallback_group_name">Default group</string>
+    <string name="widget_please_wait_initializing">Please wait... initializing.</string>
+    <string name="widget_no_apps_found">No groups found. Add some in the Pure notes app.</string>
+    <string name="widget_empty_list_message">No notes items found. \\nPerhaps add a note it the app?</string>
+    <string name="pure_text" translatable="false">Pure</string>
+    <string name="note_text" translatable="false">notes</string>
+    <string name="app_description">Reach your notes on the home screen.</string>
 </resources>

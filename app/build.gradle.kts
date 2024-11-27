@@ -130,5 +130,14 @@ dependencies {
     implementation("io.grpc:grpc-stub:1.68.1") // Stub-based gRPC API
     implementation("com.google.auth:google-auth-library-oauth2-http:1.17.0") // Authentication
 
+    // For AppWidgets support
+    implementation("androidx.glance:glance-appwidget:1.1.1")
 
+    // For interop APIs with Material 3
+    implementation("androidx.glance:glance-material3:1.1.1")
+
+    // For interop APIs with Material 2
+    implementation("androidx.glance:glance-material:1.1.1")
+
+    implementation("com.google.code.gson:gson:2.8.8")
 }

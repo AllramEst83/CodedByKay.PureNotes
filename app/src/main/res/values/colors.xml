@@ -11,4 +11,8 @@
 
     <!-- Add the light theme background color -->
     <color name="background_color">#FFF8F6</color>
+
+    <color name="background_transparent">#CCFFFFFF</color>
+    <color name="text_color">#FF000000</color>
+    <color name="pink_purple_color">#9C27B0</color>
 </resources>

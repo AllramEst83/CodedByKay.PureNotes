@@ -47,6 +47,9 @@ interface ToDoGroupDao {
     @Query("SELECT * FROM ToDoGroup ORDER BY createdAt DESC")
     fun getAllGroups(): LiveData<List<ToDoGroup>>
 
+    @Query("SELECT * FROM ToDoGroup ORDER BY createdAt DESC")
+    fun getAllGroupsForWorker(): List<ToDoGroup>
+
     // Get a specific group by ID
     @Query("SELECT * FROM ToDoGroup WHERE id = :groupId")
     suspend fun getGroupById(groupId: Int): ToDoGroup?

@@ -60,7 +60,7 @@ fun ToDoAppTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = AppTypography,
         shapes = Shapes,
         content = content
     )

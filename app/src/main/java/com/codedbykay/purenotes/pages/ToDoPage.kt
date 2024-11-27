@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.components.AddGroupButton
@@ -46,26 +47,39 @@ fun ToDoPage(
     var backButtonEnabled by remember { mutableStateOf(true) }
     var isInitialized by remember { mutableStateOf(false) }
 
-    // Initialize expectedInputFieldHeight with an estimated value
-    val expectedInputFieldHeight = 100.dp // Adjust this value based on your UI
+    val baseInputFieldHeight = 100.dp // Base height for the input field
+    val additionalLineHeight = 24.dp // Estimated height of an additional line
 
-    // Create a Transition for the input field visibility
+    // Calculate the dynamic height based on inputText
+    val calculatedInputFieldHeight by remember(inputText) {
+        // Calculate the number of additional lines
+        val additionalLines = (inputText.split("\n").size - 1).coerceAtLeast(0)
+
+        // Convert Int to Float for multiplication
+        val multiplier = additionalLines.toFloat()
+
+        // Perform the multiplication with Dp on the left
+        val additionalHeight = additionalLineHeight * multiplier
+
+        // Sum the base height with the additional height
+        mutableStateOf(baseInputFieldHeight + additionalHeight)
+    }
+
     val transition =
         updateTransition(targetState = inputFieldVisible, label = "InputFieldTransition")
 
-    // Animate the input field's offset and the list's padding
     val inputFieldOffset by transition.animateDp(
         transitionSpec = { tween(durationMillis = 300) },
         label = "InputFieldOffset"
     ) { visible ->
-        if (visible) 0.dp else -expectedInputFieldHeight
+        if (visible) 0.dp else -calculatedInputFieldHeight
     }
 
     val listPaddingTop by transition.animateDp(
         transitionSpec = { tween(durationMillis = 300) },
         label = "ListPaddingTop"
     ) { visible ->
-        if (visible) expectedInputFieldHeight else 0.dp
+        if (visible) calculatedInputFieldHeight else 0.dp
     }
 
     // BackHandler to manage system back presses
@@ -181,7 +195,8 @@ fun ToDoPage(
                         modifier = Modifier
                             .fillMaxWidth()
                             .offset(y = inputFieldOffset)
-                            .wrapContentHeight(),
+                            .wrapContentHeight()
+                            .zIndex(1f),
                         elevation = CardDefaults.cardElevation(8.dp),
                         shape = RoundedCornerShape(bottomStart = 15.dp, bottomEnd = 15.dp)
                     ) {
@@ -212,7 +227,7 @@ fun ToDoPage(
                                     modifier = Modifier
                                         .weight(1f)
                                         .padding(end = 8.dp),
-                                    shape = RoundedCornerShape(15.dp)
+                                    shape = RoundedCornerShape(15.dp),
                                 )
                                 if (isAddMode) {
                                     Button(
@@ -241,6 +256,7 @@ fun ToDoPage(
                 ToDoListContainer(
                     modifier = Modifier
                         .fillMaxSize()
+                        .zIndex(0f)
                         .padding(top = listPaddingTop),
                     toDoViewModel = toDoViewModel,
                     groupId = groupId,
