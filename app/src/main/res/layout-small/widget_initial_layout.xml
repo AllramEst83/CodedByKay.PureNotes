@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout_small"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_transparent">
+
+    <!-- "Pure" TextView -->
+    <TextView
+        android:id="@+id/pure_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/pure_text"
+        android:textColor="@color/pink_purple_color"
+        android:textSize="@dimen/widget_text_size_small"
+        android:textStyle="bold"
+        android:fontFamily="@font/varela_round_regular" />
+
+    <!-- "note" TextView -->
+    <TextView
+        android:id="@+id/note_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="-20dp"
+        android:text="@string/note_text"
+        android:textColor="@color/pink_purple_color"
+        android:textSize="@dimen/widget_text_size_small"
+        android:textStyle="bold"
+        android:fontFamily="@font/varela_round_regular" />
+
+</RelativeLayout>

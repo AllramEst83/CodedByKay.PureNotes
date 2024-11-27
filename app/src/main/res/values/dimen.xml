@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Default -->
+    <dimen name="widget_text_size_default">40sp</dimen>
+
+    <!-- Large -->
+    <dimen name="widget_text_size_large">30sp</dimen>
+
+    <!-- Small -->
+    <dimen name="widget_text_size_small">15sp</dimen>
+
+</resources>
