@@ -25,7 +25,7 @@ android {
         if (projectId != null) {
             buildConfigField("String", "PROJECT_ID", "\"$projectId\"")
         } else {
-            throw GradleException("PROJECT_ID is missing. Add it to gradle.properties.")
+            throw GradleException("PROJECT_ID is missing. Set it as an environment variable.")
         }
     }
 
