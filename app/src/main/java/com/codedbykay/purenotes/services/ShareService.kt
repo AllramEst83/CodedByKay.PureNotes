@@ -1,12 +1,10 @@
 package com.codedbykay.purenotes.services
 
-import android.content.Context
 import com.codedbykay.purenotes.MainApplication
-import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.db.todo.GroupWithTodos
 import com.codedbykay.purenotes.utils.buildShareContent
 
-class ShareService(private val context: Context) {
+class ShareService {
 
     private val toDoGroupDao = MainApplication.toDoDatabase.getTodoGroupDao()
     private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
@@ -18,9 +16,7 @@ class ShareService(private val context: Context) {
             val groupWithTodos = GroupWithTodos(group, todos)
 
             buildShareContent(
-                groupWithTodos,
-                context.getString(R.string.share_group_title),
-                context.getString(R.string.share_note_title)
+                groupWithTodos
             )
         } else {
             null
