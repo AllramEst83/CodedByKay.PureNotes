@@ -7,6 +7,7 @@ plugins {
 }
 
 val projectId: String? = project.findProperty("PROJECT_ID") as String?
+    ?: System.getenv("PROJECT_ID") // Fallback to environment variable
 
 android {
     namespace = "com.codedbykay.purenotes" // Application namespace

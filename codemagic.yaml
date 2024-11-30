@@ -18,9 +18,9 @@ workflows:
       - name: Set Execute Permission for gradlew
         script: chmod +x ./gradlew
       - name: Run Unit Tests
-        script: ./gradlew test
+        script: PROJECT_ID=$PROJECT_ID ./gradlew test
       - name: Build Debug APK
-        script: ./gradlew assembleDebug
+        script: PROJECT_ID=$PROJECT_ID ./gradlew assembleDebug
     artifacts:
       - app/build/outputs/**/*.apk
     publishing:
