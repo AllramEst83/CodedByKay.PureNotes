@@ -23,6 +23,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -204,7 +206,7 @@ fun ToDoListItem(
                                     DisplayDate(
                                         modifier = Modifier
                                             .customCircleBackground(MaterialTheme.colorScheme.onSurface)
-                                            .padding(horizontal = 10.dp, vertical = 5.dp)
+                                            .padding(horizontal = 11.dp, vertical = 6.dp)
                                             .alpha(if (isChecked) 0.5f else 1f),
                                         formattedDate = formattedCreateDate,
                                         isChecked = isChecked
@@ -219,21 +221,20 @@ fun ToDoListItem(
                                             verticalAlignment = Alignment.CenterVertically,
                                             modifier = Modifier
                                                 .customCircleBackground(MaterialTheme.colorScheme.onSurface)
-                                                .padding(horizontal = 10.dp, vertical = 5.dp)
+                                                .padding(horizontal = 11.dp, vertical = 6.dp)
                                                 .alpha(if (isChecked) 0.5f else 1f)
                                         ) {
                                             Icon(
                                                 painter = painterResource(id = R.drawable.ic_note_notifications),
                                                 contentDescription = "Notification set.",
                                                 modifier = Modifier
-                                                    .size(18.dp)
+                                                    .size(16.dp)
                                                     .padding(end = 4.dp)
                                             )
                                             Text(
                                                 text = formattedNotificationDate ?: "N/A",
-                                                style = MaterialTheme.typography.bodyMedium,
                                                 color = MaterialTheme.colorScheme.onSurface,
-                                                fontSize = 12.sp
+                                                fontSize = 14.sp
                                             )
                                         }
                                     }
@@ -260,6 +261,17 @@ fun ToDoListItem(
                                 isChecked = isChecked
 
                             )
+
+                            if (!expanded && content.isNotEmpty()) {
+                                Icon(
+                                    imageVector = Icons.Default.MoreHoriz,
+                                    contentDescription = "More content available",
+                                    modifier = Modifier
+                                        .padding(start = 10.dp, top = 4.dp)
+                                        .size(16.dp),
+                                    tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+                                )
+                            }
 
                             if (expanded) {
 

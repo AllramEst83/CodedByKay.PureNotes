@@ -79,7 +79,7 @@ fun ToDoGroupItem(
                             DisplayDate(
                                 modifier = Modifier
                                     .customCircleBackground(MaterialTheme.colorScheme.onSurface)
-                                    .padding(horizontal = 10.dp, vertical = 5.dp)
+                                    .padding(horizontal = 11.dp, vertical = 6.dp)
                                     .alpha(if (isChecked) 0.5f else 1f),
                                 formattedDate = formattedDate,
                                 isChecked = isChecked

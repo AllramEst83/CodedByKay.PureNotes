@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.sp
 fun DisplayDate(
     modifier: Modifier = Modifier,
     formattedDate: String,
-    fontSize: TextUnit = 12.sp,
+    fontSize: TextUnit = 14.sp,
     isChecked: Boolean
 ) {
     Text(
