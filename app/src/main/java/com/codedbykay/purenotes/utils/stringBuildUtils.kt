@@ -1,8 +1,11 @@
 package com.codedbykay.purenotes.utils
 
-import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.db.todo.GroupWithTodos
 import com.codedbykay.purenotes.db.todo.ToDo
+
+private fun getStatus(done: Boolean): String {
+    return if (done) "✓" else "○"
+}
 
 fun buildShareContent(
     groupWithTodos: GroupWithTodos,
@@ -13,7 +16,7 @@ fun buildShareContent(
         appendLine("${shareTitle}: ${groupWithTodos.group.name}")
         appendLine("\n${shareNoteTitle}:")
         groupWithTodos.todos.forEach { todo ->
-            val status = if (todo.done) "✓" else "○"
+            val status = getStatus(todo.done)
             appendLine("$status ${todo.title}")
             // Add description if it's not empty
             if (!todo.content.isNullOrBlank()) {
@@ -21,16 +24,16 @@ fun buildShareContent(
             }
             appendLine("")
         }
-        appendLine("\n${R.string.share_shared_from}")
     }
 }
 
 fun buildNoteShareContent(todo: ToDo): String {
     return buildString {
-        val status = if (todo.done) "✓" else "○"
+        val status = getStatus(todo.done)
         appendLine("$status ${todo.title}")
         appendLine("")
         appendLine("   ${todo.content}")
+        appendLine("")
     }
 
 }
