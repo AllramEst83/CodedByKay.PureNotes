@@ -20,7 +20,7 @@ import java.util.Date
 
 
 class ToDoGroupViewModel(application: Application) : AndroidViewModel(application) {
-    private val shareService = ShareService(application)
+    private val shareService = ShareService()
 
     private val toDoGroupDao = MainApplication.toDoDatabase.getTodoGroupDao()
 
