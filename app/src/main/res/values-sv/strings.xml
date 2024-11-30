@@ -65,4 +65,7 @@
     <string name="widget_no_apps_found">Inga grupper hittades. Lägg till några i Pure Notes-appen.</string>
     <string name="widget_empty_list_message">Inga anteckningar hittades. \\nKanske lägga till en anteckning i appen?</string>
     <string name="app_description">Nå dina anteckningar på hemskärmen</string>
+    <string name="share_shared_from">Delad från Pure Notes</string>
+    <string name="share_group_title">Grupp</string>
+    <string name="share_note_title">Anteckningar</string>
 </resources>

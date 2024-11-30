@@ -37,7 +37,7 @@ class MarkToDoAsDone : ActionCallback {
         }
 
         toDoDao.updateToDoDone(todoId, true)
-        val todos = toDoDao.getToDosByGroupIdForWidget(groupId)
+        val todos = toDoDao.getToDosByGroupId(groupId)
 
         val gson = Gson()
         val groupListType = object : TypeToken<List<ToDo>>() {}.type

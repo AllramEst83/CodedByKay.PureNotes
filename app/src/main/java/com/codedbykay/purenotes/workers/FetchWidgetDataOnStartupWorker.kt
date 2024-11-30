@@ -37,7 +37,7 @@ class FetchWidgetDataOnStartupWorker(context: Context, params: WorkerParameters)
         }
 
         // Fetch todos for the first group
-        val todos: List<ToDo> = toDoDao.getToDosByGroupIdForWidget(firstGroupId)
+        val todos: List<ToDo> = toDoDao.getToDosByGroupId(firstGroupId)
         val todosJson = gson.toJson(todos)
 
         // Update widget state with groups and todos

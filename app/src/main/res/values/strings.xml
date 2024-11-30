@@ -68,4 +68,7 @@
     <string name="pure_text" translatable="false">Pure</string>
     <string name="note_text" translatable="false">notes</string>
     <string name="app_description">Reach your notes on the home screen.</string>
+    <string name="share_shared_from">Shared from Pure Notes</string>
+    <string name="share_group_title">Group</string>
+    <string name="share_note_title">Notes</string>
 </resources>

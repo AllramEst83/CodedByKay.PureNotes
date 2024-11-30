@@ -90,7 +90,7 @@ class RefreshNoteListsAction : ActionCallback {
         val gson = Gson()
         val groupJson = gson.toJson(groups)
 
-        val todos: List<ToDo> = toDoDao.getToDosByGroupIdForWidget(groupId)
+        val todos: List<ToDo> = toDoDao.getToDosByGroupId(groupId)
         val todosJson = gson.toJson(todos)
 
         updateAppWidgetState(

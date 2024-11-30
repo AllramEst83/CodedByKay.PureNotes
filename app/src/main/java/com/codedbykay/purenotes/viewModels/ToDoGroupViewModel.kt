@@ -1,9 +1,10 @@
 package com.codedbykay.purenotes.viewModels
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
@@ -12,13 +13,20 @@ import com.codedbykay.purenotes.db.todo.ToDoGroup
 import com.codedbykay.purenotes.models.CreatedDateFilter
 import com.codedbykay.purenotes.models.SortOrder
 import com.codedbykay.purenotes.models.ToDoGroupFilter
+import com.codedbykay.purenotes.services.ShareService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Date
 
 
-class ToDoGroupViewModel : ViewModel() {
+class ToDoGroupViewModel(application: Application) : AndroidViewModel(application) {
+    private val shareService = ShareService(application)
+
     private val toDoGroupDao = MainApplication.toDoDatabase.getTodoGroupDao()
+
+    // Share data
+    private val _shareContent = MutableLiveData<String?>()
+    val shareContent: LiveData<String?> get() = _shareContent
 
     // LiveData for search query
     private val _searchQuery = MutableLiveData<String?>()
@@ -106,6 +114,18 @@ class ToDoGroupViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             toDoGroupDao.updateGroup(id = id, name = name)
         }
-
     }
+
+    fun shareGroupAndToDos(groupId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val content = shareService.getShareContent(groupId)
+            _shareContent.postValue(content)
+        }
+    }
+
+    fun resetShareContent() {
+        _shareContent.postValue(null)
+    }
+
+
 }

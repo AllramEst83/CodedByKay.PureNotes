@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -28,6 +29,7 @@ fun GroupActionButtonsRow(
     isEditing: Boolean,
     onDeleteClick: () -> Unit,
     onEditClick: () -> Unit,
+    onShareClick: () -> Unit,
     rowModifier: Modifier = Modifier
 ) {
     // State to manage the visibility of the delete confirmation dialog
@@ -48,6 +50,20 @@ fun GroupActionButtonsRow(
             Icon(
                 imageVector = Icons.Default.Delete,
                 contentDescription = "Delete",
+                modifier = Modifier.size(22.dp)
+            )
+        }
+
+        // Share button
+        IconButton(
+            onClick = onShareClick,
+            modifier = Modifier
+                .customCircleBackground(MaterialTheme.colorScheme.onSurface)
+                .padding(2.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Share,
+                contentDescription = "Share icon",
                 modifier = Modifier.size(22.dp)
             )
         }

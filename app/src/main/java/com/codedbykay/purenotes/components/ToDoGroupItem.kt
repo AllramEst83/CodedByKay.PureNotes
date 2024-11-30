@@ -30,6 +30,7 @@ fun ToDoGroupItem(
     onClick: () -> Unit,
     onUpdate: (ToDoGroup) -> Unit,
     onDelete: () -> Unit,
+    onShare: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val formattedDate = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH).format(group.createdAt)
@@ -121,6 +122,7 @@ fun ToDoGroupItem(
                                         isEditing = true
                                     }
                                 },
+                                onShareClick = onShare,
                                 rowModifier = Modifier
                                     .fillMaxWidth()
                                     .padding(top = 8.dp)
