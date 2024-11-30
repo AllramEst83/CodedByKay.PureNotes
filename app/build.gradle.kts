@@ -6,9 +6,6 @@ plugins {
     id("com.google.devtools.ksp") version "2.0.21-1.0.25" // Kotlin Symbol Processing for Room
 }
 
-val projectId: String? = project.findProperty("PROJECT_ID") as String?
-    ?: System.getenv("PROJECT_ID") // Fallback to environment variable
-
 android {
     namespace = "com.codedbykay.purenotes" // Application namespace
     compileSdk = 34                      // Targeted Android SDK
@@ -22,12 +19,6 @@ android {
 
         testInstrumentationRunner =
             "androidx.test.runner.AndroidJUnitRunner" // Runner for instrumentation tests
-
-        if (projectId != null) {
-            buildConfigField("String", "PROJECT_ID", "\"$projectId\"")
-        } else {
-            throw GradleException("PROJECT_ID is missing. Set it as an environment variable.")
-        }
     }
 
     buildTypes {

@@ -1,8 +1,5 @@
 workflows:
   android-workflow:
-    environment:
-      groups:
-        - pure-notes
     name: A Pure Notes (Android Build Workflow)
     max_build_duration: 60
     instance_type: mac_mini_m2
@@ -18,9 +15,9 @@ workflows:
       - name: Set Execute Permission for gradlew
         script: chmod +x ./gradlew
       - name: Run Unit Tests
-        script: PROJECT_ID=$PROJECT_ID ./gradlew test
+        script: ./gradlew test
       - name: Build Debug APK
-        script: PROJECT_ID=$PROJECT_ID ./gradlew assembleDebug
+        script: ./gradlew assembleDebug
     artifacts:
       - app/build/outputs/**/*.apk
     publishing:
