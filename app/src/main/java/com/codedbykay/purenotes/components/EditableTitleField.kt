@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,9 +26,12 @@ fun EditableTitleField(
             value = title,
             onValueChange = onTitleChange,
             modifier = editModifier,
-            placeholder = { Text("Edit title") }
+            placeholder = { Text("Edit title") },
+            textStyle = TextStyle(
+                fontSize = 20.sp,
+                letterSpacing = 0.5.sp
+            )
         )
-        Spacer(modifier = Modifier.height(8.dp))
     } else {
         // Title text
         Text(
@@ -37,4 +41,5 @@ fun EditableTitleField(
             textDecoration = if (isChecked) TextDecoration.LineThrough else TextDecoration.None
         )
     }
+    Spacer(modifier = Modifier.height(8.dp))
 }

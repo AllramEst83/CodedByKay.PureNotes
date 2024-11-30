@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,7 +26,11 @@ fun EditableContentField(
             value = content,
             onValueChange = onContentChange,
             modifier = editModifier,
-            placeholder = { Text("Edit content") }
+            placeholder = { Text("Edit content") },
+            textStyle = TextStyle(
+                fontSize = 20.sp,
+                letterSpacing = 0.5.sp
+            )
         )
         Spacer(modifier = Modifier.height(8.dp))
     } else {
@@ -34,7 +39,7 @@ fun EditableContentField(
         Text(
             modifier = textModifier,
             text = content,
-            fontSize = 16.sp,
+            fontSize = 18.sp,
             textDecoration = if (isChecked) TextDecoration.LineThrough else TextDecoration.None
         )
         Spacer(modifier = Modifier.height(8.dp))

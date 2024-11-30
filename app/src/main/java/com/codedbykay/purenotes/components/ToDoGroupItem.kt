@@ -78,14 +78,14 @@ fun ToDoGroupItem(
                             DisplayDate(
                                 modifier = Modifier
                                     .customCircleBackground(MaterialTheme.colorScheme.onSurface)
-                                    .padding(horizontal = 8.dp, vertical = 1.dp)
+                                    .padding(horizontal = 10.dp, vertical = 5.dp)
                                     .alpha(if (isChecked) 0.5f else 1f),
                                 formattedDate = formattedDate,
                                 isChecked = isChecked
                             )
                         }
 
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(10.dp))
 
                         EditableTitleField(
                             editModifier = Modifier
@@ -106,7 +106,6 @@ fun ToDoGroupItem(
 
                         if (expanded) {
 
-                            Spacer(modifier = Modifier.height(8.dp))
                             // Button row
                             GroupActionButtonsRow(
                                 isEditing = isEditing,

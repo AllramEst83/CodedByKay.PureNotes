@@ -49,11 +49,10 @@ import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.db.todo.ToDo
 import com.codedbykay.purenotes.dialogs.ShowTimePickerDialog
 import com.codedbykay.purenotes.utils.customCircleBackground
+import com.codedbykay.purenotes.utils.formatToString
+import com.codedbykay.purenotes.utils.toFormattedDate
 import com.codedbykay.purenotes.viewModels.ToDoViewModel
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 import java.util.TimeZone
 
 
@@ -68,8 +67,8 @@ fun ToDoListItem(
 ) {
 
     toDoItem?.let { nonNullItem ->
-        val formattedDate =
-            SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH).format(nonNullItem.createdAt)
+        val formattedCreateDate = nonNullItem.createdAt.formatToString()
+        val formattedNotificationDate = nonNullItem.notificationTime?.toFormattedDate()
         var isEditing by remember { mutableStateOf(false) }
         var title by remember(nonNullItem.id) { mutableStateOf(nonNullItem.title) }
         var isChecked by remember(nonNullItem.id) { mutableStateOf(nonNullItem.done) }
@@ -205,43 +204,36 @@ fun ToDoListItem(
                                     DisplayDate(
                                         modifier = Modifier
                                             .customCircleBackground(MaterialTheme.colorScheme.onSurface)
-                                            .padding(horizontal = 8.dp, vertical = 1.dp)
+                                            .padding(horizontal = 10.dp, vertical = 5.dp)
                                             .alpha(if (isChecked) 0.5f else 1f),
-                                        formattedDate = formattedDate,
+                                        formattedDate = formattedCreateDate,
                                         isChecked = isChecked
                                     )
 
                                     // Add a Spacer to create the desired space between the date and icon
                                     Spacer(modifier = Modifier.width(8.dp))
 
+                                    // Notification time icon and text
                                     nonNullItem.notificationTime?.let {
                                         Row(
                                             verticalAlignment = Alignment.CenterVertically,
                                             modifier = Modifier
                                                 .customCircleBackground(MaterialTheme.colorScheme.onSurface)
-                                                .padding(horizontal = 10.dp, vertical = 4.dp)
+                                                .padding(horizontal = 10.dp, vertical = 5.dp)
                                                 .alpha(if (isChecked) 0.5f else 1f)
                                         ) {
                                             Icon(
                                                 painter = painterResource(id = R.drawable.ic_note_notifications),
                                                 contentDescription = "Notification set.",
                                                 modifier = Modifier
-                                                    .size(19.dp)
+                                                    .size(18.dp)
                                                     .padding(end = 4.dp)
                                             )
                                             Text(
-                                                text = SimpleDateFormat(
-                                                    "yyyy-MM-dd HH:mm",
-                                                    Locale.ENGLISH
-                                                )
-                                                    .format(
-                                                        Date(
-                                                            nonNullItem.notificationTime
-                                                        )
-                                                    ),
+                                                text = formattedNotificationDate ?: "N/A",
                                                 style = MaterialTheme.typography.bodyMedium,
                                                 color = MaterialTheme.colorScheme.onSurface,
-                                                fontSize = 11.sp
+                                                fontSize = 12.sp
                                             )
                                         }
                                     }
@@ -250,7 +242,7 @@ fun ToDoListItem(
 
                             }
 
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(10.dp))
 
                             EditableTitleField(
                                 editModifier = Modifier
@@ -271,7 +263,7 @@ fun ToDoListItem(
 
                             if (expanded) {
 
-                                Spacer(modifier = Modifier.height(4.dp))
+                                Spacer(modifier = Modifier.height(8.dp))
 
                                 EditableContentField(
                                     editModifier = Modifier

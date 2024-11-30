@@ -2,6 +2,8 @@ package com.codedbykay.purenotes.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -31,6 +33,7 @@ fun GroupActionButtonsRow(
     // State to manage the visibility of the delete confirmation dialog
     val showDeleteDialog = remember { mutableStateOf(false) }
 
+    Spacer(modifier = Modifier.height(8.dp))
     Row(
         modifier = rowModifier,
         horizontalArrangement = Arrangement.SpaceBetween
