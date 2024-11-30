@@ -9,12 +9,10 @@ private fun getStatus(done: Boolean): String {
 
 fun buildShareContent(
     groupWithTodos: GroupWithTodos,
-    shareTitle: String,
-    shareNoteTitle: String
 ): String {
     return buildString {
-        appendLine("${shareTitle}: ${groupWithTodos.group.name}")
-        appendLine("\n${shareNoteTitle}:")
+        appendLine(groupWithTodos.group.name)
+        appendLine("")
         groupWithTodos.todos.forEach { todo ->
             val status = getStatus(todo.done)
             appendLine("$status ${todo.title}")
