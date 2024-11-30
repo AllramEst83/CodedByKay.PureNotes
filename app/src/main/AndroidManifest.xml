@@ -57,6 +57,7 @@
         <!-- Glance widget receivers -->
         <!-- Large Widget -->
         <receiver
+            android:label="Large notes widget"
             android:name=".receivers.PureNotesGlanceReceiverLarge"
             android:exported="true">
             <intent-filter>
@@ -69,8 +70,9 @@
                 android:resource="@xml/pure_notes_widget_large" />
         </receiver>
 
-        <!-- Medium Widget -->
+        <!-- Small Widget -->
         <receiver
+            android:label="Small notes widget"
             android:name=".receivers.PureNotesGlanceReceiverSmall"
             android:exported="true">
             <intent-filter>

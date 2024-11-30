@@ -6,10 +6,13 @@ import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.state.PreferencesGlanceStateDefinition
+import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.widgets.PureNotesWidget
-import com.codedbykay.purenotes.workers.scheduleOneTimeToDosFetchWorker
+import com.google.gson.Gson
 
 class DropdownItemClickAction : ActionCallback {
+    private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
+
     override suspend fun onAction(
         context: Context,
         glanceId: GlanceId,
@@ -40,28 +43,32 @@ class DropdownItemClickAction : ActionCallback {
             "Dropdown item click action triggered. Group id: $groupId"
         )
 
-        // Update the widget state with the selected index and collapse the dropdown
+        // Update the widget state with new data
+        val todos = toDoDao.getToDosByGroupIdForWidget(groupId)
+        // Serialize todos as JSON to store in preferences
+        val gson = Gson()
+        val todosJson = gson.toJson(todos)
+
+        // Update widget state with the fetched todos
         updateAppWidgetState(
             context = context,
             definition = PreferencesGlanceStateDefinition,
             glanceId = glanceId
         ) { prefs ->
             prefs.toMutablePreferences().apply {
+                this[PureNotesWidget.todoJsonKey] = todosJson
                 this[PureNotesWidget.selectedIndexKey] = selectedIndex
                 this[PureNotesWidget.selectedGroupIdKey] = groupId
                 this[PureNotesWidget.isDropDownExpandedKey] = false
 
                 android.util.Log.d(
                     "DropdownItemClickAction",
-                    "Updated preferences: selectedIndex=$selectedIndex, dropdownCollapsed=true"
+                    "Updated preferences: selectedIndex=$selectedIndex, dropdownCollapsed=true, selectedGroupIdKey=$groupId"
                 )
             }
         }
 
-        scheduleOneTimeToDosFetchWorker(
-            context,
-            groupId
-        )
+        PureNotesWidget().update(context, glanceId)
 
         // Trigger a widget update
         PureNotesWidget().update(context, glanceId)

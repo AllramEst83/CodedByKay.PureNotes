@@ -220,7 +220,7 @@ fun ToDoPage(
                                     },
                                     label = {
                                         Text(
-                                            if (isAddMode) stringResource(id = R.string.add_group_placeholder)
+                                            if (isAddMode) stringResource(id = R.string.add_note_input)
                                             else stringResource(id = R.string.search_placeholder)
                                         )
                                     },

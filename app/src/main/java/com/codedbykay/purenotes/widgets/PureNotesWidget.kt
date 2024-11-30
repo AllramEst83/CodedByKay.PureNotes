@@ -47,7 +47,7 @@ import com.codedbykay.purenotes.utils.isBiggerOrEqualTo
 import com.codedbykay.purenotes.widgets.actions.DropdownItemClickAction
 import com.codedbykay.purenotes.widgets.actions.ExpandDropdownAction
 import com.codedbykay.purenotes.widgets.actions.MarkToDoAsDone
-import com.codedbykay.purenotes.widgets.actions.RefresNoteListsAction
+import com.codedbykay.purenotes.widgets.actions.RefreshNoteListsAction
 import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
 
@@ -114,6 +114,11 @@ class PureNotesWidget : GlanceAppWidget() {
             emptyList()
         }
 
+        // Verify selectedIndex is valid for current groups list
+        val validSelectedIndex = selectedIndex.takeIf {
+            it >= 0 && it < groups.size
+        } ?: 0
+
         val todoListType = object : TypeToken<List<ToDo>>() {}.type
         val todos: List<ToDo> = gson.fromJson(todosJson, todoListType)
 
@@ -145,7 +150,7 @@ class PureNotesWidget : GlanceAppWidget() {
                         Image(
                             provider = ImageProvider(R.drawable.ic_home),
                             contentDescription = "Pure Notes Icon",
-                            colorFilter = ColorFilter.tint(GlanceTheme.colors.primary),
+                            colorFilter = ColorFilter.tint(GlanceTheme.colors.onBackground),
                             modifier = GlanceModifier
                                 .size(30.dp)
                                 .padding(4.dp)
@@ -178,9 +183,9 @@ class PureNotesWidget : GlanceAppWidget() {
                             .cornerRadius(15.dp)
                             .padding(4.dp)
                             .clickable(
-                                onClick = actionRunCallback<RefresNoteListsAction>(
+                                onClick = actionRunCallback<RefreshNoteListsAction>(
                                     actionParametersOf(
-                                        RefresNoteListsAction.groupIdKey to selectedGroupIdKey,
+                                        RefreshNoteListsAction.groupIdKey to selectedGroupIdKey,
                                     )
                                 )
                             ),
@@ -189,7 +194,7 @@ class PureNotesWidget : GlanceAppWidget() {
                         Image(
                             provider = ImageProvider(R.drawable.ic_cached), // Replace with your icon drawable
                             contentDescription = "Pure Notes Icon",
-                            colorFilter = ColorFilter.tint(GlanceTheme.colors.primary),
+                            colorFilter = ColorFilter.tint(GlanceTheme.colors.onBackground),
                             modifier = GlanceModifier
                                 .size(30.dp)
                                 .padding(4.dp) // Optional: Make the icon clickable
@@ -202,7 +207,7 @@ class PureNotesWidget : GlanceAppWidget() {
                 GroupDropdownMenu(
                     groups = groups,
                     isDropDownExpanded = isDropDownExpanded,
-                    selectedIndex = selectedIndex
+                    validSelectedIndex = validSelectedIndex
                 )
 
                 // List of Notes
@@ -323,7 +328,8 @@ class PureNotesWidget : GlanceAppWidget() {
                     text = emptyListText,
                     style = TextStyle(
                         fontSize = 20.sp,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = GlanceTheme.colors.onBackground
                     )
                 )
             }
@@ -336,7 +342,7 @@ class PureNotesWidget : GlanceAppWidget() {
         modifier: GlanceModifier = GlanceModifier,
         groups: List<ToDoGroup>,
         isDropDownExpanded: Boolean,
-        selectedIndex: Int
+        validSelectedIndex: Int
     ) {
         Column(
             modifier = modifier
@@ -359,7 +365,7 @@ class PureNotesWidget : GlanceAppWidget() {
                     modifier = GlanceModifier.padding(8.dp)
                 ) {
                     Text(
-                        text = groups[selectedIndex].name,
+                        text = groups[validSelectedIndex].name,
                         style = TextStyle(
                             fontSize = 16.sp,
                             color = GlanceTheme.colors.onBackground
