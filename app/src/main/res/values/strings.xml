@@ -71,4 +71,5 @@
     <string name="share_shared_from">Shared from Pure Notes</string>
     <string name="share_group_title">Group</string>
     <string name="share_note_title">Notes</string>
+    <string name="copy_content_copied">Content copied to clipboard</string>
 </resources>

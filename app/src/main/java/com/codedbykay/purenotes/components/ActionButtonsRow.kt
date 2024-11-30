@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.NotificationsNone
@@ -36,6 +37,7 @@ fun ActionButtonsRow(
     onEditClick: () -> Unit,
     onShowTimePickerClick: () -> Unit,
     onClearNotificationClick: () -> Unit,
+    onCopyContentClick: () -> Unit,
     rowModifier: Modifier = Modifier
 ) {
     // State to manage the visibility of the delete confirmation dialog
@@ -86,6 +88,21 @@ fun ActionButtonsRow(
                         Locale.ENGLISH
                     ).format(Date(notificationTime))
                 } else "Set Notification",
+                modifier = Modifier.size(22.dp)
+            )
+        }
+
+        // Copy content
+        IconButton(
+            onClick = onCopyContentClick,
+            modifier = Modifier
+                .customCircleBackground(MaterialTheme.colorScheme.onSurface)
+                .padding(2.dp),
+            enabled = !isChecked
+        ) {
+            Icon(
+                imageVector = Icons.Default.ContentCopy,
+                contentDescription = "Copy content",
                 modifier = Modifier.size(22.dp)
             )
         }

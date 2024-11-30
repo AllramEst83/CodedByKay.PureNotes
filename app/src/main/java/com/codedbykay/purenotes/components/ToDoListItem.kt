@@ -41,9 +41,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
@@ -79,7 +81,7 @@ fun ToDoListItem(
         val context = LocalContext.current
         val activity = LocalContext.current as? Activity
         var showSettingsDialog by remember { mutableStateOf(false) }
-
+        val clipboardManager = LocalClipboardManager.current
         var content by remember(nonNullItem.id) {
             mutableStateOf(nonNullItem.content ?: "")
         }
@@ -377,6 +379,11 @@ fun ToDoListItem(
                                             nonNullItem.notificationAction,
                                             nonNullItem.notificationDataUri
                                         )
+                                    },
+                                    onCopyContentClick = {
+                                        val contentTtoCopy =
+                                            toDoViewModel.buildNoteContentToShare(nonNullItem)
+                                        clipboardManager.setText(AnnotatedString(contentTtoCopy))
                                     },
                                     rowModifier = Modifier
                                         .fillMaxWidth()

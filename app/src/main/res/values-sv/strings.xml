@@ -68,4 +68,5 @@
     <string name="share_shared_from">Delad från Pure Notes</string>
     <string name="share_group_title">Grupp</string>
     <string name="share_note_title">Anteckningar</string>
+    <string name="copy_content_copied">Innehållet kopierat</string>
 </resources>

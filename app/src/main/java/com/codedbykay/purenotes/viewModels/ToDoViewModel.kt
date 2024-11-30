@@ -16,6 +16,7 @@ import com.codedbykay.purenotes.models.Quadruple
 import com.codedbykay.purenotes.models.SortOrder
 import com.codedbykay.purenotes.models.ToDoFilter
 import com.codedbykay.purenotes.notifications.NotificationHelper
+import com.codedbykay.purenotes.utils.buildNoteShareContent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.sql.Date
@@ -26,6 +27,10 @@ class ToDoViewModel(
 ) : ViewModel() {
 
     private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
+
+    // Share service
+    private val _isServiceRunning = MutableLiveData<Boolean>()
+    val isServiceRunning: LiveData<Boolean> = _isServiceRunning
 
     // LiveData for search query
     private val _searchQuery = MutableLiveData<String?>()
@@ -119,6 +124,12 @@ class ToDoViewModel(
     }
 
     // Filtering and sorting
+
+    // Copy content
+    fun buildNoteContentToShare(todo: ToDo): String {
+        val content = buildNoteShareContent(todo)
+        return content
+    }
 
     // CRUD
     // Schedule notification based on the current title, description, and time

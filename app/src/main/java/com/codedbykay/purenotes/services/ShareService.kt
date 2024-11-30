@@ -4,6 +4,7 @@ import android.content.Context
 import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.db.todo.GroupWithTodos
+import com.codedbykay.purenotes.utils.buildShareContent
 
 class ShareService(private val context: Context) {
 
@@ -15,26 +16,14 @@ class ShareService(private val context: Context) {
         val group = toDoGroupDao.getGroupById(groupId)
         return if (group != null) {
             val groupWithTodos = GroupWithTodos(group, todos)
-            buildShareContent(groupWithTodos)
+
+            buildShareContent(
+                groupWithTodos,
+                context.getString(R.string.share_group_title),
+                context.getString(R.string.share_note_title)
+            )
         } else {
             null
-        }
-    }
-
-    private fun buildShareContent(groupWithTodos: GroupWithTodos): String {
-        return buildString {
-            appendLine("${context.getString(R.string.share_group_title)}: ${groupWithTodos.group.name}")
-            appendLine("\n${context.getString(R.string.share_note_title)}:")
-            groupWithTodos.todos.forEach { todo ->
-                val status = if (todo.done) "✓" else "○"
-                appendLine("$status ${todo.title}")
-                // Add description if it's not empty
-                if (!todo.content.isNullOrBlank()) {
-                    appendLine("   ${todo.content}")
-                }
-                appendLine("")
-            }
-            appendLine("\n${R.string.share_shared_from}")
         }
     }
 }
