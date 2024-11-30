@@ -126,7 +126,7 @@ class ToDoViewModel(
     // Filtering and sorting
 
     // Copy content
-    fun buildNoteContentToShare(todo: ToDo): String {
+    fun buildNoteContentToCopy(todo: ToDo): String {
         val content = buildNoteShareContent(todo)
         return content
     }

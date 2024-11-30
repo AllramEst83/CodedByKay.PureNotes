@@ -10,7 +10,7 @@ class ShareService {
     private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
 
     suspend fun getShareContent(groupId: Int): String? {
-        val todos = toDoDao.getToDosByGroupId(groupId)
+        val todos = toDoDao.getToDosToShareByGroupId(groupId)
         val group = toDoGroupDao.getGroupById(groupId)
         return if (group != null) {
             val groupWithTodos = GroupWithTodos(group, todos)

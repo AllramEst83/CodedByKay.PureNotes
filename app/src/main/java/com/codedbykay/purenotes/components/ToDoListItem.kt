@@ -382,7 +382,7 @@ fun ToDoListItem(
                                     },
                                     onCopyContentClick = {
                                         val contentTtoCopy =
-                                            toDoViewModel.buildNoteContentToShare(nonNullItem)
+                                            toDoViewModel.buildNoteContentToCopy(nonNullItem)
                                         clipboardManager.setText(AnnotatedString(contentTtoCopy))
                                     },
                                     rowModifier = Modifier
