@@ -19,8 +19,9 @@ fun buildShareContent(
             // Add description if it's not empty
             if (!todo.content.isNullOrBlank()) {
                 appendLine("   ${todo.content}")
+
+                appendLine("")
             }
-            appendLine("")
         }
     }
 }
