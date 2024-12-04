@@ -28,7 +28,7 @@ fun EditableContentField(
             modifier = editModifier,
             placeholder = { Text("Edit content") },
             textStyle = TextStyle(
-                fontSize = 20.sp,
+                fontSize = 22.sp,
                 letterSpacing = 0.5.sp
             )
         )
@@ -39,7 +39,7 @@ fun EditableContentField(
         Text(
             modifier = textModifier,
             text = content,
-            fontSize = 18.sp,
+            fontSize = 19.sp,
             textDecoration = if (isChecked) TextDecoration.LineThrough else TextDecoration.None
         )
         Spacer(modifier = Modifier.height(8.dp))

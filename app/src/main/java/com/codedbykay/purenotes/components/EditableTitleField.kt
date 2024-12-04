@@ -28,7 +28,7 @@ fun EditableTitleField(
             modifier = editModifier,
             placeholder = { Text("Edit title") },
             textStyle = TextStyle(
-                fontSize = 20.sp,
+                fontSize = 22.sp,
                 letterSpacing = 0.5.sp
             )
         )
