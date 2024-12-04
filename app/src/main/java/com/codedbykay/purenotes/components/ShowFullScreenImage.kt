@@ -1,11 +1,12 @@
 package com.codedbykay.purenotes.components
 
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -34,19 +35,16 @@ import coil3.compose.AsyncImage
 import com.codedbykay.purenotes.db.todo.ToDoImage
 import com.codedbykay.purenotes.utils.customCircleBackground
 
-
 @Composable
 fun ShowFullScreenImage(
     selectedImage: ToDoImage?,
     onDismiss: () -> Unit,
 ) {
     val context = LocalContext.current
-    var aspectRatio by remember { mutableFloatStateOf(1f) }
     var scale by remember { mutableFloatStateOf(1f) }
     var offset by remember { mutableStateOf(Offset.Zero) }
-
     val minScale = 1f
-    val maxScale = 3f
+    val maxScale = 5f
 
     selectedImage?.let { imageEntity ->
         Dialog(
@@ -61,26 +59,28 @@ fun ShowFullScreenImage(
                 usePlatformDefaultWidth = false
             )
         ) {
-            Box(
+            // Use BoxWithConstraints to get the container dimensions
+            BoxWithConstraints(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background),
                 contentAlignment = Alignment.Center
             ) {
-                // Main Image
+                val boxWithConstraintsScope = this
+                val containerWidth = boxWithConstraintsScope.constraints.maxWidth.toFloat()
+                val containerHeight = boxWithConstraintsScope.constraints.maxHeight.toFloat()
+
+                // Initialize image dimensions to container size
+                var imageWidth by remember { mutableFloatStateOf(containerWidth) }
+                var imageHeight by remember { mutableFloatStateOf(containerHeight) }
+
+                // Load the image
                 AsyncImage(
                     model = imageEntity.imageUri,
                     contentDescription = "Fullscreen image",
-                    contentScale = ContentScale.None,
-                    onSuccess = { success ->
-                        val drawable = success.result.image
-                        val width = drawable.width
-                        val height = drawable.height
-                        if (height > 0) {
-                            aspectRatio = width.toFloat() / height.toFloat()
-                        }
-                    },
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier
+                        .fillMaxSize()
                         .pointerInput(Unit) {
                             detectTapGestures(
                                 onDoubleTap = {
@@ -94,15 +94,67 @@ fun ShowFullScreenImage(
                                 val previousScale = scale
                                 scale = (scale * zoom).coerceIn(minScale, maxScale)
                                 val scaleChange = scale / previousScale
+
                                 offset += pan * scaleChange
+
+                                // Calculate the max offset based on scaled image and container sizes
+                                val maxX = ((imageWidth * scale) - containerWidth) / 2
+                                val maxY = ((imageHeight * scale) - containerHeight) / 2
+
+                                // Constrain the offset to prevent over-panning
+                                val newOffsetX = if (maxX > 0f) {
+                                    offset.x.coerceIn(-maxX, maxX)
+                                } else {
+                                    // Center the image horizontally
+                                    0f
+                                }
+
+                                val newOffsetY = if (maxY > 0f) {
+                                    offset.y.coerceIn(-maxY, maxY)
+                                } else {
+                                    // Center the image vertically
+                                    0f
+                                }
+
+                                offset = Offset(newOffsetX, newOffsetY)
                             }
                         }
+
                         .graphicsLayer(
                             scaleX = scale,
                             scaleY = scale,
                             translationX = offset.x,
                             translationY = offset.y
-                        )
+                        ),
+                    onSuccess = { success ->
+                        val drawable = success.result.image
+                        val intrinsicWidth = drawable.width.toFloat()
+                        val intrinsicHeight = drawable.height.toFloat()
+
+                        if (intrinsicWidth > 0 && intrinsicHeight > 0) {
+                            // Update image dimensions
+                            val imageAspectRatio = intrinsicWidth / intrinsicHeight
+                            val containerAspectRatio = containerWidth / containerHeight
+
+                            if (imageAspectRatio >= containerAspectRatio) {
+                                imageWidth = containerWidth
+                                imageHeight = containerWidth / imageAspectRatio
+                            } else {
+                                imageHeight = containerHeight
+                                imageWidth = containerHeight * imageAspectRatio
+                            }
+                        } else {
+                            // Handle the case where dimensions are zero
+                            imageWidth = containerWidth
+                            imageHeight = containerHeight
+                        }
+                    },
+                    onError = { error ->
+                        // Handle the error, possibly show a placeholder or dismiss the dialog
+                        Log.e("AsyncImage", "Image loading failed", error.result.throwable)
+                        onDismiss()
+                    }
+
                 )
 
                 // Share and Close Buttons
