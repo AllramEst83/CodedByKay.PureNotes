@@ -22,7 +22,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil3.Bitmap
 import com.codedbykay.purenotes.R
+import com.codedbykay.purenotes.db.todo.ToDoImage
 import com.codedbykay.purenotes.utils.customCircleBackground
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -32,13 +34,16 @@ import java.util.Locale
 fun ActionButtonsRow(
     isEditing: Boolean,
     isChecked: Boolean,
+    images: List<ToDoImage>,
+    maxImages: Int,
     notificationTime: Long?,
     onDeleteClick: () -> Unit,
     onEditClick: () -> Unit,
     onShowTimePickerClick: () -> Unit,
     onClearNotificationClick: () -> Unit,
+    onImageSelected: (Bitmap) -> Unit,
     onCopyContentClick: () -> Unit,
-    rowModifier: Modifier = Modifier
+    rowModifier: Modifier = Modifier,
 ) {
     // State to manage the visibility of the delete confirmation dialog
     val showDeleteDialog = remember { mutableStateOf(false) }
@@ -92,19 +97,31 @@ fun ActionButtonsRow(
             )
         }
 
-        // Copy content
-        IconButton(
-            onClick = onCopyContentClick,
-            modifier = Modifier
-                .customCircleBackground(MaterialTheme.colorScheme.onSurface)
-                .padding(2.dp),
-            enabled = !isChecked
-        ) {
-            Icon(
-                imageVector = Icons.Default.ContentCopy,
-                contentDescription = "Copy content",
-                modifier = Modifier.size(22.dp)
+        if (isEditing) {
+            // Image selector button
+            ImageSelectorButton(
+                iconButtonModifier = Modifier,
+                iconModifier = Modifier
+                    .size(22.dp),
+                currentImageCount = images.size,
+                maxImages = maxImages,
+                onImageSelected = onImageSelected
             )
+        } else {
+            // Copy content
+            IconButton(
+                onClick = onCopyContentClick,
+                modifier = Modifier
+                    .customCircleBackground(MaterialTheme.colorScheme.onSurface)
+                    .padding(2.dp),
+                enabled = !isChecked
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ContentCopy,
+                    contentDescription = "Copy content",
+                    modifier = Modifier.size(22.dp)
+                )
+            }
         }
 
         // Edit/Save button
