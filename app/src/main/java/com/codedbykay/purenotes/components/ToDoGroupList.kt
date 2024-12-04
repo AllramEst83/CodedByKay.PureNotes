@@ -1,7 +1,6 @@
 package com.codedbykay.purenotes.components
 
 import android.content.Intent
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -45,7 +44,6 @@ fun ToDoGroupList(
 
     LazyColumn(
         modifier = modifier
-            .fillMaxSize()
             .padding(1.dp)
     ) {
         itemsIndexed(sortedGroups) { index, group ->

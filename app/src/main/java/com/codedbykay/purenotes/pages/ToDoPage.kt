@@ -14,6 +14,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -48,24 +50,8 @@ fun ToDoPage(
     var isSearchMode by remember { mutableStateOf(false) }
     var backButtonEnabled by remember { mutableStateOf(true) }
     var isInitialized by remember { mutableStateOf(false) }
-
-    val baseInputFieldHeight = 100.dp // Base height for the input field
-    val additionalLineHeight = 24.dp // Estimated height of an additional line
-
-    // Calculate the dynamic height based on inputText
-    val calculatedInputFieldHeight by remember(inputText) {
-        // Calculate the number of additional lines
-        val additionalLines = (inputText.split("\n").size - 1).coerceAtLeast(0)
-
-        // Convert Int to Float for multiplication
-        val multiplier = additionalLines.toFloat()
-
-        // Perform the multiplication with Dp on the left
-        val additionalHeight = additionalLineHeight * multiplier
-
-        // Sum the base height with the additional height
-        mutableStateOf(baseInputFieldHeight + additionalHeight)
-    }
+    var inputFieldHeight by remember { mutableStateOf(0.dp) }
+    val density = LocalDensity.current
 
     val transition =
         updateTransition(targetState = inputFieldVisible, label = "InputFieldTransition")
@@ -74,14 +60,14 @@ fun ToDoPage(
         transitionSpec = { tween(durationMillis = 300) },
         label = "InputFieldOffset"
     ) { visible ->
-        if (visible) 0.dp else -calculatedInputFieldHeight
+        if (visible) 0.dp else -inputFieldHeight
     }
 
     val listPaddingTop by transition.animateDp(
         transitionSpec = { tween(durationMillis = 300) },
         label = "ListPaddingTop"
     ) { visible ->
-        if (visible) calculatedInputFieldHeight else 0.dp
+        if (visible) inputFieldHeight else 0.dp
     }
 
     // BackHandler to manage system back presses
@@ -197,8 +183,15 @@ fun ToDoPage(
                         modifier = Modifier
                             .fillMaxWidth()
                             .offset(y = inputFieldOffset)
+                            .zIndex(1f)
                             .wrapContentHeight()
-                            .zIndex(1f),
+                            .onGloballyPositioned { coordinates ->
+                                // Convert height from pixels to Dp
+                                val heightPx = coordinates.size.height.toFloat()
+                                val heightDp = with(density) { heightPx.toDp() }
+                                inputFieldHeight = heightDp
+                            },
+
                         elevation = CardDefaults.cardElevation(8.dp),
                         shape = RoundedCornerShape(bottomStart = 15.dp, bottomEnd = 15.dp)
                     ) {

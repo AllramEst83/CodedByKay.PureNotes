@@ -48,6 +48,7 @@ fun ToDoListContainer(
 
         LazyColumn(
             modifier = modifier
+                .padding(1.dp)
         ) {
             // Pending Items Section
             if (pendingItems.isNotEmpty()) {
