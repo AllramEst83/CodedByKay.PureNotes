@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -23,16 +24,22 @@ import androidx.compose.ui.unit.dp
 import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.db.todo.ToDo
 import com.codedbykay.purenotes.utils.blendWith
+import com.codedbykay.purenotes.viewModels.ImageGalleryViewModel
 import com.codedbykay.purenotes.viewModels.ToDoViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun ToDoListContainer(
     modifier: Modifier = Modifier,
     toDoViewModel: ToDoViewModel,
+    imageGalleryViewModel: ImageGalleryViewModel,
     groupId: Int,
-    toDoList: List<ToDo>
+    toDoList: List<ToDo>,
 ) {
     val showDeleteDialog = remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
 
     if (toDoList.isNotEmpty()) {
         // Separate the to-do items into completed and pending lists
@@ -48,6 +55,7 @@ fun ToDoListContainer(
                     ToDoListItem(
                         toDoItem = item,
                         toDoViewModel = toDoViewModel,
+                        imageGalleryViewModel = imageGalleryViewModel,
                         onDelete = {
                             toDoViewModel
                                 .deleteToDo(
@@ -122,6 +130,7 @@ fun ToDoListContainer(
                     ToDoListItem(
                         toDoItem = item,
                         toDoViewModel = toDoViewModel,
+                        imageGalleryViewModel = imageGalleryViewModel,
                         onDelete = {
                             toDoViewModel.deleteToDo(
                                 item.id,
@@ -130,7 +139,9 @@ fun ToDoListContainer(
                                 item.notificationDataUri
                             )
                         },
-                        onUpdate = { updatedItem -> toDoViewModel.updateToDoAfterEdit(updatedItem) },
+                        onUpdate = { updatedItem ->
+                            toDoViewModel.updateToDoAfterEdit(updatedItem)
+                        },
                         onDoneUpdate = { updatedDone ->
                             toDoViewModel.updateToDoDone(item.id, updatedDone)
                         },
@@ -145,14 +156,20 @@ fun ToDoListContainer(
             message = stringResource(id = R.string.empty_list_message)
         )
     }
-
+    1212
     // Delete confirmation dialog
     if (showDeleteDialog.value) {
 
         DeleteAlertModal(
             onDelete = {
-                toDoViewModel.deleteAllDoneToDos(groupId)
-                showDeleteDialog.value = false
+                coroutineScope.launch {
+                    // Call the suspend functions sequentially
+                    imageGalleryViewModel.removeAllImagesForCompletedTodosInGroup(groupId)
+                    toDoViewModel.deleteAllDoneToDos(groupId)
+                    withContext(Dispatchers.Main) {
+                        showDeleteDialog.value = false
+                    }
+                }
             },
             showDeleteDialog,
             confirmationText = stringResource(id = R.string.alert_delete_done_notes_text)

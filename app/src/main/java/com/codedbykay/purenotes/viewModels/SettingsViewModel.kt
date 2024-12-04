@@ -1,23 +1,22 @@
 package com.codedbykay.purenotes.viewModels
 
-import android.app.Application
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.codedbykay.purenotes.managers.LocaleManager
-import com.codedbykay.purenotes.managers.ThemeDataStoreManager
+import com.codedbykay.purenotes.MainApplication
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SettingsViewModel(application: Application) : AndroidViewModel(application) {
-    private val localeManager = LocaleManager()
+class SettingsViewModel : ViewModel() {
+
+    // Locale manager
+    private val localeManager = MainApplication.localeManager
 
     enum class ThemeMode { REBECKA_LIGHT, REBECKA_DARK, RED, GREEN, PINK, SEVENTIES, CARNIVAL, SYSTEM_DEFAULT }
 
-    private val themeDataStoreManager = ThemeDataStoreManager(application)
+    private val themeDataStoreManager = MainApplication.themeDataStoreManager
     var themeMode by mutableStateOf(ThemeMode.SYSTEM_DEFAULT)
         private set
 
@@ -40,12 +39,12 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun setLocale(context: Context, locale: String) {
-        localeManager.setLanguage(context, locale)
+    fun setLocale(locale: String) {
+        localeManager.setLanguage(locale)
     }
 
-    fun getLanguage(context: Context): String {
-        return localeManager.getSavedLanguage(context)
+    fun getLanguage(): String {
+        return localeManager.getSavedLanguage()
 
     }
 }

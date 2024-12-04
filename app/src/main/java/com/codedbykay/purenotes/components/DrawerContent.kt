@@ -31,7 +31,10 @@ import com.codedbykay.purenotes.utils.blendWithWhite
 import com.codedbykay.purenotes.utils.contrastColor
 
 @Composable
-fun DrawerContent(onNavigateToSettings: () -> Unit, onCloseDrawer: () -> Unit) {
+fun DrawerContent(
+    onNavigateToSettings: () -> Unit,
+    onCloseDrawer: () -> Unit,
+) {
     Box(
         modifier = Modifier
             .fillMaxHeight()

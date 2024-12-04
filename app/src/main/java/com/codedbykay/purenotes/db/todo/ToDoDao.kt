@@ -68,7 +68,10 @@ interface ToDoDao {
     fun getToDoByGroupId(groupId: Int): List<ToDo>
 
     @Query("SELECT * FROM ToDo WHERE groupId = :groupId AND done = 0 ORDER BY createdAt DESC")
-    fun getToDosByGroupId(groupId: Int): List<ToDo>
+    fun getToDosNotDoneByGroupId(groupId: Int): List<ToDo>
+
+    @Query("SELECT * FROM ToDo WHERE groupId = :groupId AND done = 1 ORDER BY createdAt DESC")
+    suspend fun getToDosDoneByGroupId(groupId: Int): List<ToDo>
 
     @Query("SELECT * FROM ToDo WHERE groupId = :groupId ORDER BY createdAt DESC")
     fun getToDosToShareByGroupId(groupId: Int): List<ToDo>

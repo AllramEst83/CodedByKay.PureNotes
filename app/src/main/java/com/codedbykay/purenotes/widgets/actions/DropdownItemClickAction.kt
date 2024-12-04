@@ -44,7 +44,7 @@ class DropdownItemClickAction : ActionCallback {
         )
 
         // Update the widget state with new data
-        val todos = toDoDao.getToDosByGroupId(groupId)
+        val todos = toDoDao.getToDosNotDoneByGroupId(groupId)
         // Serialize todos as JSON to store in preferences
         val gson = Gson()
         val todosJson = gson.toJson(todos)

@@ -26,7 +26,9 @@ import com.codedbykay.purenotes.models.ToDoGroupFilter
 import com.codedbykay.purenotes.viewModels.ToDoGroupViewModel
 
 @Composable
-fun GroupFilterMenu(toDoGroupViewModel: ToDoGroupViewModel) {
+fun GroupFilterMenu(
+    toDoGroupViewModel: ToDoGroupViewModel,
+) {
     var expanded by remember { mutableStateOf(false) }
 
     // Observe the current filter state

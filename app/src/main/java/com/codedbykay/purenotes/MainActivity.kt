@@ -21,8 +21,8 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
 import com.codedbykay.purenotes.managers.AppNavHostManager
-import com.codedbykay.purenotes.notifications.NotificationHelper
 import com.codedbykay.purenotes.ui.theme.ToDoAppTheme
+import com.codedbykay.purenotes.viewModels.ImageGalleryViewModel
 import com.codedbykay.purenotes.viewModels.SettingsViewModel
 import com.codedbykay.purenotes.viewModels.ToDoGroupViewModel
 import com.codedbykay.purenotes.viewModels.ToDoViewModel
@@ -58,8 +58,8 @@ class MainActivity : ComponentActivity() {
 
         // Initialize ViewModels before setContent
         val toDoGroupViewModel = ViewModelProvider(this)[ToDoGroupViewModel::class.java]
-        val notificationHelper = NotificationHelper(this)
-        val toDoViewModel = ToDoViewModel(notificationHelper)
+        val toDoViewModel = ViewModelProvider(this)[ToDoViewModel::class.java]
+        val imageGalleryViewModel = ViewModelProvider(this)[ImageGalleryViewModel::class.java]
         val settingsViewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
 
         if (BuildConfig.DEBUG) {
@@ -84,6 +84,7 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         toDoGroupViewModel = toDoGroupViewModel,
                         toDoViewModel = toDoViewModel,
+                        imageGalleryViewModel = imageGalleryViewModel,
                         settingsViewModel = settingsViewModel
                     )
                 }

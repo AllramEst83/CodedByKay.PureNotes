@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -39,8 +38,7 @@ fun SettingsPage(
     settingsViewModel: SettingsViewModel,
     navController: NavHostController
 ) {
-    val context = LocalContext.current
-    var currentLanguage by remember { mutableStateOf(settingsViewModel.getLanguage(context)) }
+    var currentLanguage by remember { mutableStateOf(settingsViewModel.getLanguage()) }
     var backButtonEnabled by remember { mutableStateOf(true) }
     var isInitialized by remember { mutableStateOf(false) }
 
@@ -113,7 +111,7 @@ fun SettingsPage(
                                 settingsViewModel = settingsViewModel,
                                 currentLanguage = currentLanguage,
                                 onLanguageSelected = {
-                                    currentLanguage = settingsViewModel.getLanguage(context)
+                                    currentLanguage = settingsViewModel.getLanguage()
                                 }
                             )
                         }

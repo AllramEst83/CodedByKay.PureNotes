@@ -35,6 +35,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -55,19 +56,21 @@ import com.codedbykay.purenotes.dialogs.ShowTimePickerDialog
 import com.codedbykay.purenotes.utils.customCircleBackground
 import com.codedbykay.purenotes.utils.formatToString
 import com.codedbykay.purenotes.utils.toFormattedDate
+import com.codedbykay.purenotes.viewModels.ImageGalleryViewModel
 import com.codedbykay.purenotes.viewModels.ToDoViewModel
 import java.util.Calendar
 import java.util.TimeZone
-
 
 @Composable
 fun ToDoListItem(
     toDoItem: ToDo?,
     toDoViewModel: ToDoViewModel,
+    imageGalleryViewModel: ImageGalleryViewModel,
     onDelete: () -> Unit,
     onUpdate: (ToDo) -> Unit,
     onDoneUpdate: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    maxImages: Int = 10,
 ) {
 
     toDoItem?.let { nonNullItem ->
@@ -82,6 +85,8 @@ fun ToDoListItem(
         val activity = LocalContext.current as? Activity
         var showSettingsDialog by remember { mutableStateOf(false) }
         val clipboardManager = LocalClipboardManager.current
+        val images by imageGalleryViewModel.getImageByToDoId(nonNullItem.id)
+            .observeAsState(emptyList())
         var content by remember(nonNullItem.id) {
             mutableStateOf(nonNullItem.content ?: "")
         }
@@ -292,6 +297,17 @@ fun ToDoListItem(
                                     isEditing = isEditing,
                                     isChecked = isChecked
                                 )
+
+                                ImageGallery(
+                                    images = images,
+                                    maxImages = maxImages,
+                                    onRemoveImage = { imageEntity ->
+                                        imageGalleryViewModel.removeImageFromToDo(imageEntity)
+                                    },
+                                    isEditing = isEditing,
+                                    isChecked = isChecked
+                                )
+
                                 Spacer(modifier = Modifier.height(8.dp))
 
                                 if (showTimePicker) {
@@ -353,6 +369,8 @@ fun ToDoListItem(
                                 ActionButtonsRow(
                                     isEditing = isEditing,
                                     isChecked = isChecked,
+                                    images = images,
+                                    maxImages = maxImages,
                                     notificationTime = nonNullItem.notificationTime,
                                     onDeleteClick = onDelete,
                                     onEditClick = {
@@ -379,11 +397,30 @@ fun ToDoListItem(
                                             nonNullItem.notificationAction,
                                             nonNullItem.notificationDataUri
                                         )
+
+                                        Toast.makeText(
+                                            context,
+                                            "Removed notification",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    },
+                                    onImageSelected = { bitmap ->
+                                        // Append the new bitmap to the list
+                                        imageGalleryViewModel.addImageToToDo(
+                                            nonNullItem.id,
+                                            bitmap
+                                        )
                                     },
                                     onCopyContentClick = {
                                         val contentTtoCopy =
                                             toDoViewModel.buildNoteContentToCopy(nonNullItem)
                                         clipboardManager.setText(AnnotatedString(contentTtoCopy))
+
+                                        Toast.makeText(
+                                            context,
+                                            "Copied to clipboard",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     },
                                     rowModifier = Modifier
                                         .fillMaxWidth()

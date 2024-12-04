@@ -9,7 +9,6 @@ import android.text.Spanned
 import androidx.core.app.NotificationCompat
 import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.R
-import com.codedbykay.purenotes.services.IntentService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,6 +16,7 @@ import kotlinx.coroutines.launch
 class MarkAsDoneReceiver : BroadcastReceiver() {
 
     private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
+    private val intentService = MainApplication.IntentService
     private val intentActionName = "com.codedbykay.purenotes.ACTION_MARK_AS_DONE"
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -44,9 +44,8 @@ class MarkAsDoneReceiver : BroadcastReceiver() {
                         Html.FROM_HTML_MODE_LEGACY
                     )
 
-                    val pendingIntent = IntentService
+                    val pendingIntent = intentService
                         .getMainActivityPendingIntent(
-                            context,
                             todoId,
                             groupId,
                             groupName

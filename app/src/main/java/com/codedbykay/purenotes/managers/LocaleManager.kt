@@ -7,9 +7,9 @@ import android.os.LocaleList
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 
-class LocaleManager {
+class LocaleManager(private val context: Context) {
 
-    fun setLanguage(context: Context, languageCode: String) {
+    fun setLanguage(languageCode: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             context.getSystemService(LocaleManager::class.java)
                 .applicationLocales = LocaleList.forLanguageTags(languageCode)
@@ -17,15 +17,15 @@ class LocaleManager {
             AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(languageCode))
         }
 
-        saveLanguage(context, languageCode)
+        saveLanguage(languageCode)
     }
 
-    fun saveLanguage(context: Context, languageCode: String) {
+    fun saveLanguage(languageCode: String) {
         val sharedPreferences = context.getSharedPreferences("language_prefs", Context.MODE_PRIVATE)
         sharedPreferences.edit().putString("language_code", languageCode).apply()
     }
 
-    fun getSavedLanguage(context: Context): String {
+    fun getSavedLanguage(): String {
         val sharedPreferences = context.getSharedPreferences("language_prefs", Context.MODE_PRIVATE)
         return sharedPreferences.getString("language_code", "en") ?: "en"
     }

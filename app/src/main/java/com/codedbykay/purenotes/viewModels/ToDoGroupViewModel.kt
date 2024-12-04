@@ -1,10 +1,9 @@
 package com.codedbykay.purenotes.viewModels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
@@ -16,12 +15,16 @@ import com.codedbykay.purenotes.models.ToDoGroupFilter
 import com.codedbykay.purenotes.services.ShareService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Date
 
 
-class ToDoGroupViewModel(application: Application) : AndroidViewModel(application) {
+class ToDoGroupViewModel : ViewModel() {
+
+    // Share service
     private val shareService = ShareService()
 
+    // ToDoGroup DAO
     private val toDoGroupDao = MainApplication.toDoDatabase.getTodoGroupDao()
 
     // Share data
@@ -104,8 +107,8 @@ class ToDoGroupViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     // Function to delete a group by its ID
-    fun deleteGroupById(id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+    suspend fun deleteGroupById(id: Int) {
+        withContext(Dispatchers.IO) {
             toDoGroupDao.deleteGroupById(id)
         }
     }

@@ -1,4 +1,4 @@
-package com.codedbykay.purenotes.notifications
+package com.codedbykay.purenotes.services
 
 import android.app.AlarmManager
 import android.app.NotificationChannel
@@ -12,8 +12,9 @@ import android.util.Log
 import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.receivers.NotificationReceiver
 
-class NotificationHelper(private val context: Context) {
+class NotificationService(context: Context) {
 
+    private val appContext = context.applicationContext
     private val channelId = "todo_channel"
     private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
     private val alarmManager: AlarmManager =
@@ -32,7 +33,7 @@ class NotificationHelper(private val context: Context) {
             ).apply {
                 description = "Notifications for todo items"
             }
-            val notificationManager = context.getSystemService(NotificationManager::class.java)
+            val notificationManager = appContext.getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)
         }
     }
@@ -44,7 +45,7 @@ class NotificationHelper(private val context: Context) {
         description: String,
         timeInMillis: Long
     ) {
-        val notificationIntent = Intent(context, NotificationReceiver::class.java).apply {
+        val notificationIntent = Intent(appContext, NotificationReceiver::class.java).apply {
             action = "com.codedbykay.purenotes.ACTION_NOTIFY_$id" // Unique action
             data = Uri.parse("purenotes://todo/$id") // Unique data URI
             putExtra("notification_title", title)
@@ -54,7 +55,7 @@ class NotificationHelper(private val context: Context) {
         }
 
         val pendingIntent = PendingIntent.getBroadcast(
-            context,
+            appContext,
             id,
             notificationIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
@@ -80,17 +81,17 @@ class NotificationHelper(private val context: Context) {
         notificationDataUri: String?
     ) {
         if (notificationRequestCode == null || notificationAction == null || notificationDataUri == null) {
-            Log.d("NotificationHelper", "Invalid parameters: Unable to cancel notification")
+            Log.d("NotificationService", "Invalid parameters: Unable to cancel notification")
             return
         }
 
-        val notificationIntent = Intent(context, NotificationReceiver::class.java).apply {
+        val notificationIntent = Intent(appContext, NotificationReceiver::class.java).apply {
             action = notificationAction
             data = Uri.parse(notificationDataUri)
         }
 
         val pendingIntent = PendingIntent.getBroadcast(
-            context,
+            appContext,
             notificationRequestCode,
             notificationIntent,
             PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
@@ -99,12 +100,12 @@ class NotificationHelper(private val context: Context) {
         if (pendingIntent != null) {
             alarmManager.cancel(pendingIntent)
             pendingIntent.cancel()
-            Log.d("NotificationHelper", "Notification canceled and database updated for ID: $id")
+            Log.d("NotificationService", "Notification canceled and database updated for ID: $id")
         } else {
-            Log.d("NotificationHelper", "Pending Intent does not exist for ID: $id")
+            Log.d("NotificationService", "Pending Intent does not exist for ID: $id")
         }
 
         toDoDao.removeAlarmFromToDo(id)
-        Log.d("NotificationHelper", "Database updated for ID: $id")
+        Log.d("NotificationService", "Database updated for ID: $id")
     }
 }

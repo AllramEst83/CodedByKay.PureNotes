@@ -25,7 +25,9 @@ import com.codedbykay.purenotes.models.SortOrder
 import com.codedbykay.purenotes.viewModels.ToDoGroupViewModel
 
 @Composable
-fun GroupSortMenu(toDoGroupViewModel: ToDoGroupViewModel) {
+fun GroupSortMenu(
+    toDoGroupViewModel: ToDoGroupViewModel,
+) {
     var expanded by remember { mutableStateOf(false) }
     val sortOrder by toDoGroupViewModel.sortOrder.observeAsState(SortOrder.CREATED_AT_DESCENDING)
 

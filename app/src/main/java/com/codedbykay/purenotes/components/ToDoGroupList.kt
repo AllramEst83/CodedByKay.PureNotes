@@ -9,16 +9,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.codedbykay.purenotes.viewModels.ImageGalleryViewModel
 import com.codedbykay.purenotes.viewModels.ToDoGroupViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun ToDoGroupList(
     modifier: Modifier = Modifier,
     toDoGroupViewModel: ToDoGroupViewModel,
-    onGroupClick: (Int, String) -> Unit
+    imageGalleryViewModel: ImageGalleryViewModel,
+    onGroupClick: (Int, String) -> Unit,
 ) {
     val sortedGroups by toDoGroupViewModel
         .toDoGroupList
@@ -26,6 +30,7 @@ fun ToDoGroupList(
 
     val context = LocalContext.current
     val shareContent by toDoGroupViewModel.shareContent.observeAsState()
+    val coroutineScope = rememberCoroutineScope()
 
     shareContent?.let { content ->
         LaunchedEffect(content) {
@@ -48,7 +53,12 @@ fun ToDoGroupList(
                 group = group,
                 onClick = { onGroupClick(group.id, group.name) },
                 onUpdate = { toDoGroupViewModel.updateGroup(it.id, it.name) },
-                onDelete = { toDoGroupViewModel.deleteGroupById(group.id) },
+                onDelete = {
+                    coroutineScope.launch {
+                        imageGalleryViewModel.removeAllImagesFromGroup(group.id)
+                        toDoGroupViewModel.deleteGroupById(group.id)
+                    }
+                },
                 onShare = { toDoGroupViewModel.shareGroupAndToDos(group.id) },
                 modifier = Modifier
                     .padding(horizontal = 10.dp, vertical = 7.dp)

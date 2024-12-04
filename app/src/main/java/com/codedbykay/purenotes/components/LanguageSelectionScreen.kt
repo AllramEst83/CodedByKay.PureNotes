@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import com.codedbykay.purenotes.viewModels.SettingsViewModel
 import kotlinx.coroutines.launch
 
@@ -15,7 +14,6 @@ fun LanguageSelection(
     currentLanguage: String,
     onLanguageSelected: () -> Unit
 ) {
-    val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val languages = listOf("en" to "English", "sv" to "Svenska")
 
@@ -26,7 +24,7 @@ fun LanguageSelection(
                 isSelected = code == currentLanguage,
                 onSelect = {
                     coroutineScope.launch {
-                        settingsViewModel.setLocale(context, code)
+                        settingsViewModel.setLocale(code)
                         onLanguageSelected()
                     }
                 }

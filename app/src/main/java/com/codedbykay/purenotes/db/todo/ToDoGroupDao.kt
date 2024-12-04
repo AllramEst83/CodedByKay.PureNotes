@@ -60,7 +60,7 @@ interface ToDoGroupDao {
 
     // Delete a specific group
     @Query("DELETE FROM ToDoGroup WHERE id = :id")
-    fun deleteGroupById(id: Int)
+    suspend fun deleteGroupById(id: Int)
 
     // Delete all group
     @Query("DELETE FROM ToDoGroup")

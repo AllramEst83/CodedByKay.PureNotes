@@ -15,6 +15,7 @@ import com.codedbykay.purenotes.models.Screen
 import com.codedbykay.purenotes.pages.SettingsPage
 import com.codedbykay.purenotes.pages.ToDoGroupPage
 import com.codedbykay.purenotes.pages.ToDoPage
+import com.codedbykay.purenotes.viewModels.ImageGalleryViewModel
 import com.codedbykay.purenotes.viewModels.SettingsViewModel
 import com.codedbykay.purenotes.viewModels.ToDoGroupViewModel
 import com.codedbykay.purenotes.viewModels.ToDoViewModel
@@ -26,7 +27,8 @@ fun AppNavHostManager(
     startDestination: String = NavigationItem.ToDoGroups.route,
     toDoGroupViewModel: ToDoGroupViewModel,
     toDoViewModel: ToDoViewModel,
-    settingsViewModel: SettingsViewModel
+    imageGalleryViewModel: ImageGalleryViewModel,
+    settingsViewModel: SettingsViewModel,
 ) {
 
     val appPackage = stringResource(id = R.string.app_package)
@@ -41,6 +43,7 @@ fun AppNavHostManager(
         composable(route = Screen.TODOGROUPS.name) {
             ToDoGroupPage(
                 toDoGroupViewModel = toDoGroupViewModel,
+                imageGalleryViewModel = imageGalleryViewModel,
                 settingsViewModel = settingsViewModel,
                 onNavigateToSettings = {
                     navController.navigate(Screen.SETTINGS.name)
@@ -69,6 +72,7 @@ fun AppNavHostManager(
             if (groupId != null && groupName != null) {
                 ToDoPage(
                     toDoViewModel = toDoViewModel,
+                    imageGalleryViewModel = imageGalleryViewModel,
                     groupId = groupId,
                     groupName = groupName,
                     navController = navController

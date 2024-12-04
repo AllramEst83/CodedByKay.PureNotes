@@ -15,17 +15,19 @@ import com.codedbykay.purenotes.models.NotificationTimeFilter
 import com.codedbykay.purenotes.models.Quadruple
 import com.codedbykay.purenotes.models.SortOrder
 import com.codedbykay.purenotes.models.ToDoFilter
-import com.codedbykay.purenotes.notifications.NotificationHelper
 import com.codedbykay.purenotes.utils.buildNoteShareContent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.sql.Date
 import java.time.Instant
 
-class ToDoViewModel(
-    private val notificationHelper: NotificationHelper,
-) : ViewModel() {
+class ToDoViewModel() : ViewModel() {
 
+    // Services
+    private val notificationService = MainApplication.NotificationService
+
+    // DAO´s
     private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
 
     // Share service
@@ -141,8 +143,8 @@ class ToDoViewModel(
         time: Long
     ) {
 
-        // Use NotificationHelper to schedule the notification
-        notificationHelper.scheduleNotification(
+        // Use NotificationService to schedule the notification
+        notificationService.scheduleNotification(
             id = id,
             title = title,
             groupId = groupId,
@@ -173,7 +175,7 @@ class ToDoViewModel(
         notificationDataUri: String?
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            notificationHelper
+            notificationService
                 .cancelNotification(
                     id,
                     notificationRequestCode,
@@ -185,8 +187,8 @@ class ToDoViewModel(
         }
     }
 
-    fun deleteAllDoneToDos(groupId: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+    suspend fun deleteAllDoneToDos(groupId: Int) {
+        withContext(Dispatchers.IO) {
             toDoDao.deleteAllDoneToDosByGroupId(groupId)
         }
     }
@@ -230,7 +232,7 @@ class ToDoViewModel(
     ) {
 
         viewModelScope.launch(Dispatchers.IO) {
-            notificationHelper
+            notificationService
                 .cancelNotification(
                     id,
                     notificationRequestCode,
@@ -240,4 +242,5 @@ class ToDoViewModel(
         }
     }
     // CRUD
+
 }

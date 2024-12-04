@@ -25,7 +25,9 @@ import com.codedbykay.purenotes.models.SortOrder
 import com.codedbykay.purenotes.viewModels.ToDoViewModel
 
 @Composable
-fun SortMenu(toDoViewModel: ToDoViewModel) {
+fun SortMenu(
+    toDoViewModel: ToDoViewModel,
+) {
     var expanded by remember { mutableStateOf(false) }
     val sortOrder by toDoViewModel.sortOrder.observeAsState(SortOrder.CREATED_AT_DESCENDING)
 

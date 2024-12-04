@@ -10,7 +10,6 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.R
-import com.codedbykay.purenotes.services.IntentService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,6 +20,7 @@ class NotificationWorker(
 ) : Worker(context, workerParams) {
 
     private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
+    private val intentService = MainApplication.IntentService
 
     override fun doWork(): Result {
         val title = inputData.getString("notification_title")
@@ -32,8 +32,7 @@ class NotificationWorker(
         val groupName = toDoDao.getGroupNameById(groupId)
 
         // Create mark as done confirmation intent for the notification
-        val markAsDoneIntent = IntentService.getMarkAsDonePendingIntent(
-            applicationContext,
+        val markAsDoneIntent = intentService.getMarkAsDonePendingIntent(
             todoId,
             title,
             groupId,
@@ -41,8 +40,7 @@ class NotificationWorker(
         )
 
         // Create the pending intent for the notification
-        val pendingIntent = IntentService.getMainActivityPendingIntent(
-            applicationContext,
+        val pendingIntent = intentService.getMainActivityPendingIntent(
             todoId,
             groupId,
             groupName

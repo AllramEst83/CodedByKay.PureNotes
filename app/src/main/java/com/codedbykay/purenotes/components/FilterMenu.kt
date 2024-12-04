@@ -23,7 +23,9 @@ import com.codedbykay.purenotes.models.ToDoFilter
 import com.codedbykay.purenotes.viewModels.ToDoViewModel
 
 @Composable
-fun FilterMenu(toDoViewModel: ToDoViewModel) {
+fun FilterMenu(
+    toDoViewModel: ToDoViewModel,
+) {
     var expanded by remember { mutableStateOf(false) }
 
     // Observe the current filter state

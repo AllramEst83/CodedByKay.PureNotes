@@ -28,6 +28,7 @@ import com.codedbykay.purenotes.components.SearchMenu
 import com.codedbykay.purenotes.components.SortMenu
 import com.codedbykay.purenotes.components.ToDoListContainer
 import com.codedbykay.purenotes.utils.handleEmptyBackNavigation
+import com.codedbykay.purenotes.viewModels.ImageGalleryViewModel
 import com.codedbykay.purenotes.viewModels.ToDoViewModel
 import kotlinx.coroutines.delay
 
@@ -35,9 +36,10 @@ import kotlinx.coroutines.delay
 @Composable
 fun ToDoPage(
     toDoViewModel: ToDoViewModel,
+    imageGalleryViewModel: ImageGalleryViewModel,
     groupId: Int,
     groupName: String,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     val toDoList by toDoViewModel.toDoList.observeAsState(emptyList())
     var inputText by remember { mutableStateOf("") }
@@ -259,6 +261,7 @@ fun ToDoPage(
                         .zIndex(0f)
                         .padding(top = listPaddingTop),
                     toDoViewModel = toDoViewModel,
+                    imageGalleryViewModel = imageGalleryViewModel,
                     groupId = groupId,
                     toDoList = toDoList
                 )

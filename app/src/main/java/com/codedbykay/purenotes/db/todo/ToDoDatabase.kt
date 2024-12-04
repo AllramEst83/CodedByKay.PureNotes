@@ -8,12 +8,13 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [ToDo::class, ToDoGroup::class], version = 1)
+@Database(entities = [ToDo::class, ToDoGroup::class, ToDoImage::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class ToDoDatabase : RoomDatabase() {
 
     abstract fun getTodoGroupDao(): ToDoGroupDao
     abstract fun getTodoDao(): ToDoDao
+    abstract fun getImageDao(): ImageDao
 
     companion object {
         const val NAME = "ToDo_DB"
@@ -29,6 +30,7 @@ abstract class ToDoDatabase : RoomDatabase() {
                     NAME
                 )
                     .addMigrations(MIGRATION_1)
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance
@@ -41,38 +43,51 @@ abstract class ToDoDatabase : RoomDatabase() {
                 // Create ToDoGroup table
                 database.execSQL(
                     """
-                    CREATE TABLE IF NOT EXISTS ToDoGroup (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                        name TEXT NOT NULL
-                    )
-                    """
+            CREATE TABLE IF NOT EXISTS ToDoGroup (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                name TEXT NOT NULL
+            )
+            """
                 )
 
                 // Create ToDo table with all required fields
                 database.execSQL(
                     """
-                    CREATE TABLE IF NOT EXISTS ToDo (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                        title TEXT NOT NULL,
-                        content TEXT,
-                        createdAt INTEGER NOT NULL,
-                        done INTEGER NOT NULL DEFAULT 0,
-                        groupId INTEGER DEFAULT NULL,
-                        notificationTime INTEGER,
-                        FOREIGN KEY (groupId) REFERENCES ToDoGroup(id) ON DELETE CASCADE
-                        notificationRequestCode INTEGER DEFAULT NULL,
-                        notificationAction TEXT DEFAULT NULL,
-                        notificationDataUri TEXT DEFAULT NULL                        
-                    )
-                    """
+            CREATE TABLE IF NOT EXISTS ToDo (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                title TEXT NOT NULL,
+                content TEXT,
+                createdAt INTEGER NOT NULL,
+                done INTEGER NOT NULL DEFAULT 0,
+                groupId INTEGER DEFAULT NULL,
+                notificationTime INTEGER,
+                notificationRequestCode INTEGER DEFAULT NULL,
+                notificationAction TEXT DEFAULT NULL,
+                notificationDataUri TEXT DEFAULT NULL,
+                FOREIGN KEY (groupId) REFERENCES ToDoGroup(id) ON DELETE CASCADE
+            )
+            """
                 )
 
-                // Create an index on groupId for optimized queries
+                // Create ToDoImages table
+                database.execSQL(
+                    """
+            CREATE TABLE IF NOT EXISTS ToDoImages (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                toDoId INTEGER NOT NULL,
+                imageUri TEXT NOT NULL,
+                FOREIGN KEY(toDoId) REFERENCES ToDo(id) ON DELETE CASCADE
+            )
+            """
+                )
+
+                // Create index only for ToDo table
                 database.execSQL("CREATE INDEX IF NOT EXISTS index_ToDo_groupId ON ToDo(groupId)")
 
                 // Enable foreign keys
                 database.execSQL("PRAGMA foreign_keys=on;")
             }
         }
+
     }
 }

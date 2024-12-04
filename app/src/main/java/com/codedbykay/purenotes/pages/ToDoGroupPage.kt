@@ -48,6 +48,7 @@ import com.codedbykay.purenotes.components.RoundedCircularProgressIndicator
 import com.codedbykay.purenotes.components.SearchMenu
 import com.codedbykay.purenotes.components.ToDoGroupList
 import com.codedbykay.purenotes.ui.theme.ToDoAppTheme
+import com.codedbykay.purenotes.viewModels.ImageGalleryViewModel
 import com.codedbykay.purenotes.viewModels.SettingsViewModel
 import com.codedbykay.purenotes.viewModels.ToDoGroupViewModel
 import kotlinx.coroutines.delay
@@ -58,9 +59,10 @@ import java.util.Date
 @Composable
 fun ToDoGroupPage(
     toDoGroupViewModel: ToDoGroupViewModel,
+    imageGalleryViewModel: ImageGalleryViewModel,
     settingsViewModel: SettingsViewModel,
     onNavigateToSettings: () -> Unit,
-    onNavigateToToDoPage: (Int, String) -> Unit
+    onNavigateToToDoPage: (Int, String) -> Unit,
 ) {
     ToDoAppTheme(settingsViewModel) {
         val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -279,6 +281,7 @@ fun ToDoGroupPage(
                                 .padding(top = listPaddingTop)
                                 .zIndex(0f),
                             toDoGroupViewModel = toDoGroupViewModel,
+                            imageGalleryViewModel = imageGalleryViewModel,
                             onGroupClick = { groupId, groupName ->
                                 onNavigateToToDoPage(groupId, groupName)
                             }
