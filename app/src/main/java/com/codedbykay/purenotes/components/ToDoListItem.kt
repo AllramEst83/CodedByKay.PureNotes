@@ -364,7 +364,8 @@ fun ToDoListItem(
                                 }
 
 
-                                Spacer(modifier = Modifier.height(8.dp))
+                                Spacer(modifier = Modifier.height(3.dp))
+
                                 // Button row
                                 ActionButtonsRow(
                                     isEditing = isEditing,
@@ -424,7 +425,7 @@ fun ToDoListItem(
                                     },
                                     rowModifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(top = 8.dp)
+                                        .padding(top = 2.dp)
                                         .alpha(if (isChecked) 0.5f else 1f)
                                 )
                             }

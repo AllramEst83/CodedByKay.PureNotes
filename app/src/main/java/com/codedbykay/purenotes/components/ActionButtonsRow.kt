@@ -142,7 +142,6 @@ fun ActionButtonsRow(
 
     // Delete confirmation dialog
     if (showDeleteDialog.value) {
-
         DeleteAlertModal(
             onDelete = {
                 onDeleteClick()

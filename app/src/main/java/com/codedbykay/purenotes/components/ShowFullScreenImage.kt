@@ -7,9 +7,7 @@ import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -47,11 +45,14 @@ fun ShowFullScreenImage(
     var scale by remember { mutableFloatStateOf(1f) }
     var offset by remember { mutableStateOf(Offset.Zero) }
 
+    val minScale = 1f
+    val maxScale = 3f
+
     selectedImage?.let { imageEntity ->
         Dialog(
             onDismissRequest = {
                 scale = 1f
-                offset = Offset(0f, 0f)
+                offset = Offset.Zero
                 onDismiss()
             },
             properties = DialogProperties(
@@ -63,20 +64,18 @@ fun ShowFullScreenImage(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background)
+                    .background(MaterialTheme.colorScheme.background),
+                contentAlignment = Alignment.Center
             ) {
                 // Main Image
                 AsyncImage(
                     model = imageEntity.imageUri,
                     contentDescription = "Fullscreen image",
-                    contentScale = ContentScale.Fit,
+                    contentScale = ContentScale.None,
                     onSuccess = { success ->
-                        // Retrieve the Drawable from the ImageResult
                         val drawable = success.result.image
-                        // Get intrinsic width and height
                         val width = drawable.width
                         val height = drawable.height
-                        // Update the aspect ratio if height is non-zero to avoid division by zero
                         if (height > 0) {
                             aspectRatio = width.toFloat() / height.toFloat()
                         }
@@ -92,13 +91,10 @@ fun ShowFullScreenImage(
                         }
                         .pointerInput(Unit) {
                             detectTransformGestures { _, pan, zoom, _ ->
-                                scale *= zoom
-                                scale = scale.coerceIn(0.5f, 3f)
-                                offset = if (scale == 1f) {
-                                    Offset(0f, 0f)
-                                } else {
-                                    offset + pan
-                                }
+                                val previousScale = scale
+                                scale = (scale * zoom).coerceIn(minScale, maxScale)
+                                val scaleChange = scale / previousScale
+                                offset += pan * scaleChange
                             }
                         }
                         .graphicsLayer(
@@ -107,12 +103,9 @@ fun ShowFullScreenImage(
                             translationX = offset.x,
                             translationY = offset.y
                         )
-                        .align(Alignment.Center)
-                        .fillMaxWidth()
-                        .aspectRatio(aspectRatio)
                 )
 
-
+                // Share and Close Buttons
                 Row(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
@@ -141,11 +134,11 @@ fun ShowFullScreenImage(
                         )
                     }
 
-                    // Close Button with improved visibility
+                    // Close Button
                     IconButton(
                         onClick = {
                             scale = 1f
-                            offset = Offset(0f, 0f)
+                            offset = Offset.Zero
                             onDismiss()
                         },
                         modifier = Modifier
@@ -160,8 +153,6 @@ fun ShowFullScreenImage(
                         )
                     }
                 }
-
-
             }
         }
     }
