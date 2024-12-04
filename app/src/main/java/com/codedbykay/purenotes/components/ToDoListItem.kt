@@ -364,7 +364,7 @@ fun ToDoListItem(
                                 }
 
 
-                                Spacer(modifier = Modifier.height(3.dp))
+                                Spacer(modifier = Modifier.height(5.dp))
 
                                 // Button row
                                 ActionButtonsRow(

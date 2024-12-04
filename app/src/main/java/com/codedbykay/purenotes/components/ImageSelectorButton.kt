@@ -85,9 +85,7 @@ fun ImageSelectorButton(
         Icon(
             imageVector = Icons.Default.Image,
             contentDescription = if (isButtonEnabled) "Add image" else "Image limit reached",
-            modifier = iconModifier,
-            tint = if (isButtonEnabled) MaterialTheme.colorScheme.secondary
-            else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f) // Dimmed tint when disabled
+            modifier = iconModifier
         )
     }
 }
