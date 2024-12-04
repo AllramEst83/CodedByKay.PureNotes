@@ -126,7 +126,7 @@ class PureNotesWidget : GlanceAppWidget() {
             Column(
                 modifier = GlanceModifier
                     .fillMaxWidth()
-                    .padding(start = 4.dp, end = 4.dp, top = 4.dp)
+                    .padding(4.dp)
                     .background(GlanceTheme.colors.surfaceVariant),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -298,40 +298,43 @@ class PureNotesWidget : GlanceAppWidget() {
     ) {
         val emptyListText = LocalContext.current.getString(R.string.empty_list_message)
 
-        if (listOfTodos.isNotEmpty()) {
-            LazyColumn(
-                modifier = GlanceModifier
-                    .fillMaxSize()
-            ) {
-
-                itemsIndexed(listOfTodos) { _, item ->
-                    Row(
-                        modifier = GlanceModifier
-                            .padding(top = 4.dp, bottom = 4.dp)
-                    ) {
-                        WidgetItem(item)
+        Column(
+            modifier = GlanceModifier
+                .fillMaxSize()
+        ) {
+            if (listOfTodos.isNotEmpty()) {
+                LazyColumn(
+                    modifier = GlanceModifier
+                        .fillMaxSize()
+                ) {
+                    itemsIndexed(listOfTodos) { _, item ->
+                        Row(
+                            modifier = GlanceModifier
+                                .padding(top = 4.dp, bottom = 4.dp)
+                        ) {
+                            WidgetItem(item)
+                        }
                     }
                 }
-            }
-        } else {
-            // Handle empty list case (optional)
-            Box(
-                modifier = GlanceModifier
-                    .fillMaxSize()
-                    .background(GlanceTheme.colors.background)
-                    .cornerRadius(15.dp)
-                    .padding(10.dp),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    modifier = GlanceModifier,
-                    text = emptyListText,
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        textAlign = TextAlign.Center,
-                        color = GlanceTheme.colors.onBackground
+            } else {
+                // Handle empty list case
+                Box(
+                    modifier = GlanceModifier
+                        .defaultWeight() // This helps with vertical space distribution
+                        .fillMaxWidth()
+                        .background(GlanceTheme.colors.background)
+                        .cornerRadius(15.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = emptyListText,
+                        style = TextStyle(
+                            fontSize = 20.sp,
+                            textAlign = TextAlign.Center,
+                            color = GlanceTheme.colors.onBackground
+                        )
                     )
-                )
+                }
             }
         }
     }
