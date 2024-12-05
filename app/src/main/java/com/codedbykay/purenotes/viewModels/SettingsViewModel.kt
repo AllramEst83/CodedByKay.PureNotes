@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.codedbykay.purenotes.MainApplication
+import com.codedbykay.purenotes.constants.ThemeConstants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -14,10 +15,8 @@ class SettingsViewModel : ViewModel() {
     // Locale manager
     private val localeManager = MainApplication.localeManager
 
-    enum class ThemeMode { REBECKA_LIGHT, REBECKA_DARK, RED, GREEN, PINK, SEVENTIES, CARNIVAL, SYSTEM_DEFAULT }
-
     private val themeDataStoreManager = MainApplication.themeDataStoreManager
-    var themeMode by mutableStateOf(ThemeMode.SYSTEM_DEFAULT)
+    var themeMode by mutableStateOf(ThemeConstants.ThemeMode.SYSTEM_DEFAULT)
         private set
 
     init {
@@ -32,7 +31,7 @@ class SettingsViewModel : ViewModel() {
         }
     }
 
-    fun setTheme(themeMode: ThemeMode) {
+    fun setTheme(themeMode: ThemeConstants.ThemeMode) {
         this.themeMode = themeMode
         viewModelScope.launch(Dispatchers.IO) {
             themeDataStoreManager.saveThemeMode(themeMode)

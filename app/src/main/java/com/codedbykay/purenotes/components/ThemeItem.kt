@@ -13,14 +13,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.codedbykay.purenotes.constants.ThemeConstants.ThemeMode
 import com.codedbykay.purenotes.models.ThemeOption
-import com.codedbykay.purenotes.viewModels.SettingsViewModel
 
 @Composable
 fun ThemeItem(
-    currentTheme: SettingsViewModel.ThemeMode,
+    currentTheme: ThemeMode,
     themeOption: ThemeOption,
-    onThemeSelected: (SettingsViewModel.ThemeMode) -> Unit
+    onThemeSelected: (ThemeMode) -> Unit,
 ) {
     Row(
         modifier = Modifier

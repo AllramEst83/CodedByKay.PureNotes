@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import com.codedbykay.purenotes.R
 import java.util.Calendar
 
 @Composable
@@ -46,7 +47,7 @@ fun ShowTimePickerDialog(
                             // Show a message to the user if the time is in the past
                             Toast.makeText(
                                 context,
-                                "Please select a future time.",
+                                context.getString(R.string.select_future_time),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }

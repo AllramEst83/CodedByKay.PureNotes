@@ -12,8 +12,6 @@ import java.util.UUID
 
 class ImageStorageService(private val context: Context) {
 
-    private val notesDirName = "notes"
-
     /**
      * Saves a Bitmap to the app's internal storage in a folder based on noteId and returns its file path.
      */

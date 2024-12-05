@@ -8,6 +8,7 @@ import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.state.PreferencesGlanceStateDefinition
 import com.codedbykay.purenotes.MainApplication
+import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.db.todo.ToDo
 import com.codedbykay.purenotes.receivers.ToastReceiver
 import com.codedbykay.purenotes.widgets.PureNotesWidget
@@ -31,7 +32,7 @@ class MarkToDoAsDone : ActionCallback {
 
             // Broadcast to show Toast
             val intent = Intent(context, ToastReceiver::class.java).apply {
-                putExtra("toast_message", "Failed to mark note as done")
+                putExtra("toast_message", context.getString(R.string.error_todo_id_missing))
             }
             context.sendBroadcast(intent)
             return
@@ -73,7 +74,10 @@ class MarkToDoAsDone : ActionCallback {
 
         // Broadcast to show Toast
         val intent = Intent(context, ToastReceiver::class.java).apply {
-            putExtra("toast_message", "Note marked as done")
+            putExtra(
+                "toast_message",
+                context.getString(R.string.notification_note_is_marked_as_done)
+            )
         }
         context.sendBroadcast(intent)
     }

@@ -166,7 +166,7 @@ class PureNotesWidget : GlanceAppWidget() {
                                 .padding(horizontal = 8.dp, vertical = 4.dp)
                         ) {
                             Text(
-                                text = "Pure notes mini",
+                                text = LocalContext.current.getString(R.string.pure_note_mini),
                                 style = TextStyle(
                                     fontSize = 20.sp,
                                     color = GlanceTheme.colors.onBackground

@@ -83,4 +83,14 @@
     <string name="notification_permission_message_permenantly_denied">Notification permission is permanently denied. Please enable it in app settings.</string>
     <string name="content_copied">Copied to clipboard</string>
     <string name="notification_permission_message_permenantly_denied_Title">Permission Required</string>
+    <string name="select_future_time">Please select a future time.</string>
+    <string name="error_todo_id_missing">Failed to mark note as done</string>
+    <string name="error_group_id_missing">Failed to update widget</string>
+    <string name="error_no_groups_available">No groups available</string>
+    <string name="widget_data_refreshed">Widget data refreshed</string>
+    <string name="pure_note_mini" translatable="false">Pure notes mini</string>
+    <string name="notification_permission_granted">Notification permission granted</string>
+    <string name="notification_permission_required">Notification permission is required for notifications</string>
+    <string name="enable_exact_alarms">Please enable exact alarms for timely notifications.</string>
+    <string name="enable_dnd_access">Please allow \\\'Do Not Disturb\\\' access for better notifications.</string>
 </resources>

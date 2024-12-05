@@ -6,7 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.codedbykay.purenotes.viewModels.SettingsViewModel
+import com.codedbykay.purenotes.constants.ThemeConstants.ThemeMode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -19,17 +19,17 @@ class ThemeDataStoreManager(private val context: Context) {
     }
 
     // Function to save the theme mode using enum
-    suspend fun saveThemeMode(themeMode: SettingsViewModel.ThemeMode) {
+    suspend fun saveThemeMode(themeMode: ThemeMode) {
         context.themeDataStore.edit { preferences ->
             preferences[THEME_MODE_KEY] = themeMode.name
         }
     }
 
     // Function to retrieve the theme mode as a Flow and convert to enum
-    val themeMode: Flow<SettingsViewModel.ThemeMode> = context.themeDataStore.data
+    val themeMode: Flow<ThemeMode> = context.themeDataStore.data
         .map { preferences ->
             val themeString =
-                preferences[THEME_MODE_KEY] ?: SettingsViewModel.ThemeMode.SYSTEM_DEFAULT.name
-            SettingsViewModel.ThemeMode.valueOf(themeString)
+                preferences[THEME_MODE_KEY] ?: ThemeMode.SYSTEM_DEFAULT.name
+            ThemeMode.valueOf(themeString)
         }
 }

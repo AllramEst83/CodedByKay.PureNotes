@@ -9,6 +9,7 @@ import androidx.glance.appwidget.state.getAppWidgetState
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.state.PreferencesGlanceStateDefinition
 import com.codedbykay.purenotes.MainApplication
+import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.db.todo.ToDo
 import com.codedbykay.purenotes.db.todo.ToDoGroup
 import com.codedbykay.purenotes.receivers.ToastReceiver
@@ -40,7 +41,7 @@ class RefreshNoteListsAction : ActionCallback {
 
             // Broadcast to show Toast
             val intent = Intent(context, ToastReceiver::class.java).apply {
-                putExtra("toast_message", "Failed to update widget")
+                putExtra("toast_message", context.getString(R.string.error_group_id_missing))
             }
             context.sendBroadcast(intent)
             return
@@ -80,7 +81,7 @@ class RefreshNoteListsAction : ActionCallback {
 
             // Broadcast to show Toast
             val intent = Intent(context, ToastReceiver::class.java).apply {
-                putExtra("toast_message", "No groups available")
+                putExtra("toast_message", context.getString(R.string.error_no_groups_available))
             }
             context.sendBroadcast(intent)
             return
@@ -112,7 +113,7 @@ class RefreshNoteListsAction : ActionCallback {
 
         // Broadcast to show Toast
         val intent = Intent(context, ToastReceiver::class.java).apply {
-            putExtra("toast_message", "Widget data refreshed")
+            putExtra("toast_message", context.getString(R.string.widget_data_refreshed))
         }
         context.sendBroadcast(intent)
     }

@@ -34,12 +34,16 @@ class MainActivity : ComponentActivity() {
     ) { isGranted: Boolean ->
         if (isGranted) {
             // Permission granted, proceed with any notification-related setup
-            Toast.makeText(this, "Notification permission granted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                getString(R.string.notification_permission_granted),
+                Toast.LENGTH_SHORT
+            ).show()
         } else {
             // Permission denied, handle gracefully
             Toast.makeText(
                 this,
-                "Notification permission is required for notifications",
+                getString(R.string.notification_permission_required),
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -123,7 +127,7 @@ class MainActivity : ComponentActivity() {
             startActivity(intent)
             Toast.makeText(
                 this,
-                "Please enable exact alarms for timely notifications.",
+                getString(R.string.enable_exact_alarms),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -138,7 +142,7 @@ class MainActivity : ComponentActivity() {
             startActivity(intent)
             Toast.makeText(
                 this,
-                "Please allow 'Do Not Disturb' access for better notifications.",
+                getString(R.string.enable_dnd_access),
                 Toast.LENGTH_LONG
             ).show()
         }

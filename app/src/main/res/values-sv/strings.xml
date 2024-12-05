@@ -80,4 +80,13 @@
     <string name="notification_permission_message_permenantly_denied">Aviseringsbehörighet är permanent nekad. Aktivera den i appens inställningar.</string>
     <string name="content_copied">Innehåll kopierat</string>
     <string name="notification_permission_message_permenantly_denied_Title">Behörighet krävs</string>
+    <string name="select_future_time">Vänligen välj en framtida tidpunkt.</string>
+    <string name="error_todo_id_missing">Misslyckades med att klar markera anteckning</string>
+    <string name="error_group_id_missing">Misslyckades med att uppdatera widget</string>
+    <string name="error_no_groups_available">Inga grupper tillgängliga</string>
+    <string name="widget_data_refreshed">Widget uppdaterad</string>
+    <string name="notification_permission_granted">Notifikationsbehörighet godkänd</string>
+    <string name="notification_permission_required">Meddelandetillstånd krävs för aviseringar</string>
+    <string name="enable_exact_alarms">Aktivera exakta larm för att få aviseringar i tid.</string>
+    <string name="enable_dnd_access">Tillåt åtkomst till \\\'Stör ej\\\' för bättre aviseringar.</string>
 </resources>

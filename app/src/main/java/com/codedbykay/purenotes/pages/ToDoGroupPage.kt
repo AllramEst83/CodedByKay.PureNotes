@@ -79,7 +79,10 @@ fun ToDoGroupPage(
         val density = LocalDensity.current
 
         val transition =
-            updateTransition(targetState = inputFieldVisible, label = "InputFieldTransition")
+            updateTransition(
+                targetState = inputFieldVisible,
+                label = "InputFieldTransition"
+            )
 
         val inputFieldOffset by transition.animateDp(
             transitionSpec = { tween(durationMillis = 300) },

@@ -11,9 +11,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.codedbykay.purenotes.constants.ThemeConstants.ThemeMode
 import com.codedbykay.purenotes.utils.adjustedForStatusBar
 import com.codedbykay.purenotes.viewModels.SettingsViewModel
-import com.codedbykay.purenotes.viewModels.SettingsViewModel.ThemeMode
 
 @Composable
 fun ToDoAppTheme(
