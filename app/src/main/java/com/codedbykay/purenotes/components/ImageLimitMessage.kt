@@ -4,7 +4,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-
+import androidx.compose.ui.res.stringResource
+import com.codedbykay.purenotes.R
 @Composable
 fun ImageLimitMessage(
     modifier: Modifier = Modifier,
@@ -14,9 +15,13 @@ fun ImageLimitMessage(
 
     if (showImageLimitMessage) {
         Text(
-            text = "You have reached the maximum of $maxImages images.",
+            text = stringResource(
+                R.string.image_limit_message,
+                maxImages
+            ),
             color = Color.Gray,
             modifier = modifier
         )
     }
 }
+//

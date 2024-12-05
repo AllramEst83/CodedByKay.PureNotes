@@ -100,7 +100,7 @@ fun ToDoListContainer(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "Done",
+                                text = stringResource(id = R.string.notes_done_list_title),
                                 style = MaterialTheme.typography.titleMedium,
                                 modifier = Modifier.weight(1f),
                                 color = MaterialTheme.colorScheme.primary

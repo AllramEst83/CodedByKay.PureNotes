@@ -151,7 +151,7 @@ fun ShowFullScreenImage(
                     },
                     onError = { error ->
                         // Handle the error, possibly show a placeholder or dismiss the dialog
-                        Log.e("AsyncImage", "Image loading failed", error.result.throwable)
+                        Log.d("AsyncImage", "Image loading failed", error.result.throwable)
                         onDismiss()
                     }
 

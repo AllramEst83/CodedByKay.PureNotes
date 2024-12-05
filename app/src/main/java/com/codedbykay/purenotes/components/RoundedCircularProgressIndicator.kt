@@ -38,7 +38,7 @@ fun RoundedCircularProgressIndicator(
 
     // Sweep angle animation from 0 to 270 degrees and back to 0
     val sweepAngle by infiniteTransition.animateFloat(
-        label = "",
+        label = "sweep angle animation",
         initialValue = 0f,
         targetValue = 270f,
         animationSpec = infiniteRepeatable(

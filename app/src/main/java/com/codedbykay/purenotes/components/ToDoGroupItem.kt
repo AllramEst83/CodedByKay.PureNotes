@@ -1,6 +1,5 @@
 package com.codedbykay.purenotes.components
 
-import android.icu.text.SimpleDateFormat
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
@@ -21,7 +20,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import com.codedbykay.purenotes.db.todo.ToDoGroup
 import com.codedbykay.purenotes.utils.customCircleBackground
-import java.util.Locale
+import com.codedbykay.purenotes.utils.formatToString
 
 @Composable
 fun ToDoGroupItem(
@@ -33,7 +32,7 @@ fun ToDoGroupItem(
     onShare: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val formattedDate = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH).format(group.createdAt)
+    val formattedDate = group.createdAt.formatToString()
     var isEditing by remember { mutableStateOf(false) }
     var name by remember(group.id) { mutableStateOf(group.name) }
     var expanded by remember { mutableStateOf(false) }

@@ -119,7 +119,7 @@ fun ToDoListItem(
                     // Optionally inform the user
                     Toast.makeText(
                         context,
-                        "Notification permission is required to set reminders.",
+                        context.getString(R.string.notification_permission_message),
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
@@ -336,8 +336,8 @@ fun ToDoListItem(
                                 if (showSettingsDialog) {
                                     AlertDialog(
                                         onDismissRequest = { showSettingsDialog = false },
-                                        title = { Text("Permission Required") },
-                                        text = { Text("Notification permission is permanently denied. Please enable it in app settings.") },
+                                        title = { Text(stringResource(R.string.notification_permission_message_permenantly_denied_Title)) },
+                                        text = { Text(stringResource(R.string.notification_permission_message_permenantly_denied)) },
                                         confirmButton = {
                                             Button(onClick = {
                                                 showSettingsDialog = false
@@ -401,7 +401,7 @@ fun ToDoListItem(
 
                                         Toast.makeText(
                                             context,
-                                            "Removed notification",
+                                            context.getString(R.string.notification_cleared),
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     },
@@ -419,7 +419,7 @@ fun ToDoListItem(
 
                                         Toast.makeText(
                                             context,
-                                            "Copied to clipboard",
+                                            context.getString(R.string.content_copied),
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     },

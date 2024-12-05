@@ -67,4 +67,17 @@
     <string name="app_description">Nå dina anteckningar på hemskärmen</string>
     <string name="share_shared_from">Delad från Pure Notes</string>
     <string name="copy_content_copied">Innehållet kopierat</string>
+    <string name="edit_content">Redigera innehåll</string>
+    <string name="edit_title">Redigera innehåll</string>
+    <string name="group_delete_dialog_question">Är du säker på att du vill ta bort den här gruppen?</string>
+    <string name="group_delete_dialog_title">Bekräfta radering</string>
+    <string name="group_delete_dialog_confirm_button">Radera</string>
+    <string name="group_delete_dialog_cancel_button">Avbryt</string>
+    <string name="image_limit_message">Du har nått det maximala antalet på %1$d bilder.</string>
+    <string name="notes_done_list_title">Klara</string>
+    <string name="notification_permission_message">Behörighet för aviseringar krävs för att ställa in påminnelser.</string>
+    <string name="notification_cleared">Notifikation borttagen</string>
+    <string name="notification_permission_message_permenantly_denied">Aviseringsbehörighet är permanent nekad. Aktivera den i appens inställningar.</string>
+    <string name="content_copied">Innehåll kopierat</string>
+    <string name="notification_permission_message_permenantly_denied_Title">Behörighet krävs</string>
 </resources>

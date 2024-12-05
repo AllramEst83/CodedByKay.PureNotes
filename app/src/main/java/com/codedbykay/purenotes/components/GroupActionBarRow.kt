@@ -21,7 +21,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.utils.customCircleBackground
 
 @Composable
@@ -86,8 +88,8 @@ fun GroupActionButtonsRow(
     if (showDeleteDialog.value) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog.value = false },
-            title = { Text(text = "Confirm Deletion") },
-            text = { Text("Are you sure you want to delete this item?") },
+            title = { Text(text = stringResource(id = R.string.group_delete_dialog_title)) },
+            text = { Text(stringResource(id = R.string.group_delete_dialog_question)) },
             confirmButton = {
                 Button(
                     onClick = {
@@ -95,14 +97,14 @@ fun GroupActionButtonsRow(
                         showDeleteDialog.value = false
                     }
                 ) {
-                    Text("Delete")
+                    Text(stringResource(id = R.string.group_delete_dialog_confirm_button))
                 }
             },
             dismissButton = {
                 Button(
                     onClick = { showDeleteDialog.value = false }
                 ) {
-                    Text("Cancel")
+                    Text(stringResource(id = R.string.group_delete_dialog_cancel_button))
                 }
             }
         )
