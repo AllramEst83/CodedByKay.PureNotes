@@ -12,7 +12,7 @@ import android.util.Log
 import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.receivers.NotificationReceiver
 
-class notificationService(context: Context) {
+class NotificationService(context: Context) {
 
     private val appContext = context.applicationContext
     private val channelId = "todo_channel"
