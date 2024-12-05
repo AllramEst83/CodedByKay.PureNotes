@@ -12,7 +12,7 @@ import android.util.Log
 import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.receivers.NotificationReceiver
 
-class NotificationService(context: Context) {
+class notificationService(context: Context) {
 
     private val appContext = context.applicationContext
     private val channelId = "todo_channel"
@@ -81,7 +81,7 @@ class NotificationService(context: Context) {
         notificationDataUri: String?
     ) {
         if (notificationRequestCode == null || notificationAction == null || notificationDataUri == null) {
-            Log.d("NotificationService", "Invalid parameters: Unable to cancel notification")
+            Log.d("notificationService", "Invalid parameters: Unable to cancel notification")
             return
         }
 
@@ -100,12 +100,12 @@ class NotificationService(context: Context) {
         if (pendingIntent != null) {
             alarmManager.cancel(pendingIntent)
             pendingIntent.cancel()
-            Log.d("NotificationService", "Notification canceled and database updated for ID: $id")
+            Log.d("notificationService", "Notification canceled and database updated for ID: $id")
         } else {
-            Log.d("NotificationService", "Pending Intent does not exist for ID: $id")
+            Log.d("notificationService", "Pending Intent does not exist for ID: $id")
         }
 
         toDoDao.removeAlarmFromToDo(id)
-        Log.d("NotificationService", "Database updated for ID: $id")
+        Log.d("notificationService", "Database updated for ID: $id")
     }
 }

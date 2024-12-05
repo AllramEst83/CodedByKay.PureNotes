@@ -16,6 +16,7 @@ import com.google.gson.Gson
 
 class MarkToDoAsDone : ActionCallback {
     private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
+    private val notificationService = MainApplication.notificationService
 
     override suspend fun onAction(
         context: Context,
@@ -37,6 +38,20 @@ class MarkToDoAsDone : ActionCallback {
         }
 
         toDoDao.updateToDoDone(todoId, true)
+        val toDo = toDoDao.getToDoById(todoId)
+
+        if (toDo.notificationRequestCode != null &&
+            toDo.notificationAction != null &&
+            toDo.notificationDataUri != null
+        ) {
+            notificationService.cancelNotification(
+                toDo.id,
+                toDo.notificationRequestCode,
+                toDo.notificationAction,
+                toDo.notificationDataUri
+            )
+        }
+
         val todos = toDoDao.getToDosNotDoneByGroupId(groupId)
 
         val gson = Gson()

@@ -6,7 +6,7 @@ import com.codedbykay.purenotes.managers.LocaleManager
 import com.codedbykay.purenotes.managers.ThemeDataStoreManager
 import com.codedbykay.purenotes.services.ImageStorageService
 import com.codedbykay.purenotes.services.IntentService
-import com.codedbykay.purenotes.services.NotificationService
+import com.codedbykay.purenotes.services.notificationService
 
 class MainApplication : Application() {
 
@@ -24,8 +24,8 @@ class MainApplication : Application() {
             ImageStorageService(instance.applicationContext)
         }
 
-        val NotificationService: NotificationService by lazy {
-            NotificationService(instance.applicationContext)
+        val notificationService: notificationService by lazy {
+            notificationService(instance.applicationContext)
         }
 
         // Services

@@ -25,7 +25,7 @@ import java.time.Instant
 class ToDoViewModel() : ViewModel() {
 
     // Services
-    private val notificationService = MainApplication.NotificationService
+    private val notificationService = MainApplication.notificationService
 
     // DAO´s
     private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
@@ -143,7 +143,7 @@ class ToDoViewModel() : ViewModel() {
         time: Long
     ) {
 
-        // Use NotificationService to schedule the notification
+        // Use notificationService to schedule the notification
         notificationService.scheduleNotification(
             id = id,
             title = title,
