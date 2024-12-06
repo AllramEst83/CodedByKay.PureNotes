@@ -6,4 +6,4 @@
     android:initialLayout="@layout/widget_initial_layout"
     android:resizeMode="horizontal |vertical"
     android:widgetCategory="home_screen"
-    android:previewImage="@drawable/pure_notes_widget_preview" />
+    android:previewImage="@drawable/pure_notes_widget_small_thumb" />
