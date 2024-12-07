@@ -41,4 +41,4 @@ and efficient way to organize tasks, set reminders, and customize the app to you
 
 ### Contribute
 
-- [Testing Documentation](./CONTRIBUTE.md)
+- [Contribute Documentation](./CONTRIBUTE.md)
