@@ -1,6 +1,5 @@
 package com.codedbykay.purenotes
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.codedbykay.purenotes.db.GroupWithTodos
 import com.codedbykay.purenotes.db.ToDo
 import com.codedbykay.purenotes.db.ToDoGroup
@@ -8,10 +7,8 @@ import com.codedbykay.purenotes.utils.buildNoteShareContent
 import com.codedbykay.purenotes.utils.buildShareContent
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
-import org.junit.runner.RunWith
 import java.util.Date
 
-@RunWith(AndroidJUnit4::class)
 class ShareContentUtilsTest {
 
     @Test

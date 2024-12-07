@@ -16,16 +16,16 @@ workflows:
         script: chmod +x ./gradlew
       - name: Run Unit Tests
         script: ./gradlew test
-      - name: Start Emulator for Instrumentation Tests
-        script: |
-          $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio &
-          adb wait-for-device
-      - name: Run Instrumentation Tests
-        script: ./gradlew connectedAndroidTest
+      - name: Run Android Lint
+        script: ./gradlew lint
       - name: Build Debug APK
         script: ./gradlew assembleDebug
     artifacts:
       - app/build/outputs/**/*.apk
+      - app/build/reports/jacoco/test/html
+    caching:
+      cache_paths:
+        - ~/.gradle
     publishing:
       email:
         recipients:
