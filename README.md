@@ -38,3 +38,7 @@ and efficient way to organize tasks, set reminders, and customize the app to you
 ### Testing
 
 - [Testing Documentation](./TESTING.md)
+
+### Contribute
+
+- [Testing Documentation](./CONTRIBUTE.md)
