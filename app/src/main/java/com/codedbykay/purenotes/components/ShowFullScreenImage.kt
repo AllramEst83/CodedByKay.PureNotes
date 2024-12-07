@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil3.compose.AsyncImage
-import com.codedbykay.purenotes.db.todo.ToDoImage
+import com.codedbykay.purenotes.db.ToDoImage
 import com.codedbykay.purenotes.utils.customCircleBackground
 
 @Composable

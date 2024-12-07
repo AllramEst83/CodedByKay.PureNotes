@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
-import com.codedbykay.purenotes.db.todo.ToDoGroup
+import com.codedbykay.purenotes.db.ToDoGroup
 import com.codedbykay.purenotes.utils.customCircleBackground
 import com.codedbykay.purenotes.utils.formatToString
 

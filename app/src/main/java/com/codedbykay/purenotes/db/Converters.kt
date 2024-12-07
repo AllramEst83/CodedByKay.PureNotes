@@ -1,4 +1,4 @@
-package com.codedbykay.purenotes.db.todo
+package com.codedbykay.purenotes.db
 
 import androidx.room.TypeConverter
 import java.util.Date

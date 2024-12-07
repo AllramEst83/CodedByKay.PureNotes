@@ -39,8 +39,8 @@ import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.codedbykay.purenotes.MainActivity
 import com.codedbykay.purenotes.R
-import com.codedbykay.purenotes.db.todo.ToDo
-import com.codedbykay.purenotes.db.todo.ToDoGroup
+import com.codedbykay.purenotes.db.ToDo
+import com.codedbykay.purenotes.db.ToDoGroup
 import com.codedbykay.purenotes.ui.theme.widget.widgetDarkSchemeDefaultDark
 import com.codedbykay.purenotes.ui.theme.widget.widgetLightSchemeDefaultLight
 import com.codedbykay.purenotes.utils.isBiggerOrEqualTo

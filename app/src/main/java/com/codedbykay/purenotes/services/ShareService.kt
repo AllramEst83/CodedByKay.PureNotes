@@ -1,7 +1,7 @@
 package com.codedbykay.purenotes.services
 
 import com.codedbykay.purenotes.MainApplication
-import com.codedbykay.purenotes.db.todo.GroupWithTodos
+import com.codedbykay.purenotes.db.GroupWithTodos
 import com.codedbykay.purenotes.utils.buildShareContent
 
 class ShareService {

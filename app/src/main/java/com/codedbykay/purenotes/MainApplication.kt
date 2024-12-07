@@ -1,7 +1,7 @@
 package com.codedbykay.purenotes
 
 import android.app.Application
-import com.codedbykay.purenotes.db.todo.ToDoDatabase
+import com.codedbykay.purenotes.db.ToDoDatabase
 import com.codedbykay.purenotes.managers.LocaleManager
 import com.codedbykay.purenotes.managers.ThemeDataStoreManager
 import com.codedbykay.purenotes.services.ImageStorageService

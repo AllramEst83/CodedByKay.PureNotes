@@ -9,8 +9,8 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.codedbykay.purenotes.MainApplication
-import com.codedbykay.purenotes.db.todo.ToDo
-import com.codedbykay.purenotes.db.todo.ToDoGroup
+import com.codedbykay.purenotes.db.ToDo
+import com.codedbykay.purenotes.db.ToDoGroup
 import com.codedbykay.purenotes.widgets.PureNotesWidget
 import com.google.gson.Gson
 import java.util.concurrent.TimeUnit

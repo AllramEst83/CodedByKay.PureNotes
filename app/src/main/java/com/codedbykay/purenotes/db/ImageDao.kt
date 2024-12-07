@@ -1,4 +1,5 @@
-package com.codedbykay.purenotes.db.todo
+package com.codedbykay.purenotes.db
+
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

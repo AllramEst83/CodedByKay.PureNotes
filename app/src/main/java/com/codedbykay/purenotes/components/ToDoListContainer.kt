@@ -23,7 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.codedbykay.purenotes.R
-import com.codedbykay.purenotes.db.todo.ToDo
+import com.codedbykay.purenotes.db.ToDo
 import com.codedbykay.purenotes.utils.blendWith
 import com.codedbykay.purenotes.viewModels.ImageGalleryViewModel
 import com.codedbykay.purenotes.viewModels.ToDoViewModel

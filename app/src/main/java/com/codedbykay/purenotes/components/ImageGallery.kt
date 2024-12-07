@@ -7,7 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
-import com.codedbykay.purenotes.db.todo.ToDoImage
+import com.codedbykay.purenotes.db.ToDoImage
 
 
 @Composable

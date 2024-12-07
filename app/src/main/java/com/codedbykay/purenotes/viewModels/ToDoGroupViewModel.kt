@@ -8,7 +8,7 @@ import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.codedbykay.purenotes.MainApplication
-import com.codedbykay.purenotes.db.todo.ToDoGroup
+import com.codedbykay.purenotes.db.ToDoGroup
 import com.codedbykay.purenotes.models.CreatedDateFilter
 import com.codedbykay.purenotes.models.SortOrder
 import com.codedbykay.purenotes.models.ToDoGroupFilter

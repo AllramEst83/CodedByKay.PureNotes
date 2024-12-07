@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.codedbykay.purenotes.MainApplication
-import com.codedbykay.purenotes.db.todo.ToDoImage
+import com.codedbykay.purenotes.db.ToDoImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

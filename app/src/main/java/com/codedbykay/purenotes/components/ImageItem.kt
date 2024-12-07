@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import coil3.compose.AsyncImage
 import com.codedbykay.purenotes.R
-import com.codedbykay.purenotes.db.todo.ToDoImage
+import com.codedbykay.purenotes.db.ToDoImage
 
 @Composable
 fun ImageItem(

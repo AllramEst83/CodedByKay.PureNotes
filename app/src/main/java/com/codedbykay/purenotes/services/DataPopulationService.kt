@@ -1,10 +1,10 @@
 package com.codedbykay.purenotes.services
 
 import android.util.Log
-import com.codedbykay.purenotes.db.todo.ToDo
-import com.codedbykay.purenotes.db.todo.ToDoDao
-import com.codedbykay.purenotes.db.todo.ToDoGroup
-import com.codedbykay.purenotes.db.todo.ToDoGroupDao
+import com.codedbykay.purenotes.db.ToDo
+import com.codedbykay.purenotes.db.ToDoDao
+import com.codedbykay.purenotes.db.ToDoGroup
+import com.codedbykay.purenotes.db.ToDoGroupDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.Instant

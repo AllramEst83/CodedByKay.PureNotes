@@ -10,8 +10,8 @@ import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.state.PreferencesGlanceStateDefinition
 import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.R
-import com.codedbykay.purenotes.db.todo.ToDo
-import com.codedbykay.purenotes.db.todo.ToDoGroup
+import com.codedbykay.purenotes.db.ToDo
+import com.codedbykay.purenotes.db.ToDoGroup
 import com.codedbykay.purenotes.receivers.ToastReceiver
 import com.codedbykay.purenotes.widgets.PureNotesWidget
 import com.google.gson.Gson

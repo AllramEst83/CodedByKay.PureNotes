@@ -1,4 +1,4 @@
-package com.codedbykay.purenotes.db.todo
+package com.codedbykay.purenotes.db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -9,5 +9,5 @@ data class ToDoGroup(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0, // Primary key for the group
     var name: String, // Name of the group, e.g., "Work", "Personal", "Shopping List"
-    var createdAt: Date
+    var createdAt: Date,
 )

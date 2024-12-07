@@ -1,4 +1,4 @@
-package com.codedbykay.purenotes.db.todo
+package com.codedbykay.purenotes.db
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -29,5 +29,5 @@ data class ToDo(
     val notificationTime: Long? = null,
     val notificationRequestCode: Int? = null,
     val notificationAction: String? = null,
-    val notificationDataUri: String? = null
+    val notificationDataUri: String? = null,
 )

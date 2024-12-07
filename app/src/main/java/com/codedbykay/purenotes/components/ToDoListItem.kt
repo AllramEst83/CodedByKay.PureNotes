@@ -51,7 +51,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import com.codedbykay.purenotes.R
-import com.codedbykay.purenotes.db.todo.ToDo
+import com.codedbykay.purenotes.db.ToDo
 import com.codedbykay.purenotes.dialogs.ShowTimePickerDialog
 import com.codedbykay.purenotes.utils.customCircleBackground
 import com.codedbykay.purenotes.utils.formatToString

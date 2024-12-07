@@ -1,4 +1,4 @@
-package com.codedbykay.purenotes.db.todo
+package com.codedbykay.purenotes.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -59,7 +59,7 @@ interface ToDoDao {
         createdDateFilter: String,
         notificationDateFilter: String,
         sortOrder: String,
-        groupId: Int?
+        groupId: Int?,
     ): LiveData<List<ToDo>>
 
 
@@ -123,7 +123,7 @@ interface ToDoDao {
         notificationRequestCode: Int?,
         notificationAction: String?,
         notificationDataUri: String?,
-        notificationTime: Long?
+        notificationTime: Long?,
     )
 
     // Remove alarm from todo

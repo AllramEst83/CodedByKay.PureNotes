@@ -24,7 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.Bitmap
 import com.codedbykay.purenotes.R
-import com.codedbykay.purenotes.db.todo.ToDoImage
+import com.codedbykay.purenotes.db.ToDoImage
 import com.codedbykay.purenotes.utils.customCircleBackground
 import java.text.SimpleDateFormat
 import java.util.Date

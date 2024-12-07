@@ -1,4 +1,4 @@
-package com.codedbykay.purenotes.db.todo
+package com.codedbykay.purenotes.db
 
 import android.content.Context
 import androidx.room.Database
@@ -17,7 +17,7 @@ abstract class ToDoDatabase : RoomDatabase() {
     abstract fun getImageDao(): ImageDao
 
     companion object {
-        const val NAME = "ToDo_DB"
+        const val NAME = "ToDo_db."
 
         @Volatile
         private var INSTANCE: ToDoDatabase? = null

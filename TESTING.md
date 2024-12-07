@@ -11,13 +11,13 @@ components, testing goals, and the current status.
 
 ### **1. Utils**
 
-| File                  | Status       | Notes                                          |
-|-----------------------|--------------|------------------------------------------------|
-| `dateUtils.kt`        | ✅ Tested     | Pending validation of date parsing/formatting. |
-| `stringBuildUtils.kt` | ❌ Not Tested | Requires string manipulation tests.            |
-| `deviceUtils.kt`      | ❌ Not Tested | Screen size and resolution logic pending.      |
-| `DisplayUtils.kt`     | ❌ Not Tested | Related to `deviceUtils`; combine testing.     |
-| `navUtils.kt`         | ❌ Not Tested | Navigation helpers need verification.          |
+| File                  | Status       | Notes                                                                                               |
+|-----------------------|--------------|-----------------------------------------------------------------------------------------------------|
+| `dateUtils.kt`        | ✅ Tested     | Tests added for parsing, formatting, and validation of dates. Further edge case validation pending. |
+| `stringBuildUtils.kt` | ✅ Tested     | String manipulation tests added. Review for additional edge cases (e.g., null inputs).              |
+| `deviceUtils.kt`      | ❌ Not Tested | Screen size and resolution logic pending.                                                           |
+| `DisplayUtils.kt`     | ❌ Not Tested | Related to `deviceUtils`; combine testing.                                                          |
+| `navUtils.kt`         | ❌ Not Tested | Navigation helpers need verification.                                                               |
 
 ### **2. Services**
 
@@ -109,7 +109,7 @@ components, testing goals, and the current status.
 
 | Phase                  | Total Components | Tested | Coverage % |
 |------------------------|------------------|--------|------------|
-| **Utils**              | 5                | 0      | 0%         |
+| **Utils**              | 5                | 2      | 25%        |
 | **Services**           | 4                | 0      | 0%         |
 | **Managers**           | 3                | 0      | 0%         |
 | **ViewModels**         | 3                | 0      | 0%         |
