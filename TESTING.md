@@ -13,7 +13,7 @@ components, testing goals, and the current status.
 
 | File                  | Status       | Notes                                          |
 |-----------------------|--------------|------------------------------------------------|
-| `dateUtils.kt`        | ❌ Not Tested | Pending validation of date parsing/formatting. |
+| `dateUtils.kt`        | ✅ Tested     | Pending validation of date parsing/formatting. |
 | `stringBuildUtils.kt` | ❌ Not Tested | Requires string manipulation tests.            |
 | `deviceUtils.kt`      | ❌ Not Tested | Screen size and resolution logic pending.      |
 | `DisplayUtils.kt`     | ❌ Not Tested | Related to `deviceUtils`; combine testing.     |

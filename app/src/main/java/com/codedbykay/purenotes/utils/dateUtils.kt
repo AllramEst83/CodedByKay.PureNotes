@@ -3,6 +3,7 @@ package com.codedbykay.purenotes.utils
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 
 /**
@@ -19,9 +20,12 @@ private const val DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm"
  */
 fun Date.formatToString(
     pattern: String = DEFAULT_DATE_FORMAT,
-    locale: Locale = Locale.ENGLISH
+    locale: Locale = Locale.ENGLISH,
+    timeZone: TimeZone = TimeZone.getDefault(),
 ): String {
-    return SimpleDateFormat(pattern, locale).format(this)
+    return SimpleDateFormat(pattern, locale).apply {
+        this.timeZone = timeZone
+    }.format(this)
 }
 
 /**
@@ -32,9 +36,12 @@ fun Date.formatToString(
  */
 fun Long.toFormattedDate(
     pattern: String = DEFAULT_DATE_FORMAT,
-    locale: Locale = Locale.ENGLISH
+    locale: Locale = Locale.ENGLISH,
+    timeZone: TimeZone = TimeZone.getDefault(),
 ): String {
-    return SimpleDateFormat(pattern, locale).format(Date(this))
+    return SimpleDateFormat(pattern, locale).apply {
+        this.timeZone = timeZone
+    }.format(Date(this))
 }
 
 /**
