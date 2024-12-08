@@ -15,7 +15,7 @@ components, testing goals, and the current status.
 |-----------------------|--------------|-----------------------------------------------------------------------------------------------------|
 | `dateUtils.kt`        | ✅ Tested     | Tests added for parsing, formatting, and validation of dates. Further edge case validation pending. |
 | `stringBuildUtils.kt` | ✅ Tested     | String manipulation tests added. Review for additional edge cases (e.g., null inputs).              |
-| `deviceUtils.kt`      | ❌ Not Tested | Screen size and resolution logic pending.                                                           |
+| `deviceUtils.kt`      | ✅ Tested     | Get or create device id test created.                                                               |
 | `DisplayUtils.kt`     | ❌ Not Tested | Related to `deviceUtils`; combine testing.                                                          |
 | `navUtils.kt`         | ❌ Not Tested | Navigation helpers need verification.                                                               |
 
@@ -109,7 +109,7 @@ components, testing goals, and the current status.
 
 | Phase                  | Total Components | Tested | Coverage % |
 |------------------------|------------------|--------|------------|
-| **Utils**              | 5                | 2      | 25%        |
+| **Utils**              | 5                | 3      | 60%        |
 | **Services**           | 4                | 0      | 0%         |
 | **Managers**           | 3                | 0      | 0%         |
 | **ViewModels**         | 3                | 0      | 0%         |
