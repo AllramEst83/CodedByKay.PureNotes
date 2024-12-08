@@ -136,5 +136,4 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-compose:3.0.4")
 
     implementation("com.valentinilk.shimmer:compose-shimmer:1.3.1")
-
 }

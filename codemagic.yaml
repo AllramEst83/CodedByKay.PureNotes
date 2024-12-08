@@ -18,8 +18,16 @@ workflows:
         script: ./gradlew test
       - name: Build Debug APK
         script: ./gradlew assembleDebug
+      - name: Start Emulator
+        script: |
+          echo "Starting emulator..."
+          $ANDROID_HOME/emulator/emulator -avd Pixel_3_API_30 -no-audio -no-boot-anim -no-window &
+          adb wait-for-device
+      - name: Run Instrumentation Tests
+        script: ./gradlew connectedAndroidTest
     artifacts:
       - app/build/outputs/**/*.apk
+      - app/build/reports/androidTests/connected/index.html
     publishing:
       email:
         recipients:
