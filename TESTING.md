@@ -16,7 +16,7 @@ components, testing goals, and the current status.
 | `dateUtils.kt`        | ✅ Tested     | Tests added for parsing, formatting, and validation of dates. Further edge case validation pending. |
 | `stringBuildUtils.kt` | ✅ Tested     | String manipulation tests added. Review for additional edge cases (e.g., null inputs).              |
 | `deviceUtils.kt`      | ✅ Tested     | Get or create device id test created.                                                               |
-| `DisplayUtils.kt`     | ❌ Not Tested | Related to `deviceUtils`; combine testing.                                                          |
+| `DisplayUtils.kt`     | ✅ Tested     | Measures screen size.                                                                               |
 | `navUtils.kt`         | ❌ Not Tested | Navigation helpers need verification.                                                               |
 
 ### **2. Services**

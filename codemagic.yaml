@@ -20,9 +20,10 @@ workflows:
         script: ./gradlew assembleDebug
       - name: Start Emulator
         script: |
-          echo "Starting emulator..."
-          /opt/homebrew/share/android-sdk/emulator/emulator -avd Pixel_3_API_30 -no-audio -no-boot-anim -no-window &
+          echo "Starting Android emulator..."
+          /Users/builder/Library/Android/sdk/emulator/emulator -avd Pixel_3_API_30 -no-audio -no-boot-anim -no-window &
           adb wait-for-device
+          adb shell input keyevent 82
       - name: Run Instrumentation Tests
         script: ./gradlew connectedAndroidTest
     artifacts:

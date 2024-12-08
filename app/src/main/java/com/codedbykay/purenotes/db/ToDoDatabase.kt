@@ -8,7 +8,11 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [ToDo::class, ToDoGroup::class, ToDoImage::class], version = 1)
+@Database(
+    entities = [ToDo::class, ToDoGroup::class, ToDoImage::class],
+    version = 1,
+    exportSchema = false
+)
 @TypeConverters(Converters::class)
 abstract class ToDoDatabase : RoomDatabase() {
 
