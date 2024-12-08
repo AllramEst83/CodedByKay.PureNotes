@@ -3,13 +3,6 @@ workflows:
     name: A Pure Notes (Android Build Workflow)
     max_build_duration: 60
     instance_type: mac_mini_m2
-    environment:
-      android:
-        components:
-          - tools
-          - platform-tools
-          - build-tools-34.0.0
-          - android-34
     triggering:
       events:
         - push
