@@ -3,6 +3,13 @@ workflows:
     name: A Pure Notes (Android Build Workflow)
     max_build_duration: 60
     instance_type: mac_mini_m2
+    environment:
+      android:
+        components:
+          - tools
+          - platform-tools
+          - build-tools-34.0.0
+          - android-34
     triggering:
       events:
         - push
@@ -24,8 +31,12 @@ workflows:
           /Users/builder/Library/Android/sdk/emulator/emulator -avd Pixel_3_API_30 -no-audio -no-boot-anim -no-window &
           adb wait-for-device
           adb shell input keyevent 82
+          echo "Emulator is ready."
       - name: Run Instrumentation Tests
-        script: ./gradlew connectedAndroidTest
+        script: |
+          echo "Running instrumentation tests..."
+          ./gradlew connectedAndroidTest --no-daemon
+          echo "Instrumentation tests completed."
     artifacts:
       - app/build/outputs/**/*.apk
       - app/build/reports/androidTests/connected/index.html
