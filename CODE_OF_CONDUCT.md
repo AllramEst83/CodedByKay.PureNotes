@@ -16,28 +16,23 @@ clear, descriptive names for variables and functions.
 Add concise comments where context is needed, but avoid over-commenting. Even if the code is mostly
 self-explanatory, a small nudge can go a long way in understanding intent.
 
-## 4. Use JSDoc When Appropriate
-
-JSDoc can be helpful for structured documentation, without cluttering the code. Use it where it
-makes sense.
-
-## 5. Choose Meaningful Names
+## 4. Choose Meaningful Names
 
 Take the time to create meaningful names for variables and functions. I know this can be
 challenging (trust me, I get it!), but it’s worth the effort.
 
-## 6. Break Down Functions Logically
+## 5. Break Down Functions Logically
 
 Extract code into smaller functions when it makes sense, but don’t do it just for the sake of it. A
 function can be long if that makes it more cohesive. However, if breaking it down improves
 readability or avoids making the logic feel disconnected, go for it.
 
-## 7. Take Responsibility for the Code
+## 6. Take Responsibility for the Code
 
 Take ownership of the code you write and any code you touch that someone else has written. If you
 notice something that can reasonably be improved, either fix it or discuss it with the team.
 
-## 8. Ask for Help
+## 7. Ask for Help
 
 Solving problems on your own is great, but no matter whether you’re junior or senior, you’ll
 sometimes hit obstacles that require help from outside your “coder’s bubble.” A tip from the coach:
@@ -49,7 +44,7 @@ understanding of what you’re building. At the end of the day, you’ll be the 
 once it’s done. So don’t hesitate to ask questions early on—even if it makes you feel a bit
 annoying. I know I can be, and that’s okay!
 
-## 9. Pull Requests
+## 8. Pull Requests
 
 When reviewing pull requests, leave constructive and actionable comments. Aim to provide specific
 examples to clarify your feedback, making your intent clear. Good PR comments foster better
