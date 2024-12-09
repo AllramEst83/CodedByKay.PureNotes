@@ -86,6 +86,8 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4") // UI testing for Compose
     debugImplementation("androidx.compose.ui:ui-tooling")         // Debugging tools for Compose
     debugImplementation("androidx.compose.ui:ui-test-manifest")   // Manifest for UI testing in Compose
+    androidTestImplementation("androidx.navigation:navigation-testing:2.8.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 
     // Lifecycle and Activity dependencies
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2") // ViewModel with KTX

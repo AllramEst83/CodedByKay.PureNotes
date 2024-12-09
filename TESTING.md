@@ -11,13 +11,13 @@ components, testing goals, and the current status.
 
 ### **1. Utils**
 
-| File                  | Status       | Notes                                                                                               |
-|-----------------------|--------------|-----------------------------------------------------------------------------------------------------|
-| `dateUtils.kt`        | ✅ Tested     | Tests added for parsing, formatting, and validation of dates. Further edge case validation pending. |
-| `stringBuildUtils.kt` | ✅ Tested     | String manipulation tests added. Review for additional edge cases (e.g., null inputs).              |
-| `deviceUtils.kt`      | ✅ Tested     | Get or create device id test created.                                                               |
-| `DisplayUtils.kt`     | ✅ Tested     | Measures screen size.                                                                               |
-| `navUtils.kt`         | ❌ Not Tested | Navigation helpers need verification.                                                               |
+| File                  | Status   | Notes                                                                                                                                                    |
+|-----------------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `dateUtils.kt`        | ✅ Tested | Comprehensive tests for parsing, formatting, and validation of dates are in place. Edge case validation (e.g., uncommon date formats) is pending review. |
+| `stringBuildUtils.kt` | ✅ Tested | String manipulation tests cover most cases. Additional review needed for null/empty inputs and extreme edge cases.                                       |
+| `deviceUtils.kt`      | ✅ Tested | Tests for generating and retrieving device IDs are implemented. Verify behavior across multiple Android versions.                                        |
+| `DisplayUtils.kt`     | ✅ Tested | Includes screen size measurement functionality. Ensure tests consider devices with unusual screen dimensions.                                            |
+| `navUtils.kt`         | ✅ Tested | Navigation helpers work as intended. Further verification recommended for complex navigation scenarios.                                                  |
 
 ### **2. Services**
 
@@ -109,7 +109,7 @@ components, testing goals, and the current status.
 
 | Phase                  | Total Components | Tested | Coverage % |
 |------------------------|------------------|--------|------------|
-| **Utils**              | 5                | 3      | 60%        |
+| **Utils**              | 5                | 5      | 100%       |
 | **Services**           | 4                | 0      | 0%         |
 | **Managers**           | 3                | 0      | 0%         |
 | **ViewModels**         | 3                | 0      | 0%         |
