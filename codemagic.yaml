@@ -2,7 +2,7 @@ workflows:
   android-workflow:
     name: A Pure Notes (Android Build Workflow)
     max_build_duration: 60
-    instance_type: mac_mini_m2
+    instance_type: linux
     triggering:
       events:
         - push
@@ -21,7 +21,7 @@ workflows:
       - name: Start Emulator
         script: |
           echo "Starting Android emulator..."
-          /Users/builder/Library/Android/sdk/emulator/emulator -avd Pixel_3_API_30 -no-audio -no-boot-anim -no-window &
+          emulator -avd Pixel_3_API_30 -no-audio -no-boot-anim -no-window &
           adb wait-for-device
           adb shell input keyevent 82
           echo "Emulator is ready."
