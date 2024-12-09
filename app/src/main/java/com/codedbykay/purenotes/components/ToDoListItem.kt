@@ -269,7 +269,7 @@ fun ToDoListItem(
 
                             )
 
-                            if (!expanded && content.isNotEmpty()) {
+                            if ((!expanded && (content.isNotEmpty() || images.isNotEmpty()))) {
                                 Icon(
                                     imageVector = Icons.Default.MoreHoriz,
                                     contentDescription = "More content available",
