@@ -23,10 +23,10 @@ android {
 
     buildTypes {
         debug {
-            isMinifyEnabled = false // Disables code shrinking for debug builds
+            isMinifyEnabled = false
         }
         release {
-            isMinifyEnabled = false // Disables code shrinking for release builds
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), // Default Proguard rules for Android
                 "proguard-rules.pro" // Custom Proguard rules file
