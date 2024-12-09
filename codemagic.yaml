@@ -2,7 +2,7 @@ workflows:
   android-workflow:
     name: A Pure Notes (Android Build Workflow)
     max_build_duration: 60
-    instance_type: linux
+    instance_type: mac_mini_m2
     triggering:
       events:
         - push
@@ -11,6 +11,9 @@ workflows:
         - pattern: main
           include: true
           source: true
+    environment:
+      vars:
+        IS_LINUX_ENV: $([ "$(uname -s)" == "Linux" ] && echo "true" || echo "false")
     scripts:
       - name: Set Execute Permission for gradlew
         script: chmod +x ./gradlew
@@ -18,18 +21,26 @@ workflows:
         script: ./gradlew test
       - name: Build Debug APK
         script: ./gradlew assembleDebug
-      - name: Start Emulator
+      - name: Conditionally Start Emulator
         script: |
-          echo "Starting Android emulator..."
-          emulator -avd Pixel_3_API_30 -no-audio -no-boot-anim -no-window &
-          adb wait-for-device
-          adb shell input keyevent 82
-          echo "Emulator is ready."
-      - name: Run Instrumentation Tests
+          if [ "$IS_LINUX_ENV" = "true" ]; then
+            echo "Linux environment detected. Starting Android emulator..."
+            emulator -avd Pixel_3_API_30 -no-audio -no-boot-anim -no-window &
+            adb wait-for-device
+            adb shell input keyevent 82
+            echo "Emulator is ready."
+          else
+            echo "Skipping emulator startup as this is not a Linux environment."
+          fi
+      - name: Conditionally Run Instrumentation Tests
         script: |
-          echo "Running instrumentation tests..."
-          ./gradlew connectedAndroidTest --no-daemon
-          echo "Instrumentation tests completed."
+          if [ "$IS_LINUX_ENV" = "true" ]; then
+            echo "Running instrumentation tests..."
+            ./gradlew connectedAndroidTest --no-daemon
+            echo "Instrumentation tests completed."
+          else
+            echo "Skipping instrumentation tests as this is not a Linux environment."
+          fi
     artifacts:
       - app/build/outputs/**/*.apk
       - app/build/reports/androidTests/connected/index.html
