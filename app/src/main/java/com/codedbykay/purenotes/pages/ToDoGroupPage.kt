@@ -103,7 +103,7 @@ fun ToDoGroupPage(
         val screenWidthDp = localConfiguration.screenWidthDp
         val fontSize = when {
             screenWidthDp <= 360 -> 18.sp
-            screenWidthDp <= 480 -> 22.sp
+            screenWidthDp < 448 -> 22.sp
             else -> 26.sp
         }
 
