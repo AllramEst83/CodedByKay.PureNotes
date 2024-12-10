@@ -35,7 +35,7 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8 // Java compatibility version
+        sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
@@ -56,10 +56,8 @@ android {
             excludes += "META-INF/*.RSA"
             excludes += "META-INF/AL2.0"
             excludes += "META-INF/DEPENDENCIES"
-
         }
     }
-
 }
 
 dependencies {
