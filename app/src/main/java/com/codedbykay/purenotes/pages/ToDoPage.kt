@@ -15,6 +15,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -52,7 +53,7 @@ fun ToDoPage(
     var backButtonEnabled by remember { mutableStateOf(true) }
     var isInitialized by remember { mutableStateOf(false) }
     var inputFieldHeight by remember { mutableStateOf(0.dp) }
-    val density = LocalDensity.current
+    val localDensity = LocalDensity.current
 
     val transition =
         updateTransition(
@@ -72,6 +73,14 @@ fun ToDoPage(
         label = "ListPaddingTop"
     ) { visible ->
         if (visible) inputFieldHeight else 0.dp
+    }
+
+    val localConfiguration = LocalConfiguration.current
+    val screenWidthDp = localConfiguration.screenWidthDp
+    val fontSize = when {
+        screenWidthDp <= 360 -> 18.sp
+        screenWidthDp <= 480 -> 22.sp
+        else -> 26.sp
     }
 
     // BackHandler to manage system back presses
@@ -96,7 +105,7 @@ fun ToDoPage(
             TopAppBar(
                 title = {
                     Text(
-                        fontSize = 26.sp,
+                        fontSize = fontSize,
                         text = groupName,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
@@ -192,7 +201,7 @@ fun ToDoPage(
                             .onGloballyPositioned { coordinates ->
                                 // Convert height from pixels to Dp
                                 val heightPx = coordinates.size.height.toFloat()
-                                val heightDp = with(density) { heightPx.toDp() }
+                                val heightDp = with(localDensity) { heightPx.toDp() }
                                 inputFieldHeight = heightDp
                             },
 

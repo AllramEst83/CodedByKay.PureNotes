@@ -35,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -98,6 +99,14 @@ fun ToDoGroupPage(
             if (visible) inputFieldHeight else 0.dp
         }
 
+        val localConfiguration = LocalConfiguration.current
+        val screenWidthDp = localConfiguration.screenWidthDp
+        val fontSize = when {
+            screenWidthDp <= 360 -> 18.sp
+            screenWidthDp <= 480 -> 22.sp
+            else -> 26.sp
+        }
+
         LaunchedEffect(Unit) {
             delay(400)
             isInitialized = true
@@ -123,7 +132,7 @@ fun ToDoGroupPage(
                     TopAppBar(
                         title = {
                             Text(
-                                fontSize = 26.sp,
+                                fontSize = fontSize,
                                 text = stringResource(id = R.string.app_name)
                             )
                         },
