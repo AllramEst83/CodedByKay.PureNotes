@@ -63,79 +63,102 @@ android {
 }
 
 dependencies {
-    // Core dependencies for Android
-    implementation(libs.androidx.core.ktx)                        // Android KTX
-    implementation(libs.androidx.lifecycle.runtime.ktx)           // Lifecycle runtime with KTX
-    implementation(libs.androidx.activity.compose)                // Activity support for Compose
-    implementation(platform(libs.androidx.compose.bom))           // Compose BOM for version alignment
+    // ---------------------------------------------------
+    // Core Android Dependencies
+    // Essential libraries providing basic Android functionality and integration.
+    // ---------------------------------------------------
+    implementation(libs.androidx.core.ktx)                        // Android KTX for Kotlin extensions
+    implementation(libs.androidx.lifecycle.runtime.ktx)           // Lifecycle runtime with Kotlin extensions
+    implementation(libs.androidx.activity.compose)                // Activity support for Jetpack Compose
+    implementation(platform(libs.androidx.compose.bom))           // Compose BOM for consistent Compose versions
+    implementation("androidx.appcompat:appcompat:1.6.1")           // AppCompat for backward compatibility
 
-    // Jetpack Compose dependencies
+    // ---------------------------------------------------
+    // Jetpack Compose UI Dependencies
+    // Libraries for building modern, declarative UIs using Jetpack Compose.
+    // ---------------------------------------------------
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")        // Material 3 components
-    implementation("androidx.compose.runtime:runtime-livedata:1.7.4") // LiveData support in Compose
+    implementation("androidx.compose.material3:material3")        // Material 3 components for Compose
+    implementation("androidx.compose.runtime:runtime-livedata:1.7.4") // LiveData integration in Compose
+    implementation("androidx.compose.material:material-icons-extended") // Extended Material Icons
 
-    // Testing libraries
-    testImplementation(libs.junit)                                // Unit testing framework
-    androidTestImplementation(libs.androidx.junit)                // AndroidX JUnit for Android tests
-    androidTestImplementation(libs.androidx.espresso.core)        // Espresso UI testing
-    androidTestImplementation(platform(libs.androidx.compose.bom)) // Compose BOM for test dependencies
+    // ---------------------------------------------------
+    // Lifecycle and Activity Management
+    // Tools to handle the lifecycle of components and manage activities/fragments.
+    // ---------------------------------------------------
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2") // ViewModel with Kotlin extensions
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")   // Lifecycle runtime with Kotlin extensions
+    implementation("androidx.activity:activity-ktx:1.8.1")             // Activity Kotlin extensions
+    implementation("androidx.fragment:fragment-ktx:1.6.2")             // Fragment Kotlin extensions
 
-    // Compose UI testing dependencies
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4") // UI testing for Compose
-    debugImplementation("androidx.compose.ui:ui-tooling")         // Debugging tools for Compose
-    debugImplementation("androidx.compose.ui:ui-test-manifest")   // Manifest for UI testing in Compose
-    androidTestImplementation("androidx.navigation:navigation-testing:2.8.3")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-
-    // Lifecycle and Activity dependencies
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2") // ViewModel with KTX
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")   // Lifecycle runtime with KTX
-    implementation("androidx.activity:activity-ktx:1.8.1")             // Activity KTX
-    implementation("androidx.fragment:fragment-ktx:1.6.2")             // Fragment KTX
-
-    // Room dependencies (for database)
+    // ---------------------------------------------------
+    // Room Database Dependencies
+    // Libraries for local data persistence using Room ORM.
+    // ---------------------------------------------------
     val roomVersion = "2.6.1"
-    implementation("androidx.room:room-runtime:$roomVersion") // Room runtime
-    ksp("androidx.room:room-compiler:$roomVersion")           // Room KSP compiler
-    implementation("androidx.room:room-ktx:$roomVersion")     // Room KTX extensions
+    implementation("androidx.room:room-runtime:$roomVersion")        // Room runtime
+    ksp("androidx.room:room-compiler:$roomVersion")                // Room compiler using KSP
+    implementation("androidx.room:room-ktx:$roomVersion")            // Room Kotlin extensions
 
-    // Navigation component for Compose
+    // ---------------------------------------------------
+    // Navigation
+    // Libraries to handle in-app navigation within Jetpack Compose.
+    // ---------------------------------------------------
     val navVersion = "2.8.3"
-    implementation("androidx.navigation:navigation-compose:$navVersion")
+    implementation("androidx.navigation:navigation-compose:$navVersion") // Compose Navigation
+    androidTestImplementation("androidx.navigation:navigation-testing:$navVersion") // Navigation testing
 
-    // DataStore for preferences
+    // ---------------------------------------------------
+    // DataStore for Preferences
+    // Library for storing key-value pairs and preferences.
+    // ---------------------------------------------------
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
-    // Material Icons for Compose
-    implementation("androidx.compose.material:material-icons-extended")
+    // ---------------------------------------------------
+    // UI Enhancements
+    // Libraries for additional UI features like image loading and animations.
+    // ---------------------------------------------------
+    implementation("io.coil-kt.coil3:coil-compose:3.0.4")               // Image loading with Coil
+    implementation("com.valentinilk.shimmer:compose-shimmer:1.3.1")     // Shimmer effect for loading states
 
-    // Tracing library for performance monitoring
+    // ---------------------------------------------------
+    // Performance Monitoring
+    // Libraries to monitor and trace app performance.
+    // ---------------------------------------------------
     implementation("androidx.tracing:tracing:1.1.0")
 
+    // ---------------------------------------------------
+    // Background Work
+    // Libraries to handle background tasks and work scheduling.
+    // ---------------------------------------------------
     implementation("androidx.work:work-runtime-ktx:2.8.1")
 
-    implementation("androidx.appcompat:appcompat:1.6.1")
-
-    implementation("com.google.cloud:google-cloud-pubsub:1.134.1")
-    implementation("io.grpc:grpc-okhttp:1.68.1") // For gRPC transport
-    implementation("io.grpc:grpc-protobuf:1.68.1") // Protobuf serialization for gRPC
-    implementation("io.grpc:grpc-stub:1.68.1") // Stub-based gRPC API
-    implementation("com.google.auth:google-auth-library-oauth2-http:1.17.0") // Authentication
-
-    // For AppWidgets support
+    // ---------------------------------------------------
+    // AppWidgets Support
+    // Libraries to create and manage app widgets.
+    // ---------------------------------------------------
     implementation("androidx.glance:glance-appwidget:1.1.1")
+    implementation("androidx.glance:glance-material3:1.1.1")            // Material 3 integration for Glance
+    implementation("androidx.glance:glance-material:1.1.1")             // Material 2 integration for Glance
 
-    // For interop APIs with Material 3
-    implementation("androidx.glance:glance-material3:1.1.1")
+    // ---------------------------------------------------
+    // Networking and Serialization
+    // Libraries for data serialization and network operations.
+    // ---------------------------------------------------
+    implementation("com.google.code.gson:gson:2.8.8")                  // Gson for JSON serialization
 
-    // For interop APIs with Material 2
-    implementation("androidx.glance:glance-material:1.1.1")
-
-    implementation("com.google.code.gson:gson:2.8.8")
-
-    implementation("io.coil-kt.coil3:coil-compose:3.0.4")
-
-    implementation("com.valentinilk.shimmer:compose-shimmer:1.3.1")
+    // ---------------------------------------------------
+    // Testing Libraries
+    // Frameworks and tools for unit and UI testing.
+    // ---------------------------------------------------
+    testImplementation(libs.junit)                                       // JUnit for unit testing
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3") // Coroutines testing utilities
+    androidTestImplementation(libs.androidx.junit)                      // AndroidX JUnit for Android tests
+    androidTestImplementation(libs.androidx.espresso.core)              // Espresso for UI testing
+    androidTestImplementation(platform(libs.androidx.compose.bom))      // Compose BOM for consistent test dependencies
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")     // Compose UI testing
+    debugImplementation("androidx.compose.ui:ui-tooling")              // Compose UI tooling for debugging
+    debugImplementation("androidx.compose.ui:ui-test-manifest")        // Compose UI test manifest
 }

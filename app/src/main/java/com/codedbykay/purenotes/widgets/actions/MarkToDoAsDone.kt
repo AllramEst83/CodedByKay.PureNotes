@@ -12,8 +12,8 @@ import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.db.ToDo
 import com.codedbykay.purenotes.receivers.ToastReceiver
 import com.codedbykay.purenotes.widgets.PureNotesWidget
-import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class MarkToDoAsDone : ActionCallback {
     private val toDoDao = MainApplication.toDoDatabase.getTodoDao()

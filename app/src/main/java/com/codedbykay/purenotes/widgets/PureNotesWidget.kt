@@ -48,8 +48,8 @@ import com.codedbykay.purenotes.widgets.actions.DropdownItemClickAction
 import com.codedbykay.purenotes.widgets.actions.ExpandDropdownAction
 import com.codedbykay.purenotes.widgets.actions.MarkToDoAsDone
 import com.codedbykay.purenotes.widgets.actions.RefreshNoteListsAction
-import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class PureNotesWidget : GlanceAppWidget() {
 
