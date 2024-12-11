@@ -15,6 +15,9 @@ workflows:
       groups:
         - pure-notes
         - pure_notes_google_credential
+
+      vars:
+        KEYSTORE_DECODING_PATH: "/tmp/keystore/codedbykay-purenotes-keystore.jks"
     scripts:
       - name: Determine Environment
         script: |
@@ -48,6 +51,11 @@ workflows:
           echo "Listing AABs in app/build/outputs/bundle/release/"
           ls -l app/build/outputs/bundle/release/
 
+      - name: Decoding keystore file
+        script: |
+          mkdir -p /tmp/keystore
+          echo $KEYSTORE | base64 --decode > "$KEYSTORE_DECODING_PATH"
+
       - name: Sign APK (Release Only)
         script: |
           if [ "$BUILD_TYPE" = "release" ]; then
@@ -64,7 +72,7 @@ workflows:
             fi
           
             # Sign the AAB using jarsigner
-            jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore "$KEYSTORE" -storepass "$KEYSTORE_PASSWORD" "$SIGNED_AAB" "$ALIAS_KEY"
+            jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore "$KEYSTORE_DECODING_PATH" -storepass "$KEYSTORE_PASSWORD" "$SIGNED_AAB" "$ALIAS_KEY"
           
             # Verify the AAB is signed
             jarsigner -verify -verbose -certs "$SIGNED_AAB"
