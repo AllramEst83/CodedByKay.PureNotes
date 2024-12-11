@@ -95,7 +95,8 @@ workflows:
           fi
 
     artifacts:
-      - app/build/outputs/**/*.apk
+      - app/**/outputs/**/*.apk
+      - app/**/outputs/**/*.abb
       - app/build/reports/androidTests/connected/index.html
       - app/build/reports/tests/testDebugUnitTest/index.html
     publishing:
