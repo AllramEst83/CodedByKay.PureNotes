@@ -37,7 +37,7 @@ workflows:
           echo "Detected BUILD_TYPE: $BUILD_TYPE"
           if [ "$BUILD_TYPE" = "release" ]; then
             echo "Building release APK..."
-            ./gradlew assembleRelease
+            ./gradlew bundleRelease
           else
             echo "Building debug APK..."
             ./gradlew assembleDebug
@@ -96,7 +96,7 @@ workflows:
 
     artifacts:
       - app/**/outputs/**/*.apk
-      - app/**/outputs/**/*.abb
+      - app/**/outputs/**/*.aab
       - app/build/reports/androidTests/connected/index.html
       - app/build/reports/tests/testDebugUnitTest/index.html
     publishing:
