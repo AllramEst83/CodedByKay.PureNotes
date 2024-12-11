@@ -25,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.utils.blendWithWhite
 import com.codedbykay.purenotes.utils.contrastColor
@@ -66,7 +65,7 @@ fun DrawerContent(
                 Text(
                     text = stringResource(id = R.string.menu),
                     color = MaterialTheme.colorScheme.primary.contrastColor(),
-                    fontSize = 20.sp,
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
                 IconButton(onClick = onCloseDrawer) {
@@ -77,12 +76,22 @@ fun DrawerContent(
                     )
                 }
             }
-            HorizontalDivider() // Divider in the drawer content
+
+            HorizontalDivider(
+                color = MaterialTheme.colorScheme.onPrimary,
+                thickness = 1.dp
+            )
+
             Spacer(modifier = Modifier.height(8.dp))
 
             // Navigation item for Theme Settings
             NavigationDrawerItem(
-                label = { Text(stringResource(id = R.string.settings)) },
+                label = {
+                    Text(
+                        text = stringResource(id = R.string.settings),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                },
                 selected = false,
                 onClick = onNavigateToSettings
             )
