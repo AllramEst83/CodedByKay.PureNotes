@@ -11,14 +11,13 @@ workflows:
         - pattern: main
           include: true
           source: true
-    env-var:
-      environment:
-        groups:
-          - pure-notes
-        vars:
-          IS_LINUX_ENV: $([ "$(uname -s)" == "Linux" ] && echo "true" || echo "false")
-      scripts:
-        - name: Check BUILD TYPE
-          script: |
-            echo "Detected BUILD_TYPE: $BUILD_TYPE"
+  env-var:
+    environment:
+      groups:
+        - pure-notes
+    scripts:
+      - name: Check BUILD TYPE
+        script: |
+          echo "Detected BUILD_TYPE: $BUILD_TYPE"
+    
 
