@@ -13,6 +13,8 @@ workflows:
           include: true
           source: true
     environment:
+      groups:
+        - pure-notes
       vars:
         IS_LINUX_ENV: $([ "$(uname -s)" == "Linux" ] && echo "true" || echo "false")
         BUILD_TYPE: ${BUILD_TYPE:-debug}  # Default to debug, override for release manually
