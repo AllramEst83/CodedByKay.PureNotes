@@ -21,11 +21,19 @@ val AppTypography = Typography(
     headlineSmall = TextStyle(fontFamily = AppFontFamily),
     titleLarge = TextStyle(
         fontFamily = AppFontFamily,
+        fontSize = 26.sp,
+        fontWeight = FontWeight.Normal
+    ),
+    titleMedium = TextStyle(
+        fontFamily = AppFontFamily,
         fontSize = 22.sp,
         fontWeight = FontWeight.Normal
     ),
-    titleMedium = TextStyle(fontFamily = AppFontFamily),
-    titleSmall = TextStyle(fontFamily = AppFontFamily),
+    titleSmall = TextStyle(
+        fontFamily = AppFontFamily,
+        fontSize = 20.sp,
+        fontWeight = FontWeight.Normal
+    ),
     bodyLarge = TextStyle(fontFamily = AppFontFamily),
     bodyMedium = TextStyle(
         fontFamily = AppFontFamily,

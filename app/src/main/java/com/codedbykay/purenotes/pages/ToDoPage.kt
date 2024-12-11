@@ -77,10 +77,10 @@ fun ToDoPage(
 
     val localConfiguration = LocalConfiguration.current
     val screenWidthDp = localConfiguration.screenWidthDp
-    val fontSize = when {
-        screenWidthDp <= 360 -> 18.sp
-        screenWidthDp < 448 -> 22.sp
-        else -> 26.sp
+    val fontStyle = when {
+        screenWidthDp <= 360 -> MaterialTheme.typography.titleSmall
+        screenWidthDp < 448 -> MaterialTheme.typography.titleMedium
+        else -> MaterialTheme.typography.titleLarge
     }
 
     // BackHandler to manage system back presses
@@ -105,7 +105,7 @@ fun ToDoPage(
             TopAppBar(
                 title = {
                     Text(
-                        fontSize = fontSize,
+                        style = fontStyle,
                         text = groupName,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,

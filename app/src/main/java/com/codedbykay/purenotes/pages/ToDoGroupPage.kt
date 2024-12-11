@@ -19,6 +19,7 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -101,10 +102,10 @@ fun ToDoGroupPage(
 
         val localConfiguration = LocalConfiguration.current
         val screenWidthDp = localConfiguration.screenWidthDp
-        val fontSize = when {
-            screenWidthDp <= 360 -> 18.sp
-            screenWidthDp < 448 -> 22.sp
-            else -> 26.sp
+        val fontStyle = when {
+            screenWidthDp <= 360 -> MaterialTheme.typography.titleSmall
+            screenWidthDp < 448 -> MaterialTheme.typography.titleMedium
+            else -> MaterialTheme.typography.titleLarge
         }
 
         LaunchedEffect(Unit) {
@@ -132,7 +133,7 @@ fun ToDoGroupPage(
                     TopAppBar(
                         title = {
                             Text(
-                                fontSize = fontSize,
+                                style = fontStyle,
                                 text = stringResource(id = R.string.app_name)
                             )
                         },
