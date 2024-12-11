@@ -53,26 +53,27 @@ workflows:
       - name: Sign APK (Release Only)
         script: |
           if [ "$BUILD_TYPE" = "release" ]; then
-           echo "Signing release AAB..."
-           # Define paths
-           UNSIGNED_AAB="app/build/outputs/bundle/release/app-release.aab"
-           SIGNED_AAB="app/build/outputs/bundle/release/app-release-signed.aab"
+            echo "Signing release AAB..."
           
-           # Verify the AAB exists
-           if [ ! -f "$UNSIGNED_AAB" ]; then
-             echo "Unsigned AAB not found at $UNSIGNED_AAB"
-             exit 1
-           fi
+            # Define paths
+            UNSIGNED_AAB="app/build/outputs/bundle/release/app-release.aab"
+            SIGNED_AAB="app/build/outputs/bundle/release/app-release.aab"  # Overwrite the original AAB
           
-           # Sign the AAB using jarsigner
-           jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore "$CM_KEYSTORE_PATH" -storepass "$CM_KEYSTORE_PASSWORD" "$UNSIGNED_AAB" "$CM_KEY_ALIAS"
+            # Verify the AAB exists
+            if [ ! -f "$UNSIGNED_AAB" ]; then
+            echo "Unsigned AAB not found at $UNSIGNED_AAB"
+            exit 1
+            fi
           
-           # Verify the AAB is signed
-           jarsigner -verify -verbose -certs "$UNSIGNED_AAB"
+            # Sign the AAB using jarsigner
+            jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore "$KEYSTORE_PATH" -storepass "$KEYSTORE_PASSWORD" "$UNSIGNED_AAB" "$KEY_ALIAS"
           
-           echo "Signed AAB is available at $SIGNED_AAB"
+            # Verify the AAB is signed
+            jarsigner -verify -verbose -certs "$UNSIGNED_AAB"
+                      
+            echo "Signed AAB is available at $SIGNED_AAB"
           else
-           echo "Skipping signing since this is a debug build"
+            echo "Skipping signing since this is a debug build"
           fi
 
       - name: Conditionally Start Emulator
