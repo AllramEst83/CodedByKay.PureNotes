@@ -50,6 +50,32 @@ workflows:
           echo "Listing AABs in app/build/outputs/bundle/release/"
           ls -l app/build/outputs/bundle/release/
 
+      - name: Sign APK (Release Only)
+        script: |
+          if [ "$BUILD_TYPE" = "release" ]; then
+            echo "Signing release AAB..."
+          
+            # Define paths
+            UNSIGNED_AAB="app/build/outputs/bundle/release/app-release.aab"
+            SIGNED_AAB="app/build/outputs/bundle/release/app-release.aab"  # Overwrite the original AAB
+          
+            # Verify the AAB exists
+            if [ ! -f "$UNSIGNED_AAB" ]; then
+            echo "Unsigned AAB not found at $UNSIGNED_AAB"
+            exit 1
+            fi
+          
+            # Sign the AAB using jarsigner
+            jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore "$CM_KEYSTORE_PATH" -storepass "$CM_KEYSTORE_PASSWORD" "$UNSIGNED_AAB" "$CM_KEY_ALIAS"
+          
+            # Verify the AAB is signed
+            jarsigner -verify -verbose -certs "$UNSIGNED_AAB"
+          
+            echo "Signed AAB is available at $SIGNED_AAB"
+          else
+            echo "Skipping signing since this is a debug build"
+          fi
+
       - name: Conditionally Start Emulator
         script: |
           if [ "$IS_LINUX_ENV" = "true" ]; then
