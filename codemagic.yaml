@@ -15,8 +15,6 @@ workflows:
       groups:
         - pure-notes
         - pure_notes_google_credential
-      android_signing:
-        - CodedByKay.PureNotes.CodeMagic.Keystore
     scripts:
       - name: Determine Environment
         script: |
@@ -57,7 +55,7 @@ workflows:
           
             # Define paths
             UNSIGNED_AAB="app/build/outputs/bundle/release/app-release.aab"
-            SIGNED_AAB="app/build/outputs/bundle/release/app-release.aab"  # Overwrite the original AAB
+            SIGNED_AAB="app/build/outputs/bundle/release/app-release-signed.aab"
           
             # Verify the AAB exists
             if [ ! -f "$UNSIGNED_AAB" ]; then
@@ -66,10 +64,10 @@ workflows:
             fi
           
             # Sign the AAB using jarsigner
-            jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore "$CM_KEYSTORE_PATH" -storepass "$CM_KEYSTORE_PASSWORD" "$UNSIGNED_AAB" "$CM_KEY_ALIAS"
+            jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore "$KEYSTORE" -storepass "$KEYSTORE_PASSWORD" "$SIGNED_AAB" "$ALIAS_KEY"
           
             # Verify the AAB is signed
-            jarsigner -verify -verbose -certs "$UNSIGNED_AAB"
+            jarsigner -verify -verbose -certs "$SIGNED_AAB"
           
             echo "Signed AAB is available at $SIGNED_AAB"
           else
