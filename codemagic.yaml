@@ -43,33 +43,36 @@ workflows:
             ./gradlew assembleDebug
           fi
 
+      - name: List Release AABs and APKs
+        script: |
+          echo "Listing APKs in app/build/outputs/apk/release/"
+          ls -l app/build/outputs/apk/release/
+          echo "Listing AABs in app/build/outputs/bundle/release/"
+          ls -l app/build/outputs/bundle/release/
+
       - name: Sign APK (Release Only)
         script: |
           if [ "$BUILD_TYPE" = "release" ]; then
-          echo "Signing release APK..."
-          # Define paths
-          UNSIGNED_APK="app/build/outputs/apk/release/app-release-unsigned.apk"
-          SIGNED_APK="app/build/outputs/apk/release/app-release.apk"
+           echo "Signing release AAB..."
+           # Define paths
+           UNSIGNED_AAB="app/build/outputs/bundle/release/app-release.aab"
+           SIGNED_AAB="app/build/outputs/bundle/release/app-release-signed.aab"
           
-          # Verify the APK exists
-          if [ ! -f "$UNSIGNED_APK" ]; then
-          echo "Unsigned APK not found at $UNSIGNED_APK"
-          exit 1
-          fi
+           # Verify the AAB exists
+           if [ ! -f "$UNSIGNED_AAB" ]; then
+             echo "Unsigned AAB not found at $UNSIGNED_AAB"
+             exit 1
+           fi
           
-          # Sign the APK using jarsigner
-          jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore "$CM_KEYSTORE_PATH" -storepass "CM_$KEYSTORE_PASSWORD" "$UNSIGNED_APK" "$CM_KEY_ALIAS"
+           # Sign the AAB using jarsigner
+           jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore "$CM_KEYSTORE_PATH" -storepass "$CM_KEYSTORE_PASSWORD" "$UNSIGNED_AAB" "$CM_KEY_ALIAS"
           
-          # Verify the APK is signed
-          jarsigner -verify -verbose -certs "$UNSIGNED_APK"
+           # Verify the AAB is signed
+           jarsigner -verify -verbose -certs "$UNSIGNED_AAB"
           
-          # Align the APK using zipalign
-          echo "Aligning the APK..."
-          zipalign -v -p 4 "$UNSIGNED_APK" "$SIGNED_APK"
-          
-          echo "Signed and aligned APK is available at $SIGNED_APK"
+           echo "Signed AAB is available at $SIGNED_AAB"
           else
-          echo "Skipping signing since this is a debug build"
+           echo "Skipping signing since this is a debug build"
           fi
 
       - name: Conditionally Start Emulator
@@ -95,8 +98,8 @@ workflows:
           fi
 
     artifacts:
-      - app/**/outputs/**/*.apk
-      - app/**/outputs/**/*.aab
+      - app/build/outputs/**/*.aab
+      - app/build/outputs/**/*.apk
       - app/build/reports/androidTests/connected/index.html
       - app/build/reports/tests/testDebugUnitTest/index.html
     publishing:
