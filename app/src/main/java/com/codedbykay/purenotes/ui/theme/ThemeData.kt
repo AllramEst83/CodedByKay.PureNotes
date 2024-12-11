@@ -11,8 +11,6 @@ object ThemeData {
         ThemeOption(ThemeMode.SEVENTIES, R.string.seventies_theme),
         ThemeOption(ThemeMode.CARNIVAL, R.string.carnival_theme),
         ThemeOption(ThemeMode.GREEN, R.string.green_theme),
-        ThemeOption(ThemeMode.REBECKA_LIGHT, R.string.rebecka_light_theme),
-        ThemeOption(ThemeMode.REBECKA_DARK, R.string.rebecka_dark_theme),
         ThemeOption(ThemeMode.SYSTEM_DEFAULT, R.string.system_default)
     )
 }

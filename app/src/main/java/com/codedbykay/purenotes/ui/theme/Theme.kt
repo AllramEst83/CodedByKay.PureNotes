@@ -31,8 +31,6 @@ fun ToDoAppTheme(
         ThemeMode.PINK -> pinkColorScheme
         ThemeMode.SEVENTIES -> seventiesColorScheme
         ThemeMode.CARNIVAL -> carnivalColorScheme
-        ThemeMode.REBECKA_LIGHT -> lightSchemeRebecka
-        ThemeMode.REBECKA_DARK -> darkSchemeRebecka
 
         ThemeMode.SYSTEM_DEFAULT -> if (isSystemInDarkTheme()) darkSchemeDefaultDark else lightSchemeDefaultLight
         else -> lightSchemeDefaultLight
