@@ -11,52 +11,14 @@ workflows:
         - pattern: main
           include: true
           source: true
-    environment:
-      groups:
-        - pure-notes
-      vars:
-        IS_LINUX_ENV: $([ "$(uname -s)" == "Linux" ] && echo "true" || echo "false")
-        BUILD_TYPE: ${BUILD_TYPE:-debug}
-    scripts:
-      - name: Set Execute Permission for gradlew
-        script: chmod +x ./gradlew
-      - name: Run Unit Tests
-        script: ./gradlew test
-      - name: Build APK
-        script: |
-          echo "Detected BUILD_TYPE: $BUILD_TYPE"
-          if [ "$BUILD_TYPE" = "release" ]; then
-            echo "Building release APK..."
-            ./gradlew assembleRelease
-          else
-            echo "Building debug APK..."
-            ./gradlew assembleDebug
-          fi
-      - name: Conditionally Start Emulator
-        script: |
-          if [ "$IS_LINUX_ENV" = "true" ]; then
-            echo "Linux environment detected. Starting Android emulator..."
-            emulator -avd Pixel_3_API_30 -no-audio -no-boot-anim -no-window &
-            adb wait-for-device
-            adb shell input keyevent 82
-            echo "Emulator is ready."
-          else
-            echo "Skipping emulator startup as this is not a Linux environment."
-          fi
-      - name: Conditionally Run Instrumentation Tests
-        script: |
-          if [ "$IS_LINUX_ENV" = "true" ]; then
-            echo "Running instrumentation tests..."
-            ./gradlew connectedAndroidTest --no-daemon
-            echo "Instrumentation tests completed."
-          else
-            echo "Skipping instrumentation tests as this is not a Linux environment."
-          fi
-    artifacts:
-      - app/build/outputs/**/*.apk
-      - app/build/reports/androidTests/connected/index.html
-      - app/build/reports/tests/testDebugUnitTest/index.html
-    publishing:
-      email:
-        recipients:
-          - kaywib@gmail.com
+    env-var:
+      environment:
+        groups:
+          - pure-notes
+        vars:
+          IS_LINUX_ENV: $([ "$(uname -s)" == "Linux" ] && echo "true" || echo "false")
+      scripts:
+        - name: Check BUILD TYPE
+          script: |
+            echo "Detected BUILD_TYPE: $BUILD_TYPE"
+
