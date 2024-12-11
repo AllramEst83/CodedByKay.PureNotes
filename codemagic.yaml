@@ -17,7 +17,12 @@ workflows:
         - pure_notes_google_credential
 
       vars:
+        # Path where the keystore will be decoded
         KEYSTORE_DECODING_PATH: "/tmp/keystore/codedbykay-purenotes-keystore.jks"
+
+        # Additional Variables (Ensure these are set in CodeMagic's environment variables)
+        # BUILD_TYPE: "release" or "debug" (Set based on your build needs)
+
     scripts:
       - name: Determine Environment
         script: |
@@ -30,56 +35,40 @@ workflows:
       - name: Set Execute Permission for gradlew
         script: chmod +x ./gradlew
 
-      - name: Run Unit Tests
-        script: ./gradlew test
+      - name: Decode Keystore File
+        script: |
+          echo "Decoding the keystore file..."
+          mkdir -p /tmp/keystore
+          echo $KEYSTORE | base64 --decode > "$KEYSTORE_DECODING_PATH"
+          echo "Keystore decoded successfully to $KEYSTORE_DECODING_PATH"
 
-      - name: Build APK
+      - name: Run Unit Tests
+        script: |
+          echo "Running unit tests..."
+          ./gradlew test
+          echo "Unit tests completed."
+
+      - name: Build APK or AAB
         script: |
           echo "Detected BUILD_TYPE: $BUILD_TYPE"
           if [ "$BUILD_TYPE" = "release" ]; then
-            echo "Building release APK..."
+            echo "Building release AAB..."
             ./gradlew bundleRelease
+            echo "Release AAB built successfully."
           else
             echo "Building debug APK..."
             ./gradlew assembleDebug
+            echo "Debug APK built successfully."
           fi
 
       - name: List Release AABs and APKs
         script: |
-          echo "Listing APKs in app/build/outputs/apk/release/"
-          ls -l app/build/outputs/apk/release/
-          echo "Listing AABs in app/build/outputs/bundle/release/"
-          ls -l app/build/outputs/bundle/release/
-
-      - name: Decoding keystore file
-        script: |
-          mkdir -p /tmp/keystore
-          echo $KEYSTORE | base64 --decode > "$KEYSTORE_DECODING_PATH"
-
-      - name: Sign APK (Release Only)
-        script: |
           if [ "$BUILD_TYPE" = "release" ]; then
-            echo "Signing release AAB..."
-          
-            # Define paths
-            UNSIGNED_AAB="app/build/outputs/bundle/release/app-release.aab"
-            SIGNED_AAB="app/build/outputs/bundle/release/app-release-signed.aab"
-          
-            # Verify the AAB exists
-            if [ ! -f "$UNSIGNED_AAB" ]; then
-            echo "Unsigned AAB not found at $UNSIGNED_AAB"
-            exit 1
-            fi
-          
-            # Sign the AAB using jarsigner
-            jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore "$KEYSTORE_DECODING_PATH" -storepass "$KEYSTORE_PASSWORD" "$SIGNED_AAB" "$ALIAS_KEY"
-          
-            # Verify the AAB is signed
-            jarsigner -verify -verbose -certs "$SIGNED_AAB"
-          
-            echo "Signed AAB is available at $SIGNED_AAB"
+            echo "Listing AABs in app/build/outputs/bundle/release/"
+            ls -l app/build/outputs/bundle/release/
           else
-            echo "Skipping signing since this is a debug build"
+            echo "Listing APKs in app/build/outputs/apk/debug/"
+            ls -l app/build/outputs/apk/debug/
           fi
 
       - name: Conditionally Start Emulator
@@ -109,6 +98,7 @@ workflows:
       - app/build/outputs/**/*.apk
       - app/build/reports/androidTests/connected/index.html
       - app/build/reports/tests/testDebugUnitTest/index.html
+
     publishing:
       email:
         recipients:
@@ -119,10 +109,9 @@ workflows:
         # as a secure environment variable
         credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
 
-        # Name of the track internal, alpha, beta, production, internal app sharing,
+        # Name of the track: internal, alpha, beta, production, internal app sharing,
         # or your custom track name
         track: internal
-
 
         # Optional Priority of the release (only set if in-app updates are supported)
         # integer in range [0, 5]

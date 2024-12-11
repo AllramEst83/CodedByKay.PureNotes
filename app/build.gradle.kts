@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 // Plugins: Required for Android, Kotlin, Jetpack Compose, and KSP
 plugins {
     alias(libs.plugins.android.application) // Android Application plugin
@@ -20,17 +23,41 @@ android {
         testInstrumentationRunner =
             "androidx.test.runner.AndroidJUnitRunner" // Runner for instrumentation tests
     }
+    signingConfigs {
+        create("release") {
+            val keystoreProperties = Properties()
+            val keystorePropertiesFile = rootProject.file("local.properties")
+
+            if (keystorePropertiesFile.exists()) {
+                // Load properties from local.properties
+                keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+            } else {
+                // Load properties from environment variables
+                keystoreProperties["KEYSTORE_PATH"] = System.getenv("KEYSTORE_DECODING_PATH")
+                keystoreProperties["KEYSTORE_PASSWORD"] = System.getenv("KEYSTORE_PASSWORD")
+                keystoreProperties["KEY_ALIAS"] = System.getenv("ALIAS_KEY")
+                keystoreProperties["KEY_PASSWORD"] = System.getenv("KEYSTORE_PASSWORD")
+            }
+
+            // Assign signing properties
+            storeFile = file(keystoreProperties["KEYSTORE_PATH"] as String)
+            storePassword = keystoreProperties["KEYSTORE_PASSWORD"] as String
+            keyAlias = keystoreProperties["KEY_ALIAS"] as String
+            keyPassword = keystoreProperties["KEY_PASSWORD"] as String
+        }
+    }
 
     buildTypes {
-        debug {
+        getByName("debug") {
             isMinifyEnabled = false
         }
-        release {
+        getByName("release") {
             isMinifyEnabled = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), // Default Proguard rules for Android
-                "proguard-rules.pro" // Custom Proguard rules file
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 
