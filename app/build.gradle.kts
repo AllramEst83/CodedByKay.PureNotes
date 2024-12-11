@@ -35,8 +35,8 @@ android {
                 // Load properties from environment variables
                 keystoreProperties["KEYSTORE_PATH"] = System.getenv("KEYSTORE_DECODING_PATH")
                 keystoreProperties["KEYSTORE_PASSWORD"] = System.getenv("KEYSTORE_PASSWORD")
-                keystoreProperties["KEY_ALIAS"] = System.getenv("ALIAS_KEY")
-                keystoreProperties["KEY_PASSWORD"] = System.getenv("KEYSTORE_PASSWORD")
+                keystoreProperties["KEY_ALIAS"] = System.getenv("KEY_ALIAS")
+                keystoreProperties["KEY_PASSWORD"] = System.getenv("KEY_PASSWORD")
             }
 
             // Assign signing properties
