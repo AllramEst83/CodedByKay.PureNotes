@@ -112,6 +112,7 @@ workflows:
         # Name of the track: internal, alpha, beta, production, internal app sharing,
         # or your custom track name
         track: internal
+        submit_as_draft: true
 
         # Optional Priority of the release (only set if in-app updates are supported)
         # integer in range [0, 5]
