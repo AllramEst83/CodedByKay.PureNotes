@@ -40,7 +40,7 @@ fun ThemeItem(
         Text(
             text = stringResource(id = themeOption.displayNameRes),
             modifier = Modifier.padding(start = 8.dp),
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyMedium
         )
     }
 }

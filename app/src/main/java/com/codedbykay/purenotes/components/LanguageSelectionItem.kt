@@ -36,7 +36,7 @@ fun LanguageSelectionItem(
         Text(
             text = languageName,
             modifier = Modifier.padding(start = 8.dp),
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyMedium
         )
     }
 }

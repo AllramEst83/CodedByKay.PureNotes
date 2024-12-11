@@ -5,6 +5,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import com.codedbykay.purenotes.R
 
 val AppFontFamily = FontFamily(
@@ -18,11 +19,19 @@ val AppTypography = Typography(
     headlineLarge = TextStyle(fontFamily = AppFontFamily),
     headlineMedium = TextStyle(fontFamily = AppFontFamily),
     headlineSmall = TextStyle(fontFamily = AppFontFamily),
-    titleLarge = TextStyle(fontFamily = AppFontFamily),
+    titleLarge = TextStyle(
+        fontFamily = AppFontFamily,
+        fontSize = 22.sp,
+        fontWeight = FontWeight.Normal
+    ),
     titleMedium = TextStyle(fontFamily = AppFontFamily),
     titleSmall = TextStyle(fontFamily = AppFontFamily),
     bodyLarge = TextStyle(fontFamily = AppFontFamily),
-    bodyMedium = TextStyle(fontFamily = AppFontFamily),
+    bodyMedium = TextStyle(
+        fontFamily = AppFontFamily,
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Normal
+    ),
     bodySmall = TextStyle(fontFamily = AppFontFamily),
     labelLarge = TextStyle(fontFamily = AppFontFamily),
     labelMedium = TextStyle(fontFamily = AppFontFamily),

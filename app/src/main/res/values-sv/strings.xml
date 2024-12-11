@@ -89,4 +89,5 @@
     <string name="notification_permission_required">Meddelandetillstånd krävs för aviseringar</string>
     <string name="enable_exact_alarms">Aktivera exakta larm för att få aviseringar i tid.</string>
     <string name="enable_dnd_access">Tillåt åtkomst till \\\'Stör ej\\\' för bättre aviseringar.</string>
+    <string name="theme_preview_text">Temaförhandsvisning</string>
 </resources>
