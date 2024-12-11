@@ -7,6 +7,7 @@ workflows:
       events:
         - push
         - pull_request
+        - manual  # Add manual trigger
       branch_patterns:
         - pattern: main
           include: true
@@ -14,13 +15,21 @@ workflows:
     environment:
       vars:
         IS_LINUX_ENV: $([ "$(uname -s)" == "Linux" ] && echo "true" || echo "false")
+        BUILD_TYPE: ${BUILD_TYPE:-debug}  # Default to debug, override for release manually
     scripts:
       - name: Set Execute Permission for gradlew
         script: chmod +x ./gradlew
       - name: Run Unit Tests
         script: ./gradlew test
-      - name: Build Debug APK
-        script: ./gradlew assembleDebug
+      - name: Build APK (Conditional)
+        script: |
+          if [ "$BUILD_TYPE" = "release" ]; then
+            echo "Building release APK..."
+            ./gradlew assembleRelease
+          else
+            echo "Building debug APK..."
+            ./gradlew assembleDebug
+          fi
       - name: Conditionally Start Emulator
         script: |
           if [ "$IS_LINUX_ENV" = "true" ]; then
