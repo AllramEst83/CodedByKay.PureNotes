@@ -17,8 +17,8 @@ android {
         applicationId = "com.codedbykay.purenotes" // Unique application ID
         minSdk = 33                                 // Minimum SDK version supported
         targetSdk = 34                              // Target SDK version
-        versionCode = 1                             // Application version code
-        versionName = "1.0"                         // Application version name
+        versionCode = 2                             // Application version code
+        versionName = "1.0.1"                         // Application version name
 
         testInstrumentationRunner =
             "androidx.test.runner.AndroidJUnitRunner" // Runner for instrumentation tests
