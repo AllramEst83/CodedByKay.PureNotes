@@ -16,7 +16,7 @@ workflows:
         - pure-notes
       vars:
         IS_LINUX_ENV: $([ "$(uname -s)" == "Linux" ] && echo "true" || echo "false")
-        BUILD_TYPE: ${BUILD_TYPE:-debug}  # Defaults to 'debug' if not set
+        BUILD_TYPE: ${BUILD_TYPE:-debug}
     scripts:
       - name: Set Execute Permission for gradlew
         script: chmod +x ./gradlew
@@ -24,7 +24,7 @@ workflows:
         script: ./gradlew test
       - name: Build APK
         script: |
-          echo "Is release: $BUILD_TYPE"
+          echo "Detected BUILD_TYPE: $BUILD_TYPE"
           if [ "$BUILD_TYPE" = "release" ]; then
             echo "Building release APK..."
             ./gradlew assembleRelease
