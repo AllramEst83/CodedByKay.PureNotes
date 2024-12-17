@@ -228,8 +228,9 @@ fun ToDoPage(
                                     },
                                     label = {
                                         Text(
-                                            if (isAddMode) stringResource(id = R.string.add_note_input)
-                                            else stringResource(id = R.string.search_placeholder)
+                                            text = if (isAddMode) stringResource(id = R.string.add_note_input)
+                                            else stringResource(id = R.string.search_placeholder),
+                                            style = MaterialTheme.typography.labelLarge
                                         )
                                     },
                                     modifier = Modifier
@@ -256,7 +257,10 @@ fun ToDoPage(
                                         },
                                         enabled = inputText.trim().isNotEmpty()
                                     ) {
-                                        Text(stringResource(id = R.string.add_button))
+                                        Text(
+                                            text = stringResource(id = R.string.add_button),
+                                            style = MaterialTheme.typography.labelMedium
+                                        )
                                     }
                                 }
                             }

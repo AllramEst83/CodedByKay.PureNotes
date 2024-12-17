@@ -2,6 +2,7 @@ package com.codedbykay.purenotes.components
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -27,9 +28,14 @@ fun EditableContentField(
             value = content,
             onValueChange = onContentChange,
             modifier = editModifier,
-            placeholder = { Text(stringResource(id = R.string.edit_content)) },
+            placeholder = {
+                Text(
+                    text = stringResource(id = R.string.edit_content),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             textStyle = TextStyle(
-                fontSize = 22.sp,
+                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                 letterSpacing = 0.5.sp
             )
         )
@@ -40,7 +46,7 @@ fun EditableContentField(
         Text(
             modifier = textModifier,
             text = content,
-            fontSize = 19.sp,
+            style = MaterialTheme.typography.bodyMedium,
             textDecoration = if (isChecked) TextDecoration.LineThrough else TextDecoration.None
         )
         Spacer(modifier = Modifier.height(8.dp))

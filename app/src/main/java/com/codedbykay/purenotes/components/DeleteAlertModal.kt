@@ -2,6 +2,7 @@ package com.codedbykay.purenotes.components
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -16,22 +17,38 @@ fun DeleteAlertModal(
 ) {
     AlertDialog(
         onDismissRequest = { showDeleteDialog.value = false },
-        title = { Text(text = stringResource(id = R.string.alert_delete_done_notes_title)) },
-        text = { Text(confirmationText) },
+        title = {
+            Text(
+                text = stringResource(id = R.string.alert_delete_done_notes_title),
+                style = MaterialTheme.typography.titleLarge
+            )
+        },
+        text = {
+            Text(
+                text = confirmationText,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        },
         confirmButton = {
             Button(
                 onClick = {
                     onDelete()
                 }
             ) {
-                Text(stringResource(id = R.string.button_delete_text))
+                Text(
+                    text = stringResource(id = R.string.button_delete_text),
+                    style = MaterialTheme.typography.labelMedium
+                )
             }
         },
         dismissButton = {
             Button(
                 onClick = { showDeleteDialog.value = false }
             ) {
-                Text(stringResource(id = R.string.button_cancel_text))
+                Text(
+                    text = stringResource(id = R.string.button_cancel_text),
+                    style = MaterialTheme.typography.labelMedium
+                )
             }
         }
     )

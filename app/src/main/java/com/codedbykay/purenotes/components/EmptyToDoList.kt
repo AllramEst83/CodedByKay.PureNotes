@@ -23,7 +23,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.codedbykay.purenotes.R
 
 @Composable
@@ -69,7 +68,7 @@ fun EmptyToDoList(
             text = message,
             style = TextStyle(
                 fontFamily = greatVibesFontFamily,
-                fontSize = 54.sp,
+                fontSize = MaterialTheme.typography.displayMedium.fontSize,
                 color = MaterialTheme.colorScheme.onPrimary
             ),
             textAlign = TextAlign.Center,

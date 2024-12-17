@@ -88,8 +88,18 @@ fun GroupActionButtonsRow(
     if (showDeleteDialog.value) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog.value = false },
-            title = { Text(text = stringResource(id = R.string.group_delete_dialog_title)) },
-            text = { Text(stringResource(id = R.string.group_delete_dialog_question)) },
+            title = {
+                Text(
+                    text = stringResource(id = R.string.group_delete_dialog_title),
+                    style = MaterialTheme.typography.titleMedium
+                )
+            },
+            text = {
+                Text(
+                    stringResource(id = R.string.group_delete_dialog_question),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            },
             confirmButton = {
                 Button(
                     onClick = {
@@ -97,14 +107,20 @@ fun GroupActionButtonsRow(
                         showDeleteDialog.value = false
                     }
                 ) {
-                    Text(stringResource(id = R.string.group_delete_dialog_confirm_button))
+                    Text(
+                        stringResource(id = R.string.group_delete_dialog_confirm_button),
+                        style = MaterialTheme.typography.labelLarge
+                    )
                 }
             },
             dismissButton = {
                 Button(
                     onClick = { showDeleteDialog.value = false }
                 ) {
-                    Text(stringResource(id = R.string.group_delete_dialog_cancel_button))
+                    Text(
+                        stringResource(id = R.string.group_delete_dialog_cancel_button),
+                        style = MaterialTheme.typography.labelLarge
+                    )
                 }
             }
         )

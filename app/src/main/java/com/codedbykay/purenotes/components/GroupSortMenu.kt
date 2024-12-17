@@ -50,7 +50,12 @@ fun GroupSortMenu(
         onDismissRequest = { expanded = false }
     ) {
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.sort_created_at_desc)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.sort_created_at_desc),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoGroupViewModel.setSortOrder(SortOrder.CREATED_AT_DESCENDING)
             },
@@ -65,7 +70,12 @@ fun GroupSortMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.sort_created_at_asc)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.sort_created_at_asc),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoGroupViewModel.setSortOrder(SortOrder.CREATED_AT_ASCENDING)
             },
@@ -80,7 +90,12 @@ fun GroupSortMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.sort_title_a_z)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.sort_title_a_z),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoGroupViewModel.setSortOrder(SortOrder.TITLE_ASCENDING)
             },
@@ -95,7 +110,12 @@ fun GroupSortMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.sort_title_z_a)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.sort_title_z_a),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoGroupViewModel.setSortOrder(SortOrder.TITLE_DESCENDING)
             },

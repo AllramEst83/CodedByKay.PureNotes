@@ -47,8 +47,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.db.ToDo
@@ -241,7 +241,9 @@ fun ToDoListItem(
                                             Text(
                                                 text = formattedNotificationDate ?: "N/A",
                                                 color = MaterialTheme.colorScheme.onSurface,
-                                                fontSize = 14.sp
+                                                style = MaterialTheme.typography.labelMedium,
+                                                maxLines = 1,
+                                                overflow = TextOverflow.Ellipsis
                                             )
                                         }
                                     }
@@ -336,8 +338,18 @@ fun ToDoListItem(
                                 if (showSettingsDialog) {
                                     AlertDialog(
                                         onDismissRequest = { showSettingsDialog = false },
-                                        title = { Text(stringResource(R.string.notification_permission_message_permenantly_denied_Title)) },
-                                        text = { Text(stringResource(R.string.notification_permission_message_permenantly_denied)) },
+                                        title = {
+                                            Text(
+                                                stringResource(R.string.notification_permission_message_permenantly_denied_Title),
+                                                style = MaterialTheme.typography.titleLarge
+                                            )
+                                        },
+                                        text = {
+                                            Text(
+                                                stringResource(R.string.notification_permission_message_permenantly_denied),
+                                                style = MaterialTheme.typography.bodyMedium
+                                            )
+                                        },
                                         confirmButton = {
                                             Button(onClick = {
                                                 showSettingsDialog = false
@@ -352,12 +364,18 @@ fun ToDoListItem(
                                                     }
                                                 context.startActivity(intent)
                                             }) {
-                                                Text("Open Settings")
+                                                Text(
+                                                    text = "Open Settings",
+                                                    style = MaterialTheme.typography.bodyMedium
+                                                )
                                             }
                                         },
                                         dismissButton = {
                                             Button(onClick = { showSettingsDialog = false }) {
-                                                Text("Cancel")
+                                                Text(
+                                                    text = "Cancel",
+                                                    style = MaterialTheme.typography.labelMedium
+                                                )
                                             }
                                         }
                                     )

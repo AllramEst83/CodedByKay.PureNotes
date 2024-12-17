@@ -40,9 +40,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.components.AddGroupButton
@@ -247,17 +245,16 @@ fun ToDoGroupPage(
                                             },
                                             label = {
                                                 Text(
-                                                    if (isAddMode) stringResource(id = R.string.add_group_placeholder)
-                                                    else stringResource(id = R.string.search_placeholder)
+                                                    text = if (isAddMode) stringResource(id = R.string.add_group_placeholder)
+                                                    else stringResource(id = R.string.search_placeholder),
+                                                    style = MaterialTheme.typography.labelLarge
                                                 )
                                             },
                                             modifier = Modifier
                                                 .weight(1f)
                                                 .padding(end = 8.dp),
                                             shape = RoundedCornerShape(15.dp),
-                                            textStyle = TextStyle(
-                                                fontSize = 22.sp
-                                            )
+                                            textStyle = MaterialTheme.typography.bodyMedium
                                         )
                                         if (isAddMode) {
                                             Button(
@@ -275,7 +272,10 @@ fun ToDoGroupPage(
                                                 },
                                                 enabled = inputText.trim().isNotEmpty()
                                             ) {
-                                                Text(stringResource(id = R.string.add_button))
+                                                Text(
+                                                    stringResource(id = R.string.add_button),
+                                                    style = MaterialTheme.typography.labelMedium
+                                                )
                                             }
                                         }
                                     }

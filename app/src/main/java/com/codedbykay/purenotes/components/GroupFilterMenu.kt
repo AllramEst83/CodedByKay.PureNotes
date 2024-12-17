@@ -1,5 +1,6 @@
 package com.codedbykay.purenotes.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -7,6 +8,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -52,11 +54,19 @@ fun GroupFilterMenu(
         // Section for Created Date Filter
         Text(
             text = stringResource(id = R.string.filter_created_header),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 4.dp)
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(start = 10.dp, top = 8.dp, bottom = 4.dp)
+        )
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth(),
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.filter_all)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.filter_all),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoGroupViewModel.setFilter(currentFilter.copy(createdDateFilter = CreatedDateFilter.ALL))
             },
@@ -71,7 +81,12 @@ fun GroupFilterMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.filter_today)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.filter_today),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoGroupViewModel.setFilter(currentFilter.copy(createdDateFilter = CreatedDateFilter.TODAY))
             },
@@ -86,7 +101,12 @@ fun GroupFilterMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.filter_this_week)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.filter_this_week),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoGroupViewModel.setFilter(currentFilter.copy(createdDateFilter = CreatedDateFilter.THIS_WEEK))
             },
@@ -101,7 +121,12 @@ fun GroupFilterMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.filter_this_month)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.filter_this_month),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoGroupViewModel.setFilter(currentFilter.copy(createdDateFilter = CreatedDateFilter.THIS_MONTH))
             },

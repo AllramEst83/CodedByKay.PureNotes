@@ -47,11 +47,16 @@ fun FilterMenu(
         // Section for Done Status Filter
         Text(
             text = stringResource(id = R.string.filter_done_status_header),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 4.dp)
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(start = 10.dp, top = 8.dp, bottom = 4.dp)
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.filter_status_all_done)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.filter_status_all_done),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoViewModel.setFilter(currentFilter.copy(doneStatus = DoneStatus.ALL))
             },
@@ -66,7 +71,12 @@ fun FilterMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.filter_status_done)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.filter_status_done),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoViewModel.setFilter(currentFilter.copy(doneStatus = DoneStatus.DONE))
             },
@@ -81,7 +91,12 @@ fun FilterMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.filter_status_not_done)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.filter_status_not_done),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoViewModel.setFilter(currentFilter.copy(doneStatus = DoneStatus.NOT_DONE))
             },
@@ -102,11 +117,16 @@ fun FilterMenu(
         // Section for Created Date Filter
         Text(
             text = stringResource(id = R.string.filter_created_header),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 4.dp)
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(start = 10.dp, top = 8.dp, bottom = 4.dp)
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.filter_all)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.filter_all),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoViewModel.setFilter(currentFilter.copy(createdDateFilter = CreatedDateFilter.ALL))
             },
@@ -121,7 +141,12 @@ fun FilterMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.filter_today)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.filter_today),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoViewModel.setFilter(currentFilter.copy(createdDateFilter = CreatedDateFilter.TODAY))
             },
@@ -136,7 +161,12 @@ fun FilterMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.filter_this_week)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.filter_this_week),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoViewModel.setFilter(currentFilter.copy(createdDateFilter = CreatedDateFilter.THIS_WEEK))
             },
@@ -151,7 +181,12 @@ fun FilterMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.filter_this_month)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.filter_this_month),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoViewModel.setFilter(currentFilter.copy(createdDateFilter = CreatedDateFilter.THIS_MONTH))
             },
@@ -172,11 +207,16 @@ fun FilterMenu(
         // Section for Notification Time Filter
         Text(
             text = stringResource(id = R.string.filter_notification_time_header),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 4.dp)
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(start = 10.dp, top = 8.dp, bottom = 4.dp)
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.filter_notification_time_unfiltered)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.filter_notification_time_unfiltered),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoViewModel.setFilter(currentFilter.copy(notificationDateFilter = NotificationTimeFilter.ALL))
             },
@@ -191,7 +231,12 @@ fun FilterMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.filter_today)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.filter_today),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoViewModel.setFilter(currentFilter.copy(notificationDateFilter = NotificationTimeFilter.TODAY))
             },
@@ -206,7 +251,12 @@ fun FilterMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.filter_this_week)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.filter_this_week),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoViewModel.setFilter(currentFilter.copy(notificationDateFilter = NotificationTimeFilter.THIS_WEEK))
             },
@@ -221,7 +271,12 @@ fun FilterMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.filter_this_month)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.filter_this_month),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoViewModel.setFilter(currentFilter.copy(notificationDateFilter = NotificationTimeFilter.THIS_MONTH))
             },

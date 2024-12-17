@@ -49,7 +49,12 @@ fun SortMenu(
         onDismissRequest = { expanded = false }
     ) {
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.sort_created_at_desc)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.sort_created_at_desc),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoViewModel.setSortOrder(SortOrder.CREATED_AT_DESCENDING)
             },
@@ -64,7 +69,12 @@ fun SortMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.sort_created_at_asc)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.sort_created_at_asc),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoViewModel.setSortOrder(SortOrder.CREATED_AT_ASCENDING)
             },
@@ -79,7 +89,12 @@ fun SortMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.sort_title_a_z)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.sort_title_a_z),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoViewModel.setSortOrder(SortOrder.TITLE_ASCENDING)
             },
@@ -94,7 +109,12 @@ fun SortMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.sort_title_z_a)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.sort_title_z_a),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoViewModel.setSortOrder(SortOrder.TITLE_DESCENDING)
             },
@@ -110,7 +130,12 @@ fun SortMenu(
         )
 
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.sort_notification_time_desc)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.sort_notification_time_desc),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoViewModel.setSortOrder(SortOrder.NOTIFICATION_TIME_ASCENDING)
             },
@@ -125,7 +150,12 @@ fun SortMenu(
             }
         )
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.sort_notification_time_asc)) },
+            text = {
+                Text(
+                    stringResource(id = R.string.sort_notification_time_asc),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            },
             onClick = {
                 toDoViewModel.setSortOrder(SortOrder.NOTIFICATION_TIME_DESCENDING)
             },

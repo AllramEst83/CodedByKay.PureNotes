@@ -2,6 +2,7 @@ package com.codedbykay.purenotes.components
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -28,9 +29,14 @@ fun EditableTitleField(
             value = title,
             onValueChange = onTitleChange,
             modifier = editModifier,
-            placeholder = { Text(stringResource(id = R.string.edit_title)) },
+            placeholder = {
+                Text(
+                    text = stringResource(id = R.string.edit_title),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            },
             textStyle = TextStyle(
-                fontSize = 22.sp,
+                fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                 letterSpacing = 0.5.sp
             )
         )
@@ -38,7 +44,7 @@ fun EditableTitleField(
         // Title text
         Text(
             text = title,
-            fontSize = 22.sp,
+            style = MaterialTheme.typography.bodyLarge,
             modifier = textModifier,
             textDecoration = if (isChecked) TextDecoration.LineThrough else TextDecoration.None
         )
