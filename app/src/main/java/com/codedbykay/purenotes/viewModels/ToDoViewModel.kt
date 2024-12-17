@@ -7,14 +7,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.db.ToDo
+import com.codedbykay.purenotes.db.ToDoDao
 import com.codedbykay.purenotes.models.CreatedDateFilter
 import com.codedbykay.purenotes.models.DoneStatus
 import com.codedbykay.purenotes.models.NotificationTimeFilter
 import com.codedbykay.purenotes.models.Quadruple
 import com.codedbykay.purenotes.models.SortOrder
 import com.codedbykay.purenotes.models.ToDoFilter
+import com.codedbykay.purenotes.services.NotificationService
 import com.codedbykay.purenotes.utils.buildNoteShareContent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,13 +23,10 @@ import kotlinx.coroutines.withContext
 import java.sql.Date
 import java.time.Instant
 
-class ToDoViewModel() : ViewModel() {
-
-    // Services
-    private val notificationService = MainApplication.notificationService
-
-    // DAO´s
-    private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
+class ToDoViewModel(
+    private val notificationService: NotificationService,
+    private val toDoDao: ToDoDao,
+) : ViewModel() {
 
     // Share service
     private val _isServiceRunning = MutableLiveData<Boolean>()

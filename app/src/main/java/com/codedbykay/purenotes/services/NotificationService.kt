@@ -9,14 +9,16 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.util.Log
-import com.codedbykay.purenotes.MainApplication
+import com.codedbykay.purenotes.db.ToDoDao
 import com.codedbykay.purenotes.receivers.NotificationReceiver
 
-class NotificationService(context: Context) {
+class NotificationService(
+    private val context: Context,
+    private val toDoDao: ToDoDao,
+) {
 
     private val appContext = context.applicationContext
     private val channelId = "todo_channel"
-    private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
     private val alarmManager: AlarmManager =
         context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 

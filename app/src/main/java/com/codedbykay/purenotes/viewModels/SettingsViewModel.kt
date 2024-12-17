@@ -5,17 +5,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.constants.ThemeConstants
+import com.codedbykay.purenotes.managers.LocaleManager
+import com.codedbykay.purenotes.managers.ThemeDataStoreManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SettingsViewModel : ViewModel() {
-
-    // Locale manager
-    private val localeManager = MainApplication.localeManager
-
-    private val themeDataStoreManager = MainApplication.themeDataStoreManager
+class SettingsViewModel(
+    private val themeDataStoreManager: ThemeDataStoreManager,
+    private val localeManager: LocaleManager,
+) : ViewModel() {
     var themeMode by mutableStateOf(ThemeConstants.ThemeMode.SYSTEM_DEFAULT)
         private set
 

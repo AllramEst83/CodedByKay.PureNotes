@@ -18,7 +18,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
 import com.codedbykay.purenotes.managers.AppNavHostManager
 import com.codedbykay.purenotes.managers.LocaleManager
@@ -27,6 +26,7 @@ import com.codedbykay.purenotes.viewModels.ImageGalleryViewModel
 import com.codedbykay.purenotes.viewModels.SettingsViewModel
 import com.codedbykay.purenotes.viewModels.ToDoGroupViewModel
 import com.codedbykay.purenotes.viewModels.ToDoViewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -63,10 +63,10 @@ class MainActivity : ComponentActivity() {
         checkAndRequestDndPermission()
 
         // Initialize ViewModels before setContent
-        val toDoGroupViewModel = ViewModelProvider(this)[ToDoGroupViewModel::class.java]
-        val toDoViewModel = ViewModelProvider(this)[ToDoViewModel::class.java]
-        val imageGalleryViewModel = ViewModelProvider(this)[ImageGalleryViewModel::class.java]
-        val settingsViewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
+        val toDoGroupViewModel = getViewModel<ToDoGroupViewModel>()
+        val toDoViewModel = getViewModel<ToDoViewModel>()
+        val imageGalleryViewModel = getViewModel<ImageGalleryViewModel>()
+        val settingsViewModel = getViewModel<SettingsViewModel>()
 
         if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(

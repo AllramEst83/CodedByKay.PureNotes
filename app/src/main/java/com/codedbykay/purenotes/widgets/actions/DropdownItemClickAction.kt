@@ -6,12 +6,14 @@ import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.state.PreferencesGlanceStateDefinition
-import com.codedbykay.purenotes.MainApplication
+import com.codedbykay.purenotes.db.ToDoDao
 import com.codedbykay.purenotes.widgets.PureNotesWidget
 import com.google.gson.Gson
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class DropdownItemClickAction : ActionCallback {
-    private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
+class DropdownItemClickAction : ActionCallback, KoinComponent {
+    private val toDoDao: ToDoDao by inject()
 
     override suspend fun onAction(
         context: Context,

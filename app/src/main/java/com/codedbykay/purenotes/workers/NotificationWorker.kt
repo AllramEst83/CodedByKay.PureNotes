@@ -8,19 +8,22 @@ import androidx.core.content.ContextCompat
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.R
+import com.codedbykay.purenotes.db.ToDoDao
+import com.codedbykay.purenotes.services.IntentService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class NotificationWorker(
     context: Context,
-    workerParams: WorkerParameters
-) : Worker(context, workerParams) {
+    workerParams: WorkerParameters,
+) : Worker(context, workerParams), KoinComponent {
 
-    private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
-    private val intentService = MainApplication.IntentService
+    private val toDoDao: ToDoDao by inject()
+    private val intentService: IntentService by inject()
 
     override fun doWork(): Result {
         val title = inputData.getString("notification_title")

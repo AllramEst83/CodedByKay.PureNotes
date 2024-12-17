@@ -8,18 +8,21 @@ import androidx.work.CoroutineWorker
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.db.ToDo
+import com.codedbykay.purenotes.db.ToDoDao
 import com.codedbykay.purenotes.db.ToDoGroup
+import com.codedbykay.purenotes.db.ToDoGroupDao
 import com.codedbykay.purenotes.widgets.PureNotesWidget
 import com.google.gson.Gson
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.util.concurrent.TimeUnit
 
 class FetchWidgetDataOnStartupWorker(context: Context, params: WorkerParameters) :
-    CoroutineWorker(context, params) {
+    CoroutineWorker(context, params), KoinComponent {
 
-    private val toDoGroupDao = MainApplication.toDoDatabase.getTodoGroupDao()
-    private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
+    private val toDoGroupDao: ToDoGroupDao by inject()
+    private val toDoDao: ToDoDao by inject()
 
     override suspend fun doWork(): Result {
         // Fetch groups

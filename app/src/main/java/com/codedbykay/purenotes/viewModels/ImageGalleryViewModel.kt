@@ -4,20 +4,19 @@ import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.codedbykay.purenotes.MainApplication
+import com.codedbykay.purenotes.db.ImageDao
+import com.codedbykay.purenotes.db.ToDoDao
 import com.codedbykay.purenotes.db.ToDoImage
+import com.codedbykay.purenotes.services.ImageStorageService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ImageGalleryViewModel : ViewModel() {
-
-    // Services
-    private val imageStorageService = MainApplication.imageStorageService
-
-    // DAO´s
-    private val imageDao = MainApplication.toDoDatabase.getImageDao()
-    private val todoDao = MainApplication.toDoDatabase.getTodoDao()
+class ImageGalleryViewModel(
+    private val imageStorageService: ImageStorageService,
+    private val imageDao: ImageDao,
+    private val todoDao: ToDoDao,
+) : ViewModel() {
 
     /**
      * Fetches images associated with a specific ToDo.

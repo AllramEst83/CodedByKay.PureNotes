@@ -1,13 +1,15 @@
 package com.codedbykay.purenotes.services
 
-import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.db.GroupWithTodos
+import com.codedbykay.purenotes.db.ToDoDao
+import com.codedbykay.purenotes.db.ToDoGroupDao
 import com.codedbykay.purenotes.utils.buildShareContent
+import org.koin.core.component.KoinComponent
 
-class ShareService {
-
-    private val toDoGroupDao = MainApplication.toDoDatabase.getTodoGroupDao()
-    private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
+class ShareService(
+    private val toDoDao: ToDoDao,
+    private val toDoGroupDao: ToDoGroupDao,
+) : KoinComponent {
 
     suspend fun getShareContent(groupId: Int): String? {
         val todos = toDoDao.getToDosToShareByGroupId(groupId)

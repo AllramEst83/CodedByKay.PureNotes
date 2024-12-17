@@ -11,7 +11,7 @@ plugins {
 
 android {
     namespace = "com.codedbykay.purenotes" // Application namespace
-    compileSdk = 34                      // Targeted Android SDK
+    compileSdk = 35                      // Targeted Android SDK
 
     defaultConfig {
         applicationId = "com.codedbykay.purenotes" // Unique application ID
@@ -96,7 +96,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)           // Lifecycle runtime with Kotlin extensions
     implementation(libs.androidx.activity.compose)                // Activity support for Jetpack Compose
     implementation(platform(libs.androidx.compose.bom))           // Compose BOM for consistent Compose versions
-    implementation("androidx.appcompat:appcompat:1.6.1")           // AppCompat for backward compatibility
+    implementation("androidx.appcompat:appcompat:1.7.0")           // AppCompat for backward compatibility
 
     // ---------------------------------------------------
     // Jetpack Compose UI Dependencies
@@ -106,17 +106,17 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")        // Material 3 components for Compose
-    implementation("androidx.compose.runtime:runtime-livedata:1.7.4") // LiveData integration in Compose
+    implementation("androidx.compose.runtime:runtime-livedata:1.7.6") // LiveData integration in Compose
     implementation("androidx.compose.material:material-icons-extended") // Extended Material Icons
 
     // ---------------------------------------------------
     // Lifecycle and Activity Management
     // Tools to handle the lifecycle of components and manage activities/fragments.
     // ---------------------------------------------------
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2") // ViewModel with Kotlin extensions
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")   // Lifecycle runtime with Kotlin extensions
-    implementation("androidx.activity:activity-ktx:1.8.1")             // Activity Kotlin extensions
-    implementation("androidx.fragment:fragment-ktx:1.6.2")             // Fragment Kotlin extensions
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7") // ViewModel with Kotlin extensions
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx-android:2.8.7")   // Lifecycle runtime with Kotlin extensions
+    implementation("androidx.activity:activity-ktx:1.9.3")             // Activity Kotlin extensions
+    implementation("androidx.fragment:fragment-ktx:1.8.5")             // Fragment Kotlin extensions
 
     // ---------------------------------------------------
     // Room Database Dependencies
@@ -131,7 +131,7 @@ dependencies {
     // Navigation
     // Libraries to handle in-app navigation within Jetpack Compose.
     // ---------------------------------------------------
-    val navVersion = "2.8.3"
+    val navVersion = "2.8.5"
     implementation("androidx.navigation:navigation-compose:$navVersion") // Compose Navigation
     androidTestImplementation("androidx.navigation:navigation-testing:$navVersion") // Navigation testing
 
@@ -139,7 +139,7 @@ dependencies {
     // DataStore for Preferences
     // Library for storing key-value pairs and preferences.
     // ---------------------------------------------------
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 
     // ---------------------------------------------------
     // UI Enhancements
@@ -152,13 +152,13 @@ dependencies {
     // Performance Monitoring
     // Libraries to monitor and trace app performance.
     // ---------------------------------------------------
-    implementation("androidx.tracing:tracing:1.1.0")
+    implementation("androidx.tracing:tracing:1.2.0")
 
     // ---------------------------------------------------
     // Background Work
     // Libraries to handle background tasks and work scheduling.
     // ---------------------------------------------------
-    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    implementation("androidx.work:work-runtime-ktx:2.10.0")
 
     // ---------------------------------------------------
     // AppWidgets Support
@@ -172,18 +172,29 @@ dependencies {
     // Networking and Serialization
     // Libraries for data serialization and network operations.
     // ---------------------------------------------------
-    implementation("com.google.code.gson:gson:2.8.8")                  // Gson for JSON serialization
+    implementation("com.google.code.gson:gson:2.11.0")                  // Gson for JSON serialization
 
     // ---------------------------------------------------
     // Testing Libraries
     // Frameworks and tools for unit and UI testing.
     // ---------------------------------------------------
     testImplementation(libs.junit)                                       // JUnit for unit testing
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3") // Coroutines testing utilities
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0") // Coroutines testing utilities
     androidTestImplementation(libs.androidx.junit)                      // AndroidX JUnit for Android tests
     androidTestImplementation(libs.androidx.espresso.core)              // Espresso for UI testing
     androidTestImplementation(platform(libs.androidx.compose.bom))      // Compose BOM for consistent test dependencies
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")     // Compose UI testing
     debugImplementation("androidx.compose.ui:ui-tooling")              // Compose UI tooling for debugging
     debugImplementation("androidx.compose.ui:ui-test-manifest")        // Compose UI test manifest
+
+    // ---------------------------------------------------
+    // Koin Dependency Injection
+    // Framework for dependency injection in Android,
+    // including support for Jetpack Navigation and Compose.
+    // ---------------------------------------------------
+    val koinVersion = "4.1.0-Beta1"
+    implementation("io.insert-koin:koin-android:$koinVersion")
+    implementation("io.insert-koin:koin-androidx-navigation:$koinVersion")
+    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
+    implementation("io.insert-koin:koin-test-junit4:$koinVersion")
 }

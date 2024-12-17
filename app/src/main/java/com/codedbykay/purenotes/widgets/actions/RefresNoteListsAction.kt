@@ -8,17 +8,20 @@ import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.state.getAppWidgetState
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.state.PreferencesGlanceStateDefinition
-import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.db.ToDo
+import com.codedbykay.purenotes.db.ToDoDao
 import com.codedbykay.purenotes.db.ToDoGroup
+import com.codedbykay.purenotes.db.ToDoGroupDao
 import com.codedbykay.purenotes.receivers.ToastReceiver
 import com.codedbykay.purenotes.widgets.PureNotesWidget
 import com.google.gson.Gson
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class RefreshNoteListsAction : ActionCallback {
-    private val toDoGroupDao = MainApplication.toDoDatabase.getTodoGroupDao()
-    private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
+class RefreshNoteListsAction : ActionCallback, KoinComponent {
+    private val toDoGroupDao: ToDoGroupDao by inject()
+    private val toDoDao: ToDoDao by inject()
 
     override suspend fun onAction(
         context: Context,

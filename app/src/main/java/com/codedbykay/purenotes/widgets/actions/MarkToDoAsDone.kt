@@ -7,17 +7,20 @@ import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.state.PreferencesGlanceStateDefinition
-import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.db.ToDo
+import com.codedbykay.purenotes.db.ToDoDao
 import com.codedbykay.purenotes.receivers.ToastReceiver
+import com.codedbykay.purenotes.services.NotificationService
 import com.codedbykay.purenotes.widgets.PureNotesWidget
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class MarkToDoAsDone : ActionCallback {
-    private val toDoDao = MainApplication.toDoDatabase.getTodoDao()
-    private val notificationService = MainApplication.notificationService
+class MarkToDoAsDone : ActionCallback, KoinComponent {
+    private val toDoDao: ToDoDao by inject()
+    private val notificationService: NotificationService by inject()
 
     override suspend fun onAction(
         context: Context,

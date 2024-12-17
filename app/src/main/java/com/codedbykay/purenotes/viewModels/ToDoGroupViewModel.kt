@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import com.codedbykay.purenotes.MainApplication
 import com.codedbykay.purenotes.db.ToDoGroup
+import com.codedbykay.purenotes.db.ToDoGroupDao
 import com.codedbykay.purenotes.models.CreatedDateFilter
 import com.codedbykay.purenotes.models.SortOrder
 import com.codedbykay.purenotes.models.ToDoGroupFilter
@@ -19,13 +19,10 @@ import kotlinx.coroutines.withContext
 import java.util.Date
 
 
-class ToDoGroupViewModel : ViewModel() {
-
-    // Share service
-    private val shareService = ShareService()
-
-    // ToDoGroup DAO
-    private val toDoGroupDao = MainApplication.toDoDatabase.getTodoGroupDao()
+class ToDoGroupViewModel(
+    private val toDoGroupDao: ToDoGroupDao,
+    private val shareService: ShareService,
+) : ViewModel() {
 
     // Share data
     private val _shareContent = MutableLiveData<String?>()
