@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material3.AlertDialog
@@ -210,17 +209,17 @@ fun ToDoListItem(
 
                                 )
                                 Row(verticalAlignment = Alignment.CenterVertically) {
-                                    DisplayDate(
+/*                                    DisplayDate(
                                         modifier = Modifier
                                             .customCircleBackground(MaterialTheme.colorScheme.onSurface)
                                             .padding(horizontal = 11.dp, vertical = 6.dp)
                                             .alpha(if (isChecked) 0.5f else 1f),
                                         formattedDate = formattedCreateDate,
                                         isChecked = isChecked
-                                    )
+                                    )*/
 
                                     // Add a Spacer to create the desired space between the date and icon
-                                    Spacer(modifier = Modifier.width(8.dp))
+                                    //Spacer(modifier = Modifier.width(8.dp))
 
                                     // Notification time icon and text
                                     nonNullItem.notificationTime?.let {
@@ -247,9 +246,7 @@ fun ToDoListItem(
                                             )
                                         }
                                     }
-
                                 }
-
                             }
 
                             Spacer(modifier = Modifier.height(10.dp))
@@ -262,9 +259,12 @@ fun ToDoListItem(
                                 textModifier = Modifier
                                     .fillMaxWidth()
                                     .padding(start = 8.dp)
-
                                     .alpha(if (isChecked) 0.5f else 1f),
                                 title = title,
+                                createdDate = formattedCreateDate,
+                                createdDateModifier = Modifier
+                                    .padding(start = 8.dp, top = 2.dp)
+                                    .alpha(if (isChecked) 0.5f else 1f),
                                 onTitleChange = { title = it },
                                 isEditing = isEditing,
                                 isChecked = isChecked

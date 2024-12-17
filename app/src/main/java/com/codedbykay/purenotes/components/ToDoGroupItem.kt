@@ -98,6 +98,7 @@ fun ToDoGroupItem(
 
                                 .alpha(if (isChecked) 0.5f else 1f),
                             title = name,
+                            createdDate = "",
                             onTitleChange = { name = it },
                             isEditing = isEditing,
                             isChecked = false
