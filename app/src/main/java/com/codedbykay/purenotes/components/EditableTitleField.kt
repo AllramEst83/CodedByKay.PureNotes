@@ -20,7 +20,7 @@ fun EditableTitleField(
     textModifier: Modifier = Modifier,
     createdDateModifier: Modifier = Modifier,
     title: String,
-    createdDate: String,
+    createdDate: String?,
     onTitleChange: (String) -> Unit,
     isEditing: Boolean,
     isChecked: Boolean,
@@ -51,12 +51,14 @@ fun EditableTitleField(
             textDecoration = if (isChecked) TextDecoration.LineThrough else TextDecoration.None
         )
         // Created date text
-        Text(
-            modifier = createdDateModifier,
-            text = createdDate,
-            style = MaterialTheme.typography.labelSmall,
-            textDecoration = if (isChecked) TextDecoration.LineThrough else TextDecoration.None
-        )
+        createdDate?.let {
+            Text(
+                modifier = createdDateModifier,
+                text = createdDate,
+                style = MaterialTheme.typography.labelSmall,
+                textDecoration = if (isChecked) TextDecoration.LineThrough else TextDecoration.None
+            )
+        }
     }
     Spacer(modifier = Modifier.height(8.dp))
 }
