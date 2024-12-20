@@ -1,15 +1,7 @@
 package com.codedbykay.purenotes.components
 
 import LoadingItem
-import android.Manifest
-import android.app.Activity
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Build
 import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
@@ -24,8 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -48,7 +38,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import com.codedbykay.purenotes.R
 import com.codedbykay.purenotes.db.ToDo
 import com.codedbykay.purenotes.dialogs.ShowTimePickerDialog
@@ -81,8 +70,6 @@ fun ToDoListItem(
         var expanded by remember { mutableStateOf(false) }
         var showTimePicker by remember { mutableStateOf(false) }
         val context = LocalContext.current
-        val activity = LocalContext.current as? Activity
-        var showSettingsDialog by remember { mutableStateOf(false) }
         val clipboardManager = LocalClipboardManager.current
         val images by imageGalleryViewModel.getImageByToDoId(nonNullItem.id)
             .observeAsState(emptyList())
@@ -100,57 +87,6 @@ fun ToDoListItem(
             targetValue = if (expanded) 0f else 180f,
             label = "ExpandCollapseRotation"
         )
-
-        val requestPermissionLauncher = rememberLauncherForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { isGranted ->
-            if (isGranted) {
-                // Permission granted, show time picker
-                showTimePicker = true
-            } else {
-                // Permission denied
-                val shouldShowRationale = activity?.shouldShowRequestPermissionRationale(
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) == true
-
-                if (shouldShowRationale) {
-                    // Permission denied, but we can ask again
-                    // Optionally inform the user
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.notification_permission_message),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    // Permission denied permanently or 'Don't ask again' selected
-                    showSettingsDialog = true
-                }
-            }
-        }
-
-        // When the user clicks to set a notification
-        val onSetNotificationClick = {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                val permission = Manifest.permission.POST_NOTIFICATIONS
-                when {
-                    ContextCompat.checkSelfPermission(
-                        context,
-                        permission
-                    ) == PackageManager.PERMISSION_GRANTED -> {
-                        // Permission is granted, show time picker
-                        showTimePicker = true
-                    }
-
-                    else -> {
-                        // Directly request the permission again
-                        requestPermissionLauncher.launch(permission)
-                    }
-                }
-            } else {
-                // For lower API levels, show time picker
-                showTimePicker = true
-            }
-        }
 
         Card(
             modifier = modifier,
@@ -335,53 +271,6 @@ fun ToDoListItem(
                                     }
                                 }
 
-                                if (showSettingsDialog) {
-                                    AlertDialog(
-                                        onDismissRequest = { showSettingsDialog = false },
-                                        title = {
-                                            Text(
-                                                stringResource(R.string.notification_permission_message_permenantly_denied_Title),
-                                                style = MaterialTheme.typography.titleLarge
-                                            )
-                                        },
-                                        text = {
-                                            Text(
-                                                stringResource(R.string.notification_permission_message_permenantly_denied),
-                                                style = MaterialTheme.typography.bodyMedium
-                                            )
-                                        },
-                                        confirmButton = {
-                                            Button(onClick = {
-                                                showSettingsDialog = false
-                                                // Open app settings
-                                                val intent =
-                                                    Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                                        data = Uri.fromParts(
-                                                            "package",
-                                                            context.packageName,
-                                                            null
-                                                        )
-                                                    }
-                                                context.startActivity(intent)
-                                            }) {
-                                                Text(
-                                                    text = "Open Settings",
-                                                    style = MaterialTheme.typography.bodyMedium
-                                                )
-                                            }
-                                        },
-                                        dismissButton = {
-                                            Button(onClick = { showSettingsDialog = false }) {
-                                                Text(
-                                                    text = "Cancel",
-                                                    style = MaterialTheme.typography.labelMedium
-                                                )
-                                            }
-                                        }
-                                    )
-                                }
-
-
                                 Spacer(modifier = Modifier.height(5.dp))
 
                                 // Button row
@@ -407,7 +296,7 @@ fun ToDoListItem(
                                             isEditing = true
                                         }
                                     },
-                                    onShowTimePickerClick = { onSetNotificationClick() },
+                                    onShowTimePickerClick = { showTimePicker = true },
                                     onClearNotificationClick = {
                                         // Handle clearing the notification
                                         toDoViewModel.removeAlarmFromToDo(

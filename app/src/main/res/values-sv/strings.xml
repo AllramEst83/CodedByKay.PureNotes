@@ -91,6 +91,5 @@
     <string name="enable_dnd_access">Tillåt åtkomst till \\\'Stör ej\\\' för bättre aviseringar.</string>
     <string name="theme_preview_text">Temaförhandsvisning</string>
     <string name="media_images_permission_granted">Behörighet beviljad! Du kan nu enkelt komma åt och hantera dina bilder i appen.</string>
-    <string name="media_images_permission_granted">Behörighet beviljad! Du kan nu enkelt komma åt och hantera dina bilder i appen</string>
     <string name="media_images_permission_required">Behörighet krävs! För att visa och hantera dina bilder, aktivera åtkomst till mediebilder i enhetens inställningar.</string>
 </resources>
