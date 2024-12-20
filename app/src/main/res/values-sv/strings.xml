@@ -61,7 +61,7 @@
     <string name="notification_fallback_title">Påminelse</string>
     <string name="receiver_fallback_title">Det är klart!</string>
     <string name="receiver_fallback_group_name">Ursprungsgruppen</string>
-    <string name="widget_please_wait_initializing">Vänligen vänta... Initierar.</string>
+    <string name="widget_please_wait_initializing">Vänligen vänta&#8230; Initierar</string>
     <string name="widget_no_apps_found">Inga grupper hittades. Lägg till några i Pure Notes-appen.</string>
     <string name="widget_empty_list_message">Inga anteckningar hittades. \\nKanske lägga till en anteckning i appen?</string>
     <string name="app_description">Nå dina anteckningar på hemskärmen</string>
@@ -90,4 +90,7 @@
     <string name="enable_exact_alarms">Aktivera exakta larm för att få aviseringar i tid.</string>
     <string name="enable_dnd_access">Tillåt åtkomst till \\\'Stör ej\\\' för bättre aviseringar.</string>
     <string name="theme_preview_text">Temaförhandsvisning</string>
+    <string name="media_images_permission_granted">Behörighet beviljad! Du kan nu enkelt komma åt och hantera dina bilder i appen.</string>
+    <string name="media_images_permission_granted">Behörighet beviljad! Du kan nu enkelt komma åt och hantera dina bilder i appen</string>
+    <string name="media_images_permission_required">Behörighet krävs! För att visa och hantera dina bilder, aktivera åtkomst till mediebilder i enhetens inställningar.</string>
 </resources>
