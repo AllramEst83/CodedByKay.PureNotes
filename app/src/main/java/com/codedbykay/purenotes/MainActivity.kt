@@ -21,11 +21,14 @@ import com.codedbykay.purenotes.viewModels.ImageGalleryViewModel
 import com.codedbykay.purenotes.viewModels.SettingsViewModel
 import com.codedbykay.purenotes.viewModels.ToDoGroupViewModel
 import com.codedbykay.purenotes.viewModels.ToDoViewModel
+import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.core.parameter.parametersOf
 
 class MainActivity : ComponentActivity() {
 
-    private lateinit var permissionManager: PermissionManager
+    private val mainScope = getKoin().createScope<MainActivity>()
+    private val permissionManager: PermissionManager by mainScope.inject { parametersOf(this) }
 
     private val requestNotificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -65,8 +68,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        permissionManager = PermissionManager(this)
 
         LocaleManager(this).initializeAppLanguage()
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -121,5 +122,10 @@ class MainActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         window.insetsController?.setSystemBarsAppearance(0, 0)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mainScope.close()
     }
 }

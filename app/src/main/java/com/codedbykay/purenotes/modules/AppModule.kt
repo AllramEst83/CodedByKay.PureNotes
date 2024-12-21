@@ -1,7 +1,10 @@
 package com.codedbykay.purenotes.modules
 
+import android.app.Activity
+import com.codedbykay.purenotes.MainActivity
 import com.codedbykay.purenotes.db.ToDoDatabase
 import com.codedbykay.purenotes.managers.LocaleManager
+import com.codedbykay.purenotes.managers.PermissionManager
 import com.codedbykay.purenotes.managers.ThemeDataStoreManager
 import com.codedbykay.purenotes.services.ImageStorageService
 import com.codedbykay.purenotes.services.IntentService
@@ -30,6 +33,9 @@ val appModule = module {
     single<ThemeDataStoreManager> { ThemeDataStoreManager(get()) }
     single<IntentService> { IntentService(get()) }
     single<ShareService> { ShareService(get(), get()) }
+    scope<MainActivity> {
+        scoped { (activity: Activity) -> PermissionManager(activity) }
+    }
 
     // ViewModels
     viewModel { ToDoViewModel(get(), get()) }
